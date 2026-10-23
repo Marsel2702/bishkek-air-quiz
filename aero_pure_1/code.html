@@ -1,0 +1,500 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_tab" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "inverse-primary": "#bec6e0", "on-surface-variant": "#45464d", "on-primary-fixed": "#131b2e", "on-surface": "#0b1c30", "surface-dim": "#cbdbf5", "surface-container-lowest": "#ffffff", "on-error": "#ffffff", "error": "#ba1a1a", "on-primary-container": "#7c839b", "outline": "#76777d", "surface-tint": "#565e74", "surface-bright": "#f8f9ff", "on-primary": "#ffffff", "inverse-on-surface": "#eaf1ff", "tertiary-fixed": "#acedff", "primary-container": "#131b2e", "on-secondary-fixed": "#00201d", "on-secondary-container": "#006f66", "background": "#f8f9ff", "secondary-fixed": "#89f5e7", "surface-container": "#e5eeff", "tertiary": "#000000", "tertiary-fixed-dim": "#4cd7f6", "surface-container-low": "#eff4ff", "tertiary-container": "#001f26", "on-error-container": "#93000a", "secondary-container": "#86f2e4", "surface": "#f8f9ff", "surface-container-highest": "#d3e4fe", "primary": "#000000", "primary-fixed-dim": "#bec6e0", "on-secondary": "#ffffff", "outline-variant": "#c6c6cd", "on-tertiary-fixed": "#001f26", "secondary": "#006a61", "on-tertiary-fixed-variant": "#004e5c", "on-secondary-fixed-variant": "#005049", "primary-fixed": "#dae2fd", "on-tertiary": "#ffffff", "secondary-fixed-dim": "#6bd8cb", "on-tertiary-container": "#0090a9", "on-primary-fixed-variant": "#3f465c", "surface-variant": "#d3e4fe", "surface-container-high": "#dce9ff", "inverse-surface": "#213145", "on-background": "#0b1c30", "error-container": "#ffdad6" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-md": "1rem", "space-2xl": "4rem", "space-3xl": "6rem", "space-lg": "1.5rem", "space-xl": "2.5rem", "margin-mobile": "1.25rem", "gutter-mobile": "1rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "margin": "4rem", "gutter": "1.5rem", "margin-tablet": "2rem" }, fontFamily: { "headline-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "display-hero-mobile": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "display-hero": ["Plus Jakarta Sans"], "label-numeric": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"] }, fontSize: { "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-md": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }], "display-hero-mobile": ["38px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }], "display-hero": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.03em", "fontWeight": "700" }], "label-numeric": ["32px", { "lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "500" }], "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "400" }], "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "headline-lg": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.025em", "fontWeight": "600" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.03)]"><div class="h-16 px-margin-mobile flex items-center justify-between"><div class="flex items-center gap-space-xs"><button aria-label="Menu" class="w-11 h-11 flex items-center justify-center rounded-xl text-on-surface hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[24px]">menu</span></button><a class="flex items-center gap-1.5 pl-1" href="#"><div class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(13,148,136,0.35)]"></div><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface uppercase">AERа<span class="font-normal text-secondary ml-1">Pure</span></span></a></div><div class="flex items-center gap-space-xs"><a aria-label="Call Support" class="w-11 h-11 flex items-center justify-center rounded-xl text-on-surface hover:bg-surface-container transition-colors" href="tel:+996555909090"><span class="material-symbols-outlined text-[22px]">call</span></a><a aria-label="Shopping Cart" class="relative w-11 h-11 flex items-center justify-center rounded-xl text-on-surface hover:bg-surface-container transition-colors" data-path="cart" href="#"><span class="material-symbols-outlined text-[24px]">shopping_bag</span><span class="absolute top-2 right-2 flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-secondary text-on-secondary font-label-sm text-[10px] leading-none font-bold">1</span></a></div></div></header><main class="flex flex-col relative w-full pt-16 pb-28 bg-surface px-margin-mobile"><div class="flex flex-col w-full pb-16">
+<!-- Top Ambient Atmosphere Glow -->
+<div class="relative w-full overflow-hidden rounded-3xl bg-surface-container-lowest p-space-md shadow-sm mb-space-md">
+<div class="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-secondary-container/40 blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-10 -left-10 w-40 h-40 rounded-full bg-surface-container-highest/60 blur-2xl pointer-events-none"></div>
+<!-- Live Telemetry Status Bar -->
+<div class="flex items-center justify-between gap-space-xs mb-space-sm relative z-10">
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low shadow-sm">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface">AQI 04 • Отлично</span>
+</div>
+<div class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-low shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">verified</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">HEPA H13 99.97%</span>
+</div>
+</div>
+<!-- Hero Device Image with Floating Card Overlay -->
+<div class="relative w-full h-72 rounded-2xl overflow-hidden mb-space-md shadow-md">
+<div class="bg-cover bg-center w-full h-full flex flex-col justify-end p-space-sm" data-alt="Futuristic Swiss-designed minimalist cylinder air purifier standing elegantly in a sun-drenched Scandinavian living room. Soft morning light, pristine white casing with satin brushed aluminum top vents, serene atmospheric mist, soft teal reflections, photorealistic interior photography, architectural magazine aesthetic." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuC3lp_HBoQbaAraK2CLcuK5HQc2m7Ph6ExV9oF4JC7vaN7BzTVpMv_QWgLu9oLRkyRCPmSCqI_eeFoOQfB1jbnrG7v3Jl8fZXyLr8DmRX5BLF9Zyxj43IQCHEST5tVcL2_0DRLiyxN1m06_rCeUHum4xKJO6-LGOhRS2AbPSwkx0h5fVNnXKHa0v68Nl4MiX3Bzxsc_WpjtAZc71xExMIOkUJbmTho0IkZBynUymk80Ol85otd1uK8D&quot;);">
+<div class="bg-surface-container-lowest/80 backdrop-blur-md rounded-xl p-space-sm shadow-sm flex items-center justify-between">
+<div>
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Флагман серии</p>
+<p class="font-headline-sm text-headline-sm text-on-surface font-bold">AERO Pure Pro X</p>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-secondary font-bold block uppercase tracking-wider">PM2.5 Sensor</span>
+<span class="font-label-numeric text-headline-sm text-secondary font-bold">0.8 µg</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Hero Content -->
+<div class="relative z-10 flex flex-col">
+<div class="inline-flex items-center gap-1.5 mb-1.5">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Швейцарская прецизионная климатика</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-tight text-on-surface mb-2">
+        Чистый альпийский воздух в доме за 12 минут
+      </h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-space-md">
+        Медицинский класс фильтрации частиц до 0.1 микрона, абсолютная тишина в спальне и непрерывный микроклиматический аудит.
+      </p>
+<!-- Primary Action Buttons -->
+<div class="flex flex-col gap-2.5">
+<button class="group w-full py-3.5 px-space-md rounded-xl bg-primary text-on-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-2 shadow-xl shadow-slate-900/15 hover:shadow-secondary/20 transition-all duration-300 transform active:scale-[0.98] hover:-translate-y-1" id="heroQuickBuy"><span class="material-symbols-outlined text-[20px] transition-transform duration-300 group-hover:scale-110">bolt</span><span class="">Купить в 1 клик • 64 900 сом</span></button>
+<button class="w-full py-3.5 px-space-md rounded-xl bg-surface-container text-on-surface font-label-md text-label-md font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:bg-surface-container-high active:scale-[0.98]" id="testDriveBtn">
+<span class="material-symbols-outlined text-[20px] text-secondary">eco</span>
+<span class="">Тест-драйв 7 дней дома</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Quick Specs 2x2 Bento Grid -->
+<div class="grid grid-cols-2 gap-space-xs mb-space-md">
+<div class="bg-surface-container-lowest rounded-2xl p-space-sm shadow-sm flex flex-col justify-between">
+<div class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-secondary mb-2">
+<span class="material-symbols-outlined text-[20px]">filter_center_focus</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight">99.97%</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">микрофильтрация аллергенов и пыли</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-space-sm shadow-sm flex flex-col justify-between">
+<div class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-secondary mb-2">
+<span class="material-symbols-outlined text-[20px]">timelapse</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight">12 мин</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">полный цикл очистки гостиной 35 м²</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-space-sm shadow-sm flex flex-col justify-between">
+<div class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-secondary mb-2">
+<span class="material-symbols-outlined text-[20px]">bedtime</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight">18 дБ</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">тише шепота, режим глубокого сна</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-space-sm shadow-sm flex flex-col justify-between">
+<div class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-secondary mb-2">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight">5 лет</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">официальной швейцарской гарантии</p>
+</div>
+</div>
+</div>
+<!-- Interactive Air Clean Calculator -->
+<div class="bg-surface-container-lowest rounded-3xl p-space-md shadow-sm mb-space-md">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-secondary text-[20px]">tune</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Калькулятор площади</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-space-sm">Подбор по метражу помещения</h2>
+<!-- Tab Selector -->
+<div class="flex p-1 rounded-xl bg-surface-container mb-space-sm">
+<button class="area-tab flex-1 py-2 px-2 rounded-lg text-center font-label-md text-label-md text-on-surface-variant transition-all duration-200" onclick="setArea('compact', this)">
+        До 40 м²
+      </button>
+<button class="area-tab flex-1 py-2 px-2 rounded-lg text-center font-label-md text-label-md font-semibold bg-surface-container-lowest text-on-surface shadow-sm transition-all duration-200" onclick="setArea('pro', this)">
+        До 85 м²
+      </button>
+<button class="area-tab flex-1 py-2 px-2 rounded-lg text-center font-label-md text-label-md text-on-surface-variant transition-all duration-200" onclick="setArea('ultra', this)">
+        До 150 м²
+      </button>
+</div>
+<!-- Dynamic Calculator Result Card -->
+<div class="p-space-sm rounded-2xl bg-surface-container-low flex items-center gap-space-sm transition-all duration-300" id="calculatorResult">
+<div class="w-14 h-14 rounded-xl bg-surface-container-lowest flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[28px] text-secondary" id="calcIcon">mode_fan</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold uppercase tracking-wider" id="calcBadge">Оптимально</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant" id="calcTime">CADR 580 м³/ч</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface truncate" id="calcModel">AERO Pure Pro X</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate" id="calcDesc">Очистка гостиной и кухни за 12 минут</p>
+</div>
+</div>
+</div>
+<!-- Mobile Catalog Cards Carousel / Stack -->
+<div class="flex flex-col gap-space-xs mb-space-sm">
+<div class="flex items-center justify-between px-1">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Линейка приборов</span>
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface">Модели AERO Pure</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">3 модели</span>
+</div>
+<!-- Product 1: AERO Pure Compact -->
+<div class="bg-surface-container-lowest rounded-3xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="relative w-full h-48 rounded-2xl overflow-hidden">
+<div class="bg-cover bg-center w-full h-full" data-alt="Compact sleek portable desktop air purifier in matte off-white, resting on a contemporary minimal oak bedside nightstand next to linen bedsheets and soft warm lamplight. Pristine architectural aesthetic, clean lines, macro depth of field." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuBpKex85AwQkIZvLZyj1wi8sP951KLQuU52TRmIUctszcsG3qEWDMalEvEuhu7d6uxtbu9XqJf3qwh_z9TgCelPr9KPWV8NQFj72rPo9UxSVstKMEcvZFUb41dVVCjlodjtIMipfv4hQmEUZsprYifJ16yWTi1bcg355CERS1FdzNRewg4gXXqy91tZJonHGNEsevCC9rZIJR-44bPQhrWRxr-GTCGVlflcOly-j8knR0zM51Trq1QZ&quot;);"></div>
+<span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md font-label-sm text-label-sm text-on-surface font-semibold uppercase tracking-wider shadow-sm">
+          Для спальни • 40 м²
+        </span>
+</div>
+<div class="flex flex-col">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">AERO Pure Compact</h3>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">38 900 сом</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+          Бесшумный ночной защитник для спален и детских комнат. Угольный фильтр Honeycomb против запахов и пыльцы.
+        </p>
+<div class="flex gap-2">
+<button class="flex-1 py-3 px-space-sm rounded-xl bg-surface-container text-on-surface font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 transition-all duration-300 hover:bg-surface-container-high transform hover:-translate-y-0.5 active:scale-[0.98]" onclick="addToCart('AERO Pure Compact', 38900)">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+<span class="">В корзину</span>
+</button>
+<button class="py-3 px-space-md rounded-xl bg-primary text-on-primary font-label-md text-label-md font-semibold transition-all duration-300 shadow-md hover:shadow-xl transform hover:-translate-y-0.5 active:scale-[0.98]" onclick="directBuy('AERO Pure Compact', 38900)">
+            Купить
+          </button>
+</div>
+</div>
+</div>
+<!-- Product 2: AERO Pure Pro X (ХИТ) -->
+<div class="bg-surface-container-lowest rounded-3xl p-space-md shadow-md flex flex-col gap-space-sm relative overflow-hidden">
+<!-- Glow ambient accent -->
+<div class="absolute -top-12 -right-12 w-36 h-36 rounded-full bg-secondary-container/40 blur-2xl pointer-events-none"></div>
+<div class="relative w-full h-52 rounded-2xl overflow-hidden">
+<div class="bg-cover bg-center w-full h-full" data-alt="High-end professional floor-standing air purifier in anodized aluminum and ceramic white matte finish, situated in a spacious designer open-concept apartment with floor-to-ceiling windows and lush house plants. Morning sunbeam highlighting clean dustless air." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuDxTfoD84q-VtnqhM9fCyh8cbyh7MPC4BazDDLG5kQGwWBcw4hqI2UFkQTtxt9YIwXmA2DomcbTQLPy7knmoRRNcphUbybH3QRFEXVIyz4w9kNPuRkEv2b6LXU0iWuNpBXYTWKzpb9zLhenL3H9uk2xsw4lPEEns3_md7YPyh71g80j6fOlESb95yGlhGKME7cZYGyHTTqbOOG7Zhrcms7uYA8NuVbiO4ab4INGDHXuJJT28acUvSAg&quot;);"></div>
+<div class="absolute top-3 left-3 flex gap-1.5">
+<span class="px-3 py-1 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm font-bold uppercase tracking-wider shadow-sm">
+            ★ Хит продаж
+          </span>
+<span class="px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md font-label-sm text-label-sm text-on-surface font-medium uppercase tracking-wider shadow-sm">
+            До 85 м²
+          </span>
+</div>
+</div>
+<div class="flex flex-col relative z-10">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">AERO Pure Pro X</h3>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">64 900 сом</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+          Интеллектуальная система с двойной турбиной TwinAero, лазерным датчиком PM2.5/PM10 и бактерицидной UV-C матрицей.
+        </p>
+<div class="flex flex-col gap-2">
+<div class="flex gap-2">
+<button class="flex-1 py-3 px-space-sm rounded-xl bg-primary text-on-primary font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 shadow-xl shadow-slate-900/15 hover:shadow-secondary/20 transition-all duration-300 transform hover:-translate-y-1 active:scale-[0.98]" onclick="addToCart('AERO Pure Pro X', 64900)">
+<span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+<span class="">В корзину</span>
+</button>
+<button class="py-3 px-4 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md font-semibold transition-all duration-300 hover:bg-surface-container-high active:scale-[0.98]" onclick="directBuy('AERO Pure Pro X', 64900)">
+              Купить в 1 клик
+            </button>
+</div>
+<button class="w-full py-2.5 px-3 rounded-xl bg-secondary-container/30 text-on-secondary-container font-label-sm text-label-sm font-semibold flex items-center justify-center gap-1.5 transition-colors hover:bg-secondary-container/50" onclick="openTestDriveModal('AERO Pure Pro X')">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="">Тест-драйв 7 дней без оплаты</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product 3: AERO Pure Max Ultra -->
+<div class="bg-surface-container-lowest rounded-3xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="relative w-full h-48 rounded-2xl overflow-hidden">
+<div class="bg-cover bg-center w-full h-full" data-alt="Massive monumental luxury medical-grade clean room air purification column in brushed graphite titanium finish standing in a luxury modern penthouse gallery. Clean geometric lines, atmospheric blue LED status aura ring, museum lighting." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuD3TExhmkpJRxMAxOXCxgFUAPWW2bz71OAGar7lmY3fcVyTYqWWCwMtXJLz1CgDhGLZdmyhwLaFH2EDA-qLxkDquahLI3Lj4XVlxiGjK4_cTMJjNJkqI3BaRFfiln_Nq-QYUp7jswEY3hgvrOgvRY7LP1iZl4Yu0lB-AZa-_5rR9HnLQ95bVH0d3K0f7TjelNXigLuclBr5JO0ABGhAP8ADYhEc2ECoLdbmtR9fl0SOJsMYeBXoGkVF&quot;);"></div>
+<span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md font-label-sm text-label-sm text-on-surface font-semibold uppercase tracking-wider shadow-sm">
+          До 150 м² • Клиники и виллы
+        </span>
+</div>
+<div class="flex flex-col">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">AERO Pure Max Ultra</h3>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">98 000 сом</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-space-sm">
+          Максимальная производительность 920 м³/ч. Двойной комплект HEPA H14 и ионизация PlasmaClean для больших резиденций.
+        </p>
+<div class="flex gap-2">
+<button class="flex-1 py-3 px-space-sm rounded-xl bg-surface-container text-on-surface font-label-md text-label-md font-semibold flex items-center justify-center gap-1.5 transition-all duration-300 hover:bg-surface-container-high transform hover:-translate-y-0.5 active:scale-[0.98]" onclick="addToCart('AERO Pure Max Ultra', 98000)">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+<span class="">В корзину</span>
+</button>
+<button class="py-3 px-space-md rounded-xl bg-primary text-on-primary font-label-md text-label-md font-semibold transition-all duration-300 shadow-md hover:shadow-xl transform hover:-translate-y-0.5 active:scale-[0.98]" onclick="directBuy('AERO Pure Max Ultra', 98000)">
+            Купить
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- 5-Stage Filtration Accordion Section -->
+<div class="bg-surface-container-lowest rounded-3xl p-space-md shadow-sm mb-space-md">
+<div class="mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Инженерия чистоты</span>
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface">5 ступеней очистки воздуха</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Каждый слой нейтрализует конкретный тип загрязнителей на молекулярном уровне.</p>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Stage 1 -->
+<div class="filter-step rounded-2xl bg-surface-container-low p-space-sm transition-all duration-200 cursor-pointer" onclick="toggleFilter(this)">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center font-label-sm text-label-sm font-bold text-on-surface">01</span>
+<span class="font-headline-sm text-[16px] leading-[22px] font-semibold text-on-surface">Pre-Filter Mesh</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] transition-transform duration-200">expand_more</span>
+</div>
+<div class="step-content hidden mt-2 pt-2 text-on-surface-variant font-body-sm text-body-sm">
+          Задерживает крупную пыль, шерсть домашних животных, волосы и пух. Легко промывается проточной водой раз в месяц.
+        </div>
+</div>
+<!-- Stage 2 (Default Open) -->
+<div class="filter-step rounded-2xl bg-surface-container p-space-sm transition-all duration-200 cursor-pointer" onclick="toggleFilter(this)">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-lg bg-secondary text-on-secondary flex items-center justify-center font-label-sm text-label-sm font-bold">02</span>
+<span class="font-headline-sm text-[16px] leading-[22px] font-semibold text-on-surface">HEPA H13 Medical Grade</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-[20px] rotate-180 transition-transform duration-200">expand_more</span>
+</div>
+<div class="step-content mt-2 pt-2 text-on-surface-variant font-body-sm text-body-sm">
+          Улавливает 99.97% мельчайших аллергенов, спор плесени, бактерий и аэрозолей размером от 0.1 микрона. Стандарт клиник Швейцарии.
+        </div>
+</div>
+<!-- Stage 3 -->
+<div class="filter-step rounded-2xl bg-surface-container-low p-space-sm transition-all duration-200 cursor-pointer" onclick="toggleFilter(this)">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center font-label-sm text-label-sm font-bold text-on-surface">03</span>
+<span class="font-headline-sm text-[16px] leading-[22px] font-semibold text-on-surface">Carbon Active Honeycomb</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] transition-transform duration-200">expand_more</span>
+</div>
+<div class="step-content hidden mt-2 pt-2 text-on-surface-variant font-body-sm text-body-sm">
+          Гранулированный активированный уголь кокосовой скорлупы абсорбирует запахи кухни, табачный дым, выхлопы и токсичные летучие соединения (VOC).
+        </div>
+</div>
+<!-- Stage 4 -->
+<div class="filter-step rounded-2xl bg-surface-container-low p-space-sm transition-all duration-200 cursor-pointer" onclick="toggleFilter(this)">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center font-label-sm text-label-sm font-bold text-on-surface">04</span>
+<span class="font-headline-sm text-[16px] leading-[22px] font-semibold text-on-surface">UV-C LED Дезинфекция</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] transition-transform duration-200">expand_more</span>
+</div>
+<div class="step-content hidden mt-2 pt-2 text-on-surface-variant font-body-sm text-body-sm">
+          Светодиоды с длиной волны 254 нм разрушают ДНК вирусов и бактерий на поверхности фильтра без выделения вредного озона.
+        </div>
+</div>
+<!-- Stage 5 -->
+<div class="filter-step rounded-2xl bg-surface-container-low p-space-sm transition-all duration-200 cursor-pointer" onclick="toggleFilter(this)">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center font-label-sm text-label-sm font-bold text-on-surface">05</span>
+<span class="font-headline-sm text-[16px] leading-[22px] font-semibold text-on-surface">PlasmaClean Ионизация</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] transition-transform duration-200">expand_more</span>
+</div>
+<div class="step-content hidden mt-2 pt-2 text-on-surface-variant font-body-sm text-body-sm">
+          Генератор биполярных ионов осаждает летающую взвесь и наполняет воздух в комнате ощущением хвойного леса после дождя.
+        </div>
+</div>
+</div>
+</div>
+<!-- Trust & Swiss Engineering Card -->
+<div class="rounded-3xl bg-primary text-on-primary p-space-md shadow-xl mb-space-md relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-secondary/30 blur-2xl"></div>
+<div class="relative z-10 flex flex-col">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary-fixed text-[22px]">health_and_safety</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed font-bold">Гарантия спокойствия</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold mb-2">Бесплатная доставка и установка в день заказа</h3>
+<p class="font-body-sm text-body-sm text-surface-container-high mb-space-sm">Бесплатная экспресс-доставка по Бишкеку за 2 часа и быстрая отправка по всему Кыргызстану. Наш специалист привезет прибор, измерит исходное качество воздуха профессиональным лазерным счетчиком и продемонстрирует очистку в реальном времени.</p>
+<div class="flex items-center gap-3">
+<div class="flex -space-x-2 overflow-hidden">
+<div class="inline-block h-8 w-8 rounded-full bg-secondary flex items-center justify-center text-on-secondary font-label-sm text-label-sm font-bold shadow-sm">CH</div>
+<div class="inline-block h-8 w-8 rounded-full bg-surface-container text-on-surface flex items-center justify-center font-label-sm text-label-sm font-bold shadow-sm">ISO</div>
+<div class="inline-block h-8 w-8 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center font-label-sm text-label-sm font-bold shadow-sm">CE</div>
+</div>
+<span class="font-label-sm text-label-sm text-surface-container-high">Сертифицировано в Швейцарии и ЕС</span>
+</div>
+</div>
+</div>
+<!-- Interactive Floating Cart Quick-Bar (Above bottom navigation) -->
+<div class="fixed bottom-20 left-0 right-0 px-margin-mobile z-40 transition-all duration-300 transform translate-y-0" id="floatingActionBar">
+<div class="bg-primary-container/95 backdrop-blur-xl rounded-2xl p-2.5 px-3.5 shadow-2xl shadow-slate-900/30 flex items-center justify-between gap-3">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative w-9 h-9 rounded-xl bg-secondary flex items-center justify-center text-on-secondary flex-shrink-0 shadow-md shadow-secondary/30">
+<span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+<span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-on-secondary text-secondary font-label-sm text-[10px] flex items-center justify-center font-bold shadow-sm" id="floatingCartCount">1</span>
+</div>
+<div class="min-w-0">
+<p class="font-label-sm text-label-sm uppercase tracking-wider text-surface-container-highest truncate">В заказе</p>
+<p class="font-label-md text-label-md font-bold text-on-primary truncate" id="floatingCartLabel">1 прибор • 64 900 сом</p>
+</div>
+</div>
+<button class="py-2.5 px-4 rounded-xl bg-secondary hover:bg-secondary-fixed text-on-secondary font-label-md text-label-md font-semibold flex items-center gap-1.5 flex-shrink-0 shadow-lg shadow-teal-500/20 transform hover:-translate-y-0.5 active:scale-95 transition-all duration-200" onclick="goToCheckout()">
+<span class="">Оформить</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Micro Interaction Toast Feedback Notification -->
+<div class="fixed top-20 left-4 right-4 z-50 pointer-events-none transform -translate-y-8 opacity-0 transition-all duration-300 flex justify-center" id="toastNotification">
+<div class="bg-primary text-on-primary px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 font-label-md text-label-md">
+<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+<span id="toastText" class="">Прибор добавлен в корзину</span>
+</div>
+</div>
+</div>
+<script>
+  let cartTotal = 64900;
+  let cartCount = 1;
+
+  function showToast(text) {
+    const toast = document.getElementById('toastNotification');
+    const toastText = document.getElementById('toastText');
+    if (!toast || !toastText) return;
+    toastText.textContent = text;
+    toast.classList.remove('-translate-y-8', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+    setTimeout(() => {
+      toast.classList.remove('translate-y-0', 'opacity-100');
+      toast.classList.add('-translate-y-8', 'opacity-0');
+    }, 2400);
+  }
+
+  function updateFloatingBar() {
+    const bar = document.getElementById('floatingActionBar');
+    const label = document.getElementById('floatingCartLabel');
+    const badge = document.getElementById('floatingCartCount');
+    if (bar && label && badge) {
+      badge.textContent = cartCount;
+      const formattedTotal = cartTotal.toLocaleString('ru-RU');
+      const itemWord = cartCount === 1 ? 'прибор' : (cartCount < 5 ? 'прибора' : 'приборов');
+      label.textContent = `${cartCount} ${itemWord} • ${formattedTotal} ₽`;
+    }
+  }
+
+  function addToCart(modelName, price) {
+    cartCount += 1;
+    cartTotal += price;
+    updateFloatingBar();
+    showToast(`${modelName} добавлен в корзину`);
+  }
+
+  function directBuy(modelName, price) {
+    showToast(`Оформление заказа: ${modelName}`);
+    setTimeout(() => {
+      alert(`Переход к быстрой оплате ${modelName} (${price.toLocaleString('ru-RU')} ₽)`);
+    }, 400);
+  }
+
+  function openTestDriveModal(modelName) {
+    showToast(`Тест-драйв ${modelName} оформлен!`);
+  }
+
+  function goToCheckout() {
+    showToast(`Переход в корзину (${cartTotal.toLocaleString('ru-RU')} ₽)`);
+  }
+
+  // Calculator selector logic
+  const areaData = {
+    compact: {
+      model: 'AERO Pure Compact',
+      cadr: 'CADR 320 м³/ч',
+      desc: 'Идеален для спальни и детской (до 40 м²)',
+      badge: 'Компакт',
+      icon: 'air'
+    },
+    pro: {
+      model: 'AERO Pure Pro X',
+      cadr: 'CADR 580 м³/ч',
+      desc: 'Очистка гостиной и кухни за 12 минут',
+      badge: 'Оптимально',
+      icon: 'mode_fan'
+    },
+    ultra: {
+      model: 'AERO Pure Max Ultra',
+      cadr: 'CADR 920 м³/ч',
+      desc: 'Мощность для больших залов и двухуровневых зон',
+      badge: 'Максимум',
+      icon: 'cyclone'
+    }
+  };
+
+  function setArea(type, btn) {
+    document.querySelectorAll('.area-tab').forEach(tab => {
+      tab.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'shadow-sm', 'font-semibold');
+      tab.classList.add('text-on-surface-variant');
+    });
+
+    btn.classList.add('bg-surface-container-lowest', 'text-on-surface', 'shadow-sm', 'font-semibold');
+    btn.classList.remove('text-on-surface-variant');
+
+    const data = areaData[type];
+    const res = document.getElementById('calculatorResult');
+    if (!res || !data) return;
+
+    res.classList.add('opacity-50');
+    setTimeout(() => {
+      document.getElementById('calcModel').textContent = data.model;
+      document.getElementById('calcTime').textContent = data.cadr;
+      document.getElementById('calcDesc').textContent = data.desc;
+      document.getElementById('calcBadge').textContent = data.badge;
+      document.getElementById('calcIcon').textContent = data.icon;
+      res.classList.remove('opacity-50');
+    }, 150);
+  }
+
+  // 5-Stage Filtration Accordion Toggle
+  function toggleFilter(el) {
+    const content = el.querySelector('.step-content');
+    const icon = el.querySelector('.material-symbols-outlined');
+    const isHidden = content.classList.contains('hidden');
+
+    // Close all other steps
+    document.querySelectorAll('.filter-step').forEach(step => {
+      const stepContent = step.querySelector('.step-content');
+      const stepIcon = step.querySelector('.material-symbols-outlined');
+      step.classList.remove('bg-surface-container');
+      step.classList.add('bg-surface-container-low');
+      if (stepContent) stepContent.classList.add('hidden');
+      if (stepIcon) stepIcon.classList.remove('rotate-180', 'text-secondary');
+    });
+
+    if (isHidden) {
+      el.classList.remove('bg-surface-container-low');
+      el.classList.add('bg-surface-container');
+      content.classList.remove('hidden');
+      if (icon) {
+        icon.classList.add('rotate-180', 'text-secondary');
+      }
+    }
+  }
+
+  document.getElementById('heroQuickBuy')?.addEventListener('click', () => {
+    directBuy('AERO Pure Pro X', 64900);
+  });
+
+  document.getElementById('testDriveBtn')?.addEventListener('click', () => {
+    openTestDriveModal('AERO Pure Pro X');
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_-2px_12px_rgba(15,23,42,0.04)]" data-active-classes="text-secondary"><div class="flex justify-around items-center h-16 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 transition-colors text-secondary" data-path="purifiers" href="#"><span class="material-symbols-outlined text-[22px]">air_purifier_gen</span><span class="font-label-sm text-label-sm">Purifiers</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 text-on-surface-variant transition-colors hover:text-on-surface" data-path="air-telemetry" href="#"><span class="material-symbols-outlined text-[22px]">nest_farsight_weather</span><span class="font-label-sm text-label-sm">Air Index</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 text-on-surface-variant transition-colors hover:text-on-surface" data-path="replacement-filters" href="#"><span class="material-symbols-outlined text-[22px]">filter_vintage</span><span class="font-label-sm text-label-sm">Filters</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] h-12 text-on-surface-variant transition-colors hover:text-on-surface" data-path="device-profile" href="#"><span class="material-symbols-outlined text-[22px]">tune</span><span class="font-label-sm text-label-sm">Settings</span></a></div></nav>
+
+
+
+
+
+</body></html>

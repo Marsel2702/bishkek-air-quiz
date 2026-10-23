@@ -1,0 +1,10 @@
+{
+  "name": "aera-bishkek-air-purifiers",
+  "version": "1.0.0",
+  "description": "AERA Bishkek — Веб-приложение магазина очистителей воздуха (Aether Pure Design System)",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test.js"
+  }
+}

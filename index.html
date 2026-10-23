@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>AERA Bishkek — Очистители воздуха от смога в Бишкеке (HEPA H13 + Активный уголь)</title>
+  <meta
+    name="description"
+    content="Чистый горный воздух в вашем доме за 5 минут — от 3 990 сом. Очистители AERA Compact, AERA Sense и AERA Pro X в Бишкеке с бесплатной экспресс-доставкой в день заказа и оплатой после проверки."
+  />
+
+  <!-- Google Fonts: Plus Jakarta Sans (Aether Pure Design System) & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CSS CDN with Aether Pure Design System Configuration -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#0F172A',
+            alpine: '#0D9488',
+            canvas: '#F8FAFC',
+            'ion-cyan': '#06B6D4',
+            'slate-silver': '#64748B',
+            'surface': '#F8FAFC',
+            'surface-bright': '#f8f9ff',
+            'surface-container-lowest': '#ffffff',
+            'surface-container-low': '#eff4ff',
+            'surface-container': '#e5eeff',
+            'surface-container-high': '#dce9ff',
+            'surface-container-highest': '#d3e4fe',
+            'on-surface': '#0F172A',
+            'on-surface-variant': '#45464d',
+            'outline': '#76777d',
+            'outline-variant': '#c6c6cd',
+            'primary': '#0F172A',
+            'on-primary': '#ffffff',
+            'primary-container': '#131b2e',
+            'secondary': '#0D9488',
+            'on-secondary': '#ffffff',
+            'secondary-container': '#86f2e4',
+            'on-secondary-container': '#006f66',
+            'error': '#ba1a1a',
+            'error-container': '#ffdad6',
+            'on-error-container': '#93000a'
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+            'display-hero': ['Plus Jakarta Sans', 'sans-serif'],
+            'headline-lg': ['Plus Jakarta Sans', 'sans-serif'],
+            'headline-md': ['Plus Jakarta Sans', 'sans-serif'],
+            'headline-sm': ['Plus Jakarta Sans', 'sans-serif'],
+            'body-lg': ['Plus Jakarta Sans', 'sans-serif'],
+            'body-md': ['Plus Jakarta Sans', 'sans-serif'],
+            'body-sm': ['Plus Jakarta Sans', 'sans-serif'],
+            'label-numeric': ['Plus Jakarta Sans', 'sans-serif'],
+            'label-md': ['Plus Jakarta Sans', 'sans-serif'],
+            'label-sm': ['Plus Jakarta Sans', 'sans-serif']
+          },
+          spacing: {
+            'gutter': '1.5rem',
+            'gutter-mobile': '1rem',
+            'margin': '4rem',
+            'margin-tablet': '2rem',
+            'margin-mobile': '1.25rem',
+            'space-xs': '0.25rem',
+            'space-sm': '0.5rem',
+            'space-md': '1rem',
+            'space-lg': '1.5rem',
+            'space-xl': '2.5rem',
+            'space-2xl': '4rem',
+            'space-3xl': '6rem'
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    html, body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Aether Pure Glassmorphism Panels (DESIGN.md) */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-top: 1px solid rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+    }
+
+    .glass-input {
+      background: rgba(248, 250, 252, 0.85);
+      border: 1px solid rgba(100, 116, 139, 0.22);
+      transition: all 0.2s ease;
+    }
+
+    .glass-input:focus {
+      outline: none;
+      border-color: #0D9488;
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+      background: #ffffff;
+    }
+
+    /* Prevent Material Symbols ligature text from overflowing before webfont loads */
+    .material-symbols-outlined {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      vertical-align: middle;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    /* Modern Web Guidance: prevent-page-scroll-under-modal-dialog & light-dismiss-a-dialog */
+    dialog:modal {
+      overscroll-behavior: contain;
+    }
+
+    dialog::backdrop {
+      overflow: hidden;
+      overscroll-behavior: contain;
+      background-color: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(4px);
+    }
+  </style>
+
+  <!-- Meta Pixel Stub (безопасная инициализация для fbq('track', 'Lead')) -->
+  <script>
+    window.__fbqEvents = window.__fbqEvents || [];
+    window.fbq = window.fbq || function () {
+      window.__fbqEvents.push(Array.from(arguments));
+    };
+  </script>
+</head>
+
+<body class="bg-[#F8FAFC] text-[#0F172A] antialiased selection:bg-[#0D9488] selection:text-white">
+
+  <!-- Всплывающее Toast-уведомление -->
+  <div
+    id="toast-notification"
+    role="status"
+    aria-live="polite"
+    class="fixed top-24 left-4 right-4 z-[100] pointer-events-none transform -translate-y-8 opacity-0 transition-all duration-300 flex justify-center"
+  >
+    <div class="bg-[#0F172A] text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-2.5 text-sm font-semibold border border-white/10">
+      <span class="material-symbols-outlined text-[#0D9488] text-[20px]">check_circle</span>
+      <span id="toast-text">Прибор добавлен в корзину</span>
+    </div>
+  </div>
+
+  <!-- 1. ШАПКА САЙТА (Логотип AERA + Индикатор смога AQI 215+ + Кнопка быстрого подбора + Корзина) -->
+  <header class="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-xl border-b border-slate-200/70 shadow-[0_2px_12px_rgba(15,23,42,0.03)]">
+    <div class="max-w-[1360px] mx-auto px-3.5 sm:px-6 lg:px-12 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-3">
+      <!-- Логотип AERA + Индикатор смога -->
+      <div class="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+        <a href="#" class="flex items-center gap-2 shrink-0 group" aria-label="AERA Bishkek Главная">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0F172A] flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-[20px] sm:text-[22px] text-[#0D9488]">air</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-baseline gap-1">
+              <span class="text-[19px] sm:text-[22px] font-extrabold tracking-tight text-[#0F172A] leading-none">AERA</span>
+              <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#0D9488]"></span>
+            </div>
+            <span class="hidden sm:block text-[10px] font-bold uppercase tracking-widest text-slate-500 mt-0.5 whitespace-nowrap">Bishkek Clean Air</span>
+          </div>
+        </a>
+
+        <!-- Индикатор смога в Бишкеке (AQI 215+ • Опасно для дыхания) -->
+        <div
+          id="bishkek-smog-indicator"
+          class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-red-50 border border-red-200/80 shadow-xs min-w-0"
+          title="Текущий уровень загрязнения воздуха PM2.5 в Бишкеке"
+        >
+          <span class="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5 shrink-0">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-red-600"></span>
+          </span>
+          <span class="text-[10px] sm:text-[12px] font-bold tracking-tight sm:tracking-wide text-red-900 truncate">
+            <span class="hidden md:inline">Бишкек: </span>AQI 215+ • Опасно для дыхания
+          </span>
+        </div>
+      </div>
+
+      <!-- Навигация (Desktop) -->
+      <nav class="hidden xl:flex items-center gap-1 bg-surface-container-low/80 p-1.5 rounded-full border border-slate-200/60 shrink-0" aria-label="Основная навигация">
+        <a href="#calculator" class="px-3.5 py-1.5 text-[13px] font-semibold text-slate-700 hover:text-[#0F172A] hover:bg-white rounded-full transition-all">Умный подбор</a>
+        <a href="#models" class="px-3.5 py-1.5 text-[13px] font-semibold text-slate-700 hover:text-[#0F172A] hover:bg-white rounded-full transition-all">Линейка AERA</a>
+        <a href="#filtration" class="px-3.5 py-1.5 text-[13px] font-semibold text-slate-700 hover:text-[#0F172A] hover:bg-white rounded-full transition-all">4 ступени очистки</a>
+        <a href="#service" class="px-3.5 py-1.5 text-[13px] font-semibold text-slate-700 hover:text-[#0F172A] hover:bg-white rounded-full transition-all">Доставка и гарантия</a>
+      </nav>
+
+      <!-- Правая часть: Телефон + Кнопка быстрого подбора + Корзина -->
+      <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
+        <div class="hidden lg:flex flex-col text-right mr-1">
+          <a href="tel:+996555909090" class="text-[14px] font-bold text-[#0F172A] hover:text-[#0D9488] transition-colors">
+            +996 (555) 90-90-90
+          </a>
+          <span class="text-[10px] text-[#0D9488] uppercase tracking-widest font-bold">Доставка в день заказа</span>
+        </div>
+
+        <!-- Кнопка быстрого подбора -->
+        <a
+          href="#calculator"
+          id="header-quick-match-btn"
+          class="hidden sm:inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full bg-[#0F172A] text-white text-[13px] font-bold hover:bg-slate-800 transition-all shadow-sm"
+        >
+          <span class="material-symbols-outlined text-[17px] text-[#0D9488]">tune</span>
+          <span>Быстрый подбор</span>
+        </a>
+
+        <!-- Кнопка открытия корзины -->
+        <button
+          type="button"
+          data-open-cart
+          aria-label="Открыть корзину"
+          class="relative w-10 h-10 sm:w-11 sm:h-11 shrink-0 flex items-center justify-center rounded-xl bg-surface-container-low hover:bg-surface-container text-[#0F172A] transition-colors border border-slate-200/70"
+        >
+          <span class="material-symbols-outlined text-[20px] sm:text-[22px]">shopping_bag</span>
+          <span
+            id="header-cart-badge"
+            class="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] sm:min-w-[20px] sm:h-[20px] px-1 rounded-full bg-[#0D9488] text-white text-[10px] sm:text-[11px] font-bold shadow-sm"
+          >
+            1
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="w-full pt-16 sm:pt-20 pb-24 sm:pb-28 overflow-x-hidden">
+    <!-- 2. HERO-БЛОК (Основа из aero_pure_2 + мобильная адаптация из aero_pure_1) -->
+    <section class="relative w-full overflow-hidden pt-4 pb-10 sm:pt-6 sm:pb-14 lg:py-20">
+      <!-- Фоновое атмосферное свечение Aether Pure -->
+      <div class="absolute top-0 right-1/4 w-[320px] sm:w-[520px] h-[320px] sm:h-[520px] rounded-full bg-[#0D9488]/10 blur-[100px] pointer-events-none -z-10"></div>
+      <div class="absolute top-1/3 -left-24 w-[260px] sm:w-[400px] h-[260px] sm:h-[400px] rounded-full bg-cyan-400/10 blur-[90px] pointer-events-none -z-10"></div>
+
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-12 items-center">
+          <!-- Левая колонка: Оффер и преимущества -->
+          <div class="lg:col-span-6 flex flex-col gap-4 sm:gap-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white shadow-xs border border-slate-200/80 w-fit max-w-full">
+              <span class="w-2 h-2 rounded-full bg-[#0D9488] animate-pulse shrink-0"></span>
+              <span class="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#0D9488] font-bold truncate">
+                Защита семьи от смога PM2.5 и печного дыма
+              </span>
+            </div>
+
+            <div class="flex flex-col gap-2.5 sm:gap-4">
+              <h1 class="text-[26px] sm:text-[42px] lg:text-[52px] leading-[1.14] font-extrabold tracking-tight text-[#0F172A]">
+                Чистый горный воздух в вашем доме за 5 минут — <span class="text-[#0D9488] whitespace-nowrap">от 3 990 сом</span>
+              </h1>
+              <p class="text-[14px] sm:text-[17px] leading-relaxed text-slate-600 max-w-xl">
+                Медицинская фильтрация <strong>HEPA H13 (99.97%)</strong>, сотовый активированный уголь против гари и ионизатор <strong>20 млн ионов</strong>. Бесплатная доставка по Бишкеку сегодня — оплата курьеру только после проверки прибора при вас.
+              </p>
+            </div>
+
+            <!-- Компактные бейджи преимуществ -->
+            <div class="flex flex-wrap gap-1.5 sm:gap-2.5">
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-white text-[#0F172A] text-[12px] sm:text-[13px] font-semibold shadow-xs border border-slate-200/70">
+                <span class="material-symbols-outlined text-[#0D9488] text-[16px] sm:text-[18px]">verified</span>
+                <span>HEPA H13 + Уголь</span>
+              </div>
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-white text-[#0F172A] text-[12px] sm:text-[13px] font-semibold shadow-xs border border-slate-200/70">
+                <span class="material-symbols-outlined text-[#0D9488] text-[16px] sm:text-[18px]">bedtime</span>
+                <span>Ночной режим 28 дБ</span>
+              </div>
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-white text-[#0F172A] text-[12px] sm:text-[13px] font-semibold shadow-xs border border-slate-200/70">
+                <span class="material-symbols-outlined text-[#0D9488] text-[16px] sm:text-[18px]">sensors</span>
+                <span>Датчик PM2.5 + Авто</span>
+              </div>
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-white text-[#0F172A] text-[12px] sm:text-[13px] font-semibold shadow-xs border border-slate-200/70">
+                <span class="material-symbols-outlined text-[#0D9488] text-[16px] sm:text-[18px]">verified_user</span>
+                <span>Гарантия 12 мес.</span>
+              </div>
+            </div>
+
+            <!-- Кнопки действия Hero -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3.5 pt-0.5">
+              <a
+                href="#calculator"
+                class="inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:px-7 sm:py-4 rounded-xl bg-[#0F172A] text-white font-bold text-[14px] sm:text-[15px] hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/15 group"
+              >
+                <span class="material-symbols-outlined text-[19px] text-[#0D9488]">tune</span>
+                <span>Подобрать за 3 клика</span>
+                <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </a>
+              <button
+                type="button"
+                id="hero-quick-buy-btn"
+                class="inline-flex items-center justify-center gap-2 px-5 py-3.5 sm:px-6 sm:py-4 rounded-xl bg-white text-[#0F172A] font-bold text-[14px] sm:text-[15px] hover:border-[#0D9488] border border-slate-300 transition-all shadow-xs"
+              >
+                <span class="material-symbols-outlined text-[#0D9488] text-[19px]">bolt</span>
+                <span>Купить в 1 клик • от 3 990 сом</span>
+              </button>
+            </div>
+
+            <!-- Условия безопасной покупки в Бишкеке -->
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[12px] sm:text-[13px] text-slate-600">
+              <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[#0D9488] text-[16px] sm:text-[18px]">local_shipping</span>
+                <span><strong>Бесплатная доставка</strong> по Бишкеку сегодня</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[#0D9488] text-[16px] sm:text-[18px]">payments</span>
+                <span><strong>Без предоплаты:</strong> MBank, Optima, QR, наличные</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Правая колонка: Визуал прибора с Glassmorphism-виджетами телеметрии -->
+          <div class="lg:col-span-6 relative flex justify-center items-center">
+            <div class="relative w-full aspect-[16/11] sm:aspect-[4/3] max-w-[620px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl bg-surface-container-low group border border-white">
+              <img
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNFPl_c9lpLr-LbGTokDdSxn1kOrk3_mLGrFrV_oTyTukpps8g4CdLb-4zEcxh8XACy6X4Tw6bzZ1DrnVVtBVMlPBbtazEt_n1FJDuQv0zTOOCw0saqNpHcz6Gp1jg6tvRKEKlnpEWQb8pTzLgr7WLBm60S7hk_sUS3FE57bUbScopGHI4FKARhEPtRTQZeX_Et5od5AaykYjbW-bVUkmiEGon_cVODZGztV04D1DYqU32p2tRKree"
+                alt="Очиститель воздуха AERA в интерьере квартиры в Бишкеке"
+                class="w-full h-full object-cover object-center group-hover:scale-[1.02] transition-transform duration-700"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0F172A]/35 via-transparent to-transparent pointer-events-none"></div>
+
+              <!-- Плавающий виджет 1: Контраст смога и чистого воздуха дома -->
+              <div class="absolute top-3 left-3 sm:top-6 sm:left-6 p-2.5 px-3 sm:p-3.5 sm:px-4 rounded-xl sm:rounded-2xl glass-panel flex items-center gap-2.5">
+                <div class="relative flex items-center justify-center w-3 h-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0D9488] opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-[#0D9488]"></span>
+                </div>
+                <div class="flex flex-col">
+                  <div class="flex items-baseline gap-1">
+                    <span class="text-[18px] sm:text-[24px] leading-none font-extrabold text-[#0F172A]">005</span>
+                    <span class="text-[10px] sm:text-[11px] font-bold uppercase text-[#0D9488]">PM2.5 µg/m³</span>
+                  </div>
+                  <span class="text-[10px] sm:text-[11px] text-slate-700 font-semibold">Дома с AERA: Чистый воздух</span>
+                </div>
+              </div>
+
+              <!-- Плавающий виджет 2: Производительность -->
+              <div class="absolute bottom-3 left-3 sm:bottom-6 sm:left-6 p-2 px-3 sm:p-3 sm:px-4 rounded-xl sm:rounded-2xl glass-panel flex items-center gap-2.5">
+                <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-[#0D9488]/15 flex items-center justify-center text-[#0D9488]">
+                  <span class="material-symbols-outlined text-[18px] sm:text-[20px]">mode_fan</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-[12px] sm:text-[13px] font-bold text-[#0F172A]">CADR до 320 м³/ч</span>
+                  <span class="text-[10px] sm:text-[11px] text-slate-600">Для комнат до 60 м²</span>
+                </div>
+              </div>
+
+              <!-- Плавающий виджет 3: 4 ступени фильтрации -->
+              <div class="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 p-3 px-4 rounded-2xl glass-panel hidden sm:flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-[#0F172A] flex items-center justify-center text-[#0D9488]">
+                  <span class="material-symbols-outlined text-[20px]">filter_alt</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-[13px] font-bold text-[#0F172A]">HEPA H13 + Уголь</span>
+                  <span class="text-[11px] text-[#0D9488] font-bold">+ Ионизатор 20 млн ионов</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. ИНТЕРАКТИВНЫЙ БЛОК «УМНЫЙ КОНФИГУРАТОР / ПОДБЕРИТЕ ИДЕАЛЬНЫЙ AERA ЗА 3 КЛИКА»
+         (Основа из aero_pure_2/code.html + ползунок площади из aera_pro_x_2/code.html) -->
+    <section id="calculator" class="w-full py-8 sm:py-12 lg:py-20 bg-surface-container-low/60 border-y border-slate-200/70">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div class="p-4 sm:p-8 lg:p-12 rounded-2xl sm:rounded-3xl bg-white shadow-lg border border-slate-200/80">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-start">
+            <!-- Левая часть конфигуратора (7 колонок): Площадь + Ползунок + Приоритет -->
+            <div class="lg:col-span-7 flex flex-col gap-4 sm:gap-6">
+              <div class="flex flex-col gap-1">
+                <div class="inline-flex items-center gap-1.5 text-[#0D9488] text-[11px] sm:text-[12px] font-bold uppercase tracking-widest">
+                  <span class="material-symbols-outlined text-[16px] sm:text-[18px]">tune</span>
+                  <span>Умный конфигуратор AERA Bishkek</span>
+                </div>
+                <h2 class="text-[22px] sm:text-[34px] font-extrabold text-[#0F172A] tracking-tight leading-tight">
+                  Подберите идеальный AERA за 3 клика
+                </h2>
+                <p class="text-[13px] sm:text-[15px] text-slate-600">
+                  Укажите площадь комнаты и главный приоритет — алгоритм рассчитает время очистки и подберет оптимальную модель.
+                </p>
+              </div>
+
+              <!-- Шаг 1: Выбор площади помещения (Кнопки + Ползунок из aera_pro_x_2) -->
+              <div class="flex flex-col gap-2.5 sm:gap-3 p-3.5 sm:p-5 rounded-2xl bg-[#F8FAFC] border border-slate-200/80">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-[13px] sm:text-[14px] font-bold text-[#0F172A]">1. Площадь помещения:</span>
+                  <span class="text-[11px] sm:text-[12px] font-semibold text-[#0D9488] whitespace-nowrap">Точный расчет</span>
+                </div>
+
+                <!-- 3 кнопки диапазонов площади (Строго по ТЗ: До 20 м², 20–30 м², 40–60 м²) -->
+                <div class="grid grid-cols-3 gap-2" id="calc-area-buttons">
+                  <button
+                    type="button"
+                    data-config-area="compact"
+                    class="px-2 sm:px-3 py-2.5 sm:py-3 rounded-xl font-bold text-[12px] sm:text-[14px] whitespace-nowrap transition-all text-center bg-surface-container text-on-surface hover:bg-secondary-container"
+                  >
+                    До 20 м²
+                  </button>
+                  <button
+                    type="button"
+                    data-config-area="sense"
+                    class="px-2 sm:px-3 py-2.5 sm:py-3 rounded-xl font-bold text-[12px] sm:text-[14px] whitespace-nowrap transition-all text-center bg-[#0F172A] text-white shadow-md ring-2 ring-[#0D9488]"
+                  >
+                    20–30 м²
+                  </button>
+                  <button
+                    type="button"
+                    data-config-area="prox"
+                    class="px-2 sm:px-3 py-2.5 sm:py-3 rounded-xl font-bold text-[12px] sm:text-[14px] whitespace-nowrap transition-all text-center bg-surface-container text-on-surface hover:bg-secondary-container"
+                  >
+                    40–60 м²
+                  </button>
+                </div>
+
+                <!-- Ползунок площади из aera_pro_x_2/code.html -->
+                <div class="pt-1.5 flex flex-col gap-1.5">
+                  <div class="flex items-center justify-between gap-2 text-[12px] sm:text-[13px]">
+                    <div class="flex items-baseline gap-1.5">
+                      <span class="text-slate-600 font-medium">Метраж комнаты:</span>
+                      <span id="config-sqm-display" class="text-[16px] sm:text-[18px] font-extrabold text-[#0D9488] whitespace-nowrap">26 м²</span>
+                    </div>
+                    <span class="text-slate-700 font-semibold whitespace-nowrap">Очистка: <strong id="config-clean-time" class="text-[#0F172A]">~ 5 мин</strong></span>
+                  </div>
+                  <input
+                    id="config-area-slider"
+                    type="range"
+                    min="10"
+                    max="60"
+                    value="26"
+                    aria-label="Ползунок площади помещения в квадратных метрах"
+                    class="w-full accent-[#0D9488] cursor-pointer h-2 bg-slate-200 rounded-lg"
+                  />
+                  <div class="flex justify-between text-[10px] sm:text-[11px] text-slate-500 font-semibold">
+                    <span>10 м²<span class="hidden sm:inline"> (Спальня)</span></span>
+                    <span>25 м²<span class="hidden sm:inline"> (Детская)</span></span>
+                    <span>40 м²<span class="hidden sm:inline"> (Зал)</span></span>
+                    <span>60 м²<span class="hidden sm:inline"> (Студия)</span></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Шаг 2: Выбор главного приоритета (Строго по ТЗ) -->
+              <div class="flex flex-col gap-2">
+                <span class="text-[13px] sm:text-[14px] font-bold text-[#0F172A]">2. Главный приоритет очистки:</span>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3" id="calc-priority-buttons">
+                  <button
+                    type="button"
+                    data-config-priority="bedroom"
+                    class="p-3 sm:p-3.5 rounded-2xl bg-surface-container text-left hover:bg-surface-container-lowest transition-all flex sm:flex-col items-center sm:items-stretch justify-between gap-2.5 sm:gap-1.5"
+                  >
+                    <div class="flex items-center gap-2.5 sm:justify-between min-w-0">
+                      <span class="material-symbols-outlined text-[#0D9488] text-[22px] shrink-0">child_care</span>
+                      <div class="sm:hidden min-w-0">
+                        <div class="text-[13px] font-bold text-[#0F172A] leading-snug">Для детской/спальни</div>
+                        <div class="text-[11px] text-slate-500 truncate">Тихий ночной режим 28 дБ</div>
+                      </div>
+                      <span class="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-white text-slate-600 whitespace-nowrap">28 дБ</span>
+                    </div>
+                    <div class="hidden sm:block">
+                      <div class="text-[13px] font-bold text-[#0F172A] leading-snug">Для детской/спальни</div>
+                      <div class="text-[11px] text-slate-500 mt-0.5">Тихий ночной режим и таймер 1–8 ч</div>
+                    </div>
+                    <span class="sm:hidden text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-white text-slate-600 whitespace-nowrap shrink-0">28 дБ</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    data-config-priority="smog_auto"
+                    class="p-3 sm:p-3.5 rounded-2xl bg-surface-container-lowest ring-2 ring-[#0D9488] shadow-md text-left hover:bg-surface-container-lowest transition-all flex sm:flex-col items-center sm:items-stretch justify-between gap-2.5 sm:gap-1.5"
+                  >
+                    <div class="flex items-center gap-2.5 sm:justify-between min-w-0">
+                      <span class="material-symbols-outlined text-[#0D9488] text-[22px] shrink-0">sensors</span>
+                      <div class="sm:hidden min-w-0">
+                        <div class="text-[13px] font-bold text-[#0F172A] leading-snug">Видеть цифры смога PM2.5 + Авторежим</div>
+                        <div class="text-[11px] text-slate-500 truncate">Цветной LCD-экран + датчик TVOC</div>
+                      </div>
+                      <span class="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#0D9488] text-white whitespace-nowrap">Хит 70%</span>
+                    </div>
+                    <div class="hidden sm:block">
+                      <div class="text-[13px] font-bold text-[#0F172A] leading-snug">Видеть цифры смога PM2.5 + Авторежим</div>
+                      <div class="text-[11px] text-slate-500 mt-0.5">Цветной LCD-экран + датчик гари TVOC</div>
+                    </div>
+                    <span class="sm:hidden text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#0D9488] text-white whitespace-nowrap shrink-0">Хит 70%</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    data-config-priority="max_360"
+                    class="p-3 sm:p-3.5 rounded-2xl bg-surface-container text-left hover:bg-surface-container-lowest transition-all flex sm:flex-col items-center sm:items-stretch justify-between gap-2.5 sm:gap-1.5"
+                  >
+                    <div class="flex items-center gap-2.5 sm:justify-between min-w-0">
+                      <span class="material-symbols-outlined text-[#0D9488] text-[22px] shrink-0">cyclone</span>
+                      <div class="sm:hidden min-w-0">
+                        <div class="text-[13px] font-bold text-[#0F172A] leading-snug">Максимальная мощность 360° для зала</div>
+                        <div class="text-[11px] text-slate-500 truncate">Колонна 60 см, бочонок 360°</div>
+                      </div>
+                      <span class="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-white text-slate-600 whitespace-nowrap">360° OLED</span>
+                    </div>
+                    <div class="hidden sm:block">
+                      <div class="text-[13px] font-bold text-[#0F172A] leading-snug">Максимальная мощность 360° для зала</div>
+                      <div class="text-[11px] text-slate-500 mt-0.5">Колонна 60 см, фильтр-бочонок 360°</div>
+                    </div>
+                    <span class="sm:hidden text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-white text-slate-600 whitespace-nowrap shrink-0">360° OLED</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Шаг 3: Выбор комплектации в конфигураторе -->
+              <div class="flex flex-col gap-2">
+                <span class="text-[13px] sm:text-[14px] font-bold text-[#0F172A]">3. Выберите комплектацию:</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    data-config-package="base"
+                    class="p-2.5 sm:p-3 rounded-xl text-left transition-all border border-slate-200 bg-[#0F172A] text-white flex items-center justify-between gap-2"
+                  >
+                    <div class="min-w-0">
+                      <div class="text-[13px] font-bold">Комплект «Базовый»</div>
+                      <div class="text-[11px] opacity-80 truncate">Прибор + фильтр HEPA H13 + пульт ДУ</div>
+                    </div>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-white/15 whitespace-nowrap shrink-0">Стандарт</span>
+                  </button>
+                  <button
+                    type="button"
+                    data-config-package="plus"
+                    class="p-2.5 sm:p-3 rounded-xl text-left transition-all border border-[#0D9488]/40 bg-surface-container-lowest text-on-surface flex items-center justify-between gap-2"
+                  >
+                    <div class="min-w-0">
+                      <div class="text-[13px] font-bold">Комплект «Плюс (2 сезона)»</div>
+                      <div class="text-[11px] text-[#0D9488] font-semibold truncate">+Запасной фильтр за 450 сом (скидка 50%)</div>
+                    </div>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[#0D9488] text-white whitespace-nowrap shrink-0">ВЫБОР 82%</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Правая часть конфигуратора (5 колонок): Динамическая карточка рекомендуемой модели + Бронирование -->
+            <div class="lg:col-span-5 flex flex-col justify-between p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-gradient-to-b from-[#eff4ff] to-[#F8FAFC] border-2 border-[#0D9488]/30 shadow-md">
+              <div class="flex flex-col gap-3">
+                <div class="flex items-center justify-between gap-2 flex-wrap">
+                  <span
+                    id="calc-result-badge"
+                    class="px-2.5 py-1 rounded-full bg-[#0D9488] text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-wider"
+                  >
+                    ★ ВЫБОР 70% В БИШКЕКЕ • ДО 30 М²
+                  </span>
+                  <span id="calc-result-sku" class="text-[11px] font-bold text-slate-500 uppercase whitespace-nowrap">
+                    Индекс: AR-920
+                  </span>
+                </div>
+
+                <div class="flex items-center gap-3.5 pt-0.5">
+                  <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-white shrink-0 shadow-sm border border-slate-200/60">
+                    <img
+                      id="calc-result-img"
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNFPl_c9lpLr-LbGTokDdSxn1kOrk3_mLGrFrV_oTyTukpps8g4CdLb-4zEcxh8XACy6X4Tw6bzZ1DrnVVtBVMlPBbtazEt_n1FJDuQv0zTOOCw0saqNpHcz6Gp1jg6tvRKEKlnpEWQb8pTzLgr7WLBm60S7hk_sUS3FE57bUbScopGHI4FKARhEPtRTQZeX_Et5od5AaykYjbW-bVUkmiEGon_cVODZGztV04D1DYqU32p2tRKree"
+                      alt="Рекомендуемый очиститель воздуха AERA"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#0D9488] font-bold">Рекомендуемая модель</span>
+                    <h3 id="calc-result-title" class="text-[20px] sm:text-[24px] font-extrabold text-[#0F172A] leading-tight truncate">
+                      AERA Sense
+                    </h3>
+                    <div class="flex items-baseline gap-2 mt-1 flex-wrap">
+                      <span id="calc-result-price" class="text-[20px] sm:text-[24px] font-extrabold text-[#0D9488] whitespace-nowrap">4 990 сом</span>
+                      <span id="calc-result-old-price" class="text-[13px] sm:text-[14px] text-slate-400 line-through whitespace-nowrap">6 500 сом</span>
+                    </div>
+                  </div>
+                </div>
+
+                <p id="calc-result-desc" class="text-[12px] sm:text-[13px] text-slate-700 leading-relaxed bg-white/80 p-2.5 sm:p-3 rounded-xl border border-slate-200/60">
+                  Выбор 70% семей в Бишкеке: лазерный датчик PM2.5 и датчик гари TVOC выводят точные цифры смога на цветной LCD-экран, а Умный Авторежим сам ускоряет очистку при запахе угля.
+                </p>
+
+                <!-- Динамические спецификации выбранной модели -->
+                <div class="flex flex-col gap-1 text-[12px] sm:text-[13px] text-[#0F172A]">
+                  <div class="flex items-start gap-1.5">
+                    <span class="material-symbols-outlined text-[#0D9488] text-[16px] sm:text-[18px] shrink-0 mt-0.5">check_circle</span>
+                    <span id="calc-result-cadr" class="font-medium">CADR 240 м³/ч • Очистка 26 м² за ~5 мин</span>
+                  </div>
+                  <div class="flex items-start gap-1.5">
+                    <span class="material-symbols-outlined text-[#0D9488] text-[16px] sm:text-[18px] shrink-0 mt-0.5">check_circle</span>
+                    <span id="calc-result-dimensions" class="font-medium">Высота 51 см (300×155×510 мм), мощность 35 Вт</span>
+                  </div>
+                  <div class="flex items-start gap-1.5">
+                    <span class="material-symbols-outlined text-[#0D9488] text-[16px] sm:text-[18px] shrink-0 mt-0.5">check_circle</span>
+                    <span id="calc-result-noise" class="font-medium">Ночной режим 28 дБ • Цветной LCD-дисплей с PM2.5</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Форма «Забронировать из конфигуратора» (Шаг 4) -->
+              <form id="configurator-order-form" class="flex flex-col gap-2 pt-3 mt-3 border-t border-slate-200">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <input
+                    id="config-order-name"
+                    name="name"
+                    type="text"
+                    autocomplete="name"
+                    placeholder="Ваше имя (необязательно)"
+                    aria-label="Ваше имя"
+                    class="glass-input px-3.5 py-2.5 rounded-xl text-[13px] text-[#0F172A] placeholder:text-slate-400"
+                  />
+                  <select
+                    id="config-order-payment"
+                    name="payment_method"
+                    aria-label="Способ оплаты при получении"
+                    class="glass-input px-3 py-2.5 rounded-xl text-[13px] font-semibold text-[#0F172A]"
+                  >
+                    <option value="MBank">Оплата: MBank</option>
+                    <option value="Optima Pay">Оплата: Optima Pay</option>
+                    <option value="Элкарт / QR">Оплата: Элкарт / QR</option>
+                    <option value="Наличными при получении">Оплата: Наличными</option>
+                  </select>
+                </div>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+                    <span class="material-symbols-outlined text-[18px]">call</span>
+                  </span>
+                  <input
+                    id="config-order-phone"
+                    name="phone"
+                    type="tel"
+                    inputmode="tel"
+                    autocomplete="tel"
+                    required
+                    placeholder="+996 (___) __-__-__"
+                    aria-label="Номер телефона для бронирования из конфигуратора"
+                    class="glass-input w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-xl text-[14px] font-semibold text-[#0F172A] placeholder:text-slate-400"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  id="config-submit-btn"
+                  class="w-full py-3 sm:py-3.5 px-4 rounded-xl bg-[#0F172A] hover:bg-slate-800 text-white font-bold text-[13px] sm:text-[14px] shadow-md transition-all flex items-center justify-center gap-2"
+                >
+                  <span class="material-symbols-outlined text-[18px] text-[#0D9488]">bolt</span>
+                  <span id="calc-submit-btn-text">Забронировать AERA Sense • 4 990 сом</span>
+                </button>
+                <button
+                  type="button"
+                  id="config-open-detail-btn"
+                  class="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] font-semibold text-[12px] sm:text-[13px] border border-slate-200/90 transition-all flex items-center justify-center gap-1.5"
+                >
+                  <span class="material-symbols-outlined text-[16px] text-[#0D9488]">open_in_full</span>
+                  <span>Открыть детальную карточку модели</span>
+                </button>
+                <div id="config-order-success" class="hidden p-3 rounded-xl bg-teal-50 border border-teal-200 text-[12px]"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. СЕТКА ИЗ 3 КАРТОЧЕК МОДЕЛЕЙ (Линейка приборов AERA) -->
+    <section id="models" class="w-full py-10 sm:py-14 lg:py-24">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-2.5 sm:gap-4 mb-6 sm:mb-12">
+          <div class="flex flex-col gap-1 max-w-xl">
+            <span class="text-[11px] sm:text-[12px] text-[#0D9488] uppercase tracking-widest font-bold">Линейка приборов AERA Bishkek</span>
+            <h2 class="text-[24px] sm:text-[40px] font-extrabold text-[#0F172A] tracking-tight leading-tight">
+              3 проверенные модели под любую площадь
+            </h2>
+          </div>
+          <p class="text-[13px] sm:text-[15px] text-slate-600 max-w-md">
+            Нажмите на любую модель, чтобы открыть карточку, сравнить комплектации «Базовый» и «Плюс (+450 сом за запасной фильтр)» или заказать в 1 клик.
+          </p>
+        </div>
+
+        <!-- Динамически рендерится из siteConfig.models в app.js -->
+        <div id="models-grid" class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-7 items-stretch"></div>
+      </div>
+    </section>
+
+    <!-- 5. БЛОК «4 СТУПЕНИ ОЧИСТКИ ВОЗДУХА»
+         (Pre-Filter + HEPA H13 + Сотовый активированный уголь против запаха печного угля + Ионизатор 20 млн ионов) -->
+    <section id="filtration" class="w-full py-10 sm:py-14 lg:py-24 bg-surface-container-low/70 border-y border-slate-200/70">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div class="text-center max-w-2xl mx-auto mb-7 sm:mb-12">
+          <span class="text-[11px] sm:text-[12px] text-[#0D9488] uppercase tracking-widest font-bold">Инженерия чистого воздуха</span>
+          <h2 class="text-[24px] sm:text-[40px] font-extrabold text-[#0F172A] tracking-tight leading-tight mt-1">
+            4 ступени очистки воздуха против бишкекского смога
+          </h2>
+          <p class="text-[13px] sm:text-[15px] text-slate-600 mt-1.5">
+            Каждый картридж AERA сочетает механическую фильтрацию микрочастиц PM2.5, угольную абсорбцию печного дыма и ионизацию 20 млн ионов.
+          </p>
+        </div>
+
+        <div id="filtration-stages-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6"></div>
+      </div>
+    </section>
+
+    <!-- 6. РЕАЛЬНЫЕ УСЛОВИЯ ДОСТАВКИ, ГАРАНТИИ И БЕЗОПАСНОЙ ПОКУПКИ В БИШКЕКЕ (Шаг 3) -->
+    <section id="service" class="w-full py-10 sm:py-14 lg:py-24">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div class="rounded-2xl sm:rounded-3xl bg-[#0F172A] text-white p-5 sm:p-10 lg:p-12 shadow-2xl relative overflow-hidden">
+          <div class="absolute -right-16 -top-16 w-60 sm:w-72 h-60 sm:h-72 rounded-full bg-[#0D9488]/25 blur-3xl pointer-events-none"></div>
+
+          <div class="relative z-10 flex flex-col gap-5 sm:gap-8">
+            <div class="max-w-2xl">
+              <div class="inline-flex items-center gap-1.5 text-[#86f2e4] text-[11px] sm:text-[12px] font-bold uppercase tracking-widest mb-1.5">
+                <span class="material-symbols-outlined text-[17px] sm:text-[18px]">verified_user</span>
+                <span>Честный сервис AERA в г. Бишкек</span>
+              </div>
+              <h2 class="text-[22px] sm:text-[36px] font-extrabold tracking-tight leading-tight">
+                Покупайте спокойно: без предоплаты и с проверкой при курьере
+              </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-6">
+              <!-- Условие 1: Гарантия 12 месяцев -->
+              <div class="p-4 sm:p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex flex-col gap-2 sm:gap-3">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#0D9488] text-white flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[22px] sm:text-[24px]">shield</span>
+                </div>
+                <h3 class="text-[17px] sm:text-[19px] font-bold text-white">Официальная гарантия 12 месяцев</h3>
+                <p class="text-[13px] sm:text-[14px] text-slate-300 leading-relaxed">
+                  Официальная гарантия 12 месяцев в г. Бишкек. Сменные фильтры HEPA H13 + Active Carbon всегда в наличии на складе в Бишкеке.
+                </p>
+              </div>
+
+              <!-- Условие 2: Доставка в день заказа -->
+              <div class="p-4 sm:p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex flex-col gap-2 sm:gap-3">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#0D9488] text-white flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[22px] sm:text-[24px]">local_shipping</span>
+                </div>
+                <h3 class="text-[17px] sm:text-[19px] font-bold text-white">Бесплатная экспресс-доставка</h3>
+                <p class="text-[13px] sm:text-[14px] text-slate-300 leading-relaxed">
+                  Бесплатная экспресс-доставка по Бишкеку в день заказа. Курьер привезет прибор в удобное для вас время.
+                </p>
+              </div>
+
+              <!-- Условие 3: Безопасная покупка без предоплаты -->
+              <div class="p-4 sm:p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex flex-col gap-2 sm:gap-3">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#0D9488] text-white flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[22px] sm:text-[24px]">payments</span>
+                </div>
+                <h3 class="text-[17px] sm:text-[19px] font-bold text-white">Без предоплаты — оплата после проверки</h3>
+                <p class="text-[13px] sm:text-[14px] text-slate-300 leading-relaxed">
+                  Без предоплаты! Оплата курьеру (MBank, Optima, QR или наличными) только после распаковки и проверки прибора при вас.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ПЛАВАЮЩИЙ БАР КОРЗИНЫ ВНИЗУ ЭКРАНА (из aero_pure_1/code.html) -->
+  <div
+    id="floating-cart-bar"
+    class="fixed bottom-3 sm:bottom-4 left-0 right-0 px-3 sm:px-4 z-30 pointer-events-none"
+  >
+    <div class="max-w-[520px] mx-auto bg-[#0F172A]/95 backdrop-blur-xl rounded-2xl py-2.5 px-3 sm:p-3 sm:px-4 shadow-2xl border border-white/10 flex items-center justify-between gap-2.5 sm:gap-3 pointer-events-auto">
+      <div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+        <div class="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0D9488] flex items-center justify-center text-white shrink-0">
+          <span class="material-symbols-outlined text-[18px] sm:text-[20px]">shopping_bag</span>
+          <span
+            id="floating-cart-count"
+            class="absolute -top-1 -right-1 w-4.5 h-4.5 min-w-[18px] h-[18px] rounded-full bg-white text-[#0F172A] text-[10px] font-extrabold flex items-center justify-center shadow"
+          >
+            1
+          </span>
+        </div>
+        <div class="min-w-0 flex-1">
+          <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-teal-300 font-bold leading-tight truncate">Ваша корзина</p>
+          <p id="floating-cart-label" class="text-[12px] sm:text-[14px] font-bold text-white leading-tight truncate">1 позиция • 4 990 сом</p>
+        </div>
+      </div>
+      <button
+        type="button"
+        data-open-cart
+        class="py-2 sm:py-2.5 px-3.5 sm:px-4 rounded-xl bg-[#0D9488] hover:bg-teal-500 text-white text-[12px] sm:text-[13px] font-bold flex items-center gap-1 shrink-0 shadow-lg transition-all whitespace-nowrap"
+      >
+        <span>Оформить</span>
+        <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО / DRAWER ДЕТАЛЬНОЙ КАРТОЧКИ ТОВАРА (Основа из aera_pro_x_2/code.html и aera_pro_x_1/code.html) -->
+  <dialog
+    id="product-modal"
+    closedby="any"
+    aria-labelledby="modal-model-title"
+    class="w-[calc(100%-16px)] sm:w-full max-w-[960px] rounded-2xl sm:rounded-3xl p-0 bg-[#F8FAFC] text-[#0F172A] shadow-2xl border border-slate-200/80 m-auto max-h-[92dvh] overflow-x-hidden overflow-y-auto"
+  >
+    <!-- Верхняя панель модального окна -->
+    <div class="sticky top-0 z-30 bg-white/95 backdrop-blur-xl px-4 sm:px-5 py-3 border-b border-slate-200/70 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#0D9488] animate-pulse shrink-0"></span>
+        <span id="modal-model-sku" class="text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-slate-600 truncate">
+          ЗАВОДСКОЙ ИНДЕКС: AR-920
+        </span>
+      </div>
+      <button
+        type="button"
+        id="modal-close-btn"
+        aria-label="Закрыть карточку товара"
+        class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-[#0F172A] transition-colors shrink-0"
+      >
+        <span class="material-symbols-outlined text-[19px] sm:text-[20px]">close</span>
+      </button>
+    </div>
+
+    <div class="p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-7 items-start">
+      <!-- Блок A (Фото + Миниатюры): на мобильном идет первым, на десктопе слева вверху -->
+      <div class="lg:col-span-6 lg:col-start-1 lg:row-start-1 flex flex-col gap-3">
+        <div class="relative w-full aspect-[16/11] sm:aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-b from-surface-container-low to-surface-container shadow-sm">
+          <img
+            id="modal-main-image"
+            src=""
+            alt="Фото модели AERA"
+            class="w-full h-full object-cover transition-opacity duration-300"
+          />
+          <!-- HUD-бейджи поверх фото -->
+          <div class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-xl bg-white/90 backdrop-blur-md shadow-xs flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-[#0D9488]"></span>
+            <span id="modal-hud-cadr" class="text-[11px] font-extrabold text-[#0F172A]">CADR 240 м³/ч</span>
+          </div>
+          <div class="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-xl bg-white/90 backdrop-blur-md shadow-xs flex items-center gap-1">
+            <span class="material-symbols-outlined text-[#0D9488] text-[14px]">mode_night</span>
+            <span id="modal-hud-noise" class="text-[11px] font-bold text-[#0F172A]">28 дБ</span>
+          </div>
+        </div>
+
+        <!-- Миниатюры галереи -->
+        <div id="modal-gallery-thumbs" class="grid grid-cols-4 gap-1.5 sm:gap-2"></div>
+      </div>
+
+      <!-- Блок B (Название + Цена + Выбор комплектации + Заказ в 1 клик): на мобильном идет сразу под фото, на десктопе справа -->
+      <div class="lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-span-2 flex flex-col gap-3.5 sm:gap-4">
+        <div>
+          <span
+            id="modal-model-badge"
+            class="inline-block px-2.5 py-1 rounded-full bg-[#0D9488]/15 text-[#0D9488] text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mb-1.5"
+          >
+            ★ ВЫБОР 70% В БИШКЕКЕ • ДО 30 М²
+          </span>
+          <h2 id="modal-model-title" class="text-[24px] sm:text-[32px] font-extrabold text-[#0F172A] leading-tight">
+            AERA Sense
+          </h2>
+          <p id="modal-model-summary" class="text-[13px] sm:text-[14px] text-slate-600 mt-1">
+            Хит продаж в Бишкеке: цветной LCD-дисплей с лазерным датчиком PM2.5 и температурой, датчик запаха гари TVOC и Умный Авторежим.
+          </p>
+        </div>
+
+        <!-- Блок цены -->
+        <div class="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-200/80 flex items-center justify-between gap-2">
+          <div class="flex items-baseline gap-2 flex-wrap">
+            <span id="modal-price-current" class="text-[24px] sm:text-[30px] font-extrabold text-[#0F172A] whitespace-nowrap">4 990 сом</span>
+            <span id="modal-price-old" class="text-[13px] sm:text-[15px] text-slate-400 line-through whitespace-nowrap">6 500 сом</span>
+          </div>
+          <span id="modal-price-discount" class="px-2.5 py-1 rounded-full bg-red-100 text-red-800 text-[10px] sm:text-[11px] font-bold whitespace-nowrap shrink-0">
+            -23% ВЫГОДА
+          </span>
+        </div>
+
+        <!-- Выбор комплектации (Строго по Шагу 1, п. 2 и aera_pro_x_2/code.html) -->
+        <div class="flex flex-col gap-2" role="radiogroup" aria-label="Выберите комплектацию">
+          <span class="text-[12px] font-bold uppercase tracking-wider text-slate-500">Выберите комплектацию:</span>
+
+          <!-- Комплект «Базовый» -->
+          <div
+            id="modal-bundle-base"
+            role="radio"
+            aria-checked="true"
+            tabindex="0"
+            class="p-3 sm:p-4 rounded-2xl cursor-pointer transition-all border-2 bg-[#eff4ff] border-[#0D9488] shadow-md focus:outline-none focus:ring-2 focus:ring-[#0D9488]"
+          >
+            <div class="flex items-center justify-between gap-2 mb-0.5">
+              <div class="flex items-center gap-2 min-w-0">
+                <div id="modal-radio-base" class="w-5 h-5 rounded-full bg-[#0D9488] flex items-center justify-center text-white shrink-0">
+                  <span class="material-symbols-outlined text-[14px]">check</span>
+                </div>
+                <span class="text-[14px] sm:text-[15px] font-bold text-[#0F172A] truncate">Комплект «Базовый»</span>
+              </div>
+              <span id="modal-bundle-base-price" class="text-[14px] sm:text-[15px] font-extrabold text-[#0F172A] whitespace-nowrap shrink-0">4 990 сом</span>
+            </div>
+            <p id="modal-bundle-base-desc" class="text-[11px] sm:text-[12px] text-slate-600 pl-7">
+              Прибор + предустановленный фильтр HEPA H13 + пульт ДУ
+            </p>
+          </div>
+
+          <!-- Комплект «Плюс (2 сезона)» (Бейдж ВЫБОР 82%: +450 сом вместо 950 сом) -->
+          <div
+            id="modal-bundle-plus"
+            role="radio"
+            aria-checked="false"
+            tabindex="0"
+            class="p-3 sm:p-4 rounded-2xl cursor-pointer transition-all relative overflow-hidden border-2 bg-white border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#0D9488]"
+          >
+            <div class="absolute top-0 right-0 px-2.5 py-0.5 rounded-bl-xl bg-[#0D9488] text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-wider">
+              ВЫБОР 82%
+            </div>
+            <div class="flex items-center justify-between gap-2 mb-0.5 pr-16">
+              <div class="flex items-center gap-2 min-w-0">
+                <div id="modal-radio-plus" class="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center text-transparent shrink-0">
+                  <span class="material-symbols-outlined text-[14px]">check</span>
+                </div>
+                <span class="text-[14px] sm:text-[15px] font-bold text-[#0F172A] truncate">Комплект «Плюс (2 сезона)»</span>
+              </div>
+            </div>
+            <div class="pl-7 flex items-baseline justify-between gap-2 mb-0.5">
+              <span class="text-[11px] sm:text-[12px] font-bold text-[#0D9488]">+450 сом за 2-й фильтр (скидка 50%)</span>
+              <span id="modal-bundle-plus-price" class="text-[14px] sm:text-[15px] font-extrabold text-[#0D9488] whitespace-nowrap shrink-0">5 440 сом</span>
+            </div>
+            <p id="modal-bundle-plus-desc" class="text-[11px] sm:text-[12px] text-slate-600 pl-7">
+              Базовый комплект + дополнительный сменный фильтр HEPA H13 со скидкой 50% за +450 сом вместо 950 сом
+            </p>
+          </div>
+        </div>
+
+        <!-- Форма «Быстрый заказ в 1 клик» с вводом номера +996 (___) __-__-__ -->
+        <div class="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col gap-2.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-[#0D9488] flex items-center justify-center text-white shrink-0">
+                <span class="material-symbols-outlined text-[15px]">bolt</span>
+              </span>
+              <h3 class="text-[15px] sm:text-[16px] font-bold text-[#0F172A]">Быстрый заказ в 1 клик</h3>
+            </div>
+            <span class="text-[11px] font-bold text-[#0D9488] whitespace-nowrap">Без предоплаты</span>
+          </div>
+
+          <form id="modal-oneclick-form" class="flex flex-col gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <input
+                id="modal-order-name"
+                name="name"
+                type="text"
+                autocomplete="name"
+                placeholder="Ваше имя"
+                aria-label="Ваше имя"
+                class="glass-input px-3.5 py-2.5 rounded-xl text-[13px] text-[#0F172A]"
+              />
+              <select
+                id="modal-order-payment"
+                name="payment_method"
+                aria-label="Способ оплаты"
+                class="glass-input px-3 py-2.5 rounded-xl text-[13px] font-semibold text-[#0F172A]"
+              >
+                <option value="MBank">MBank</option>
+                <option value="Optima Pay">Optima Pay</option>
+                <option value="Элкарт / QR">Элкарт / QR</option>
+                <option value="Наличными при получении">Наличными при получении</option>
+              </select>
+            </div>
+
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <span class="material-symbols-outlined text-[18px]">call</span>
+              </span>
+              <input
+                id="modal-order-phone"
+                name="phone"
+                type="tel"
+                inputmode="tel"
+                autocomplete="tel"
+                required
+                placeholder="+996 (___) __-__-__"
+                aria-label="Номер телефона для быстрого заказа в 1 клик"
+                class="glass-input w-full pl-10 pr-4 py-2.5 sm:py-3 rounded-xl text-[14px] sm:text-[15px] font-semibold text-[#0F172A]"
+              />
+            </div>
+
+            <button
+              type="submit"
+              id="modal-oneclick-submit-btn"
+              class="w-full py-3 sm:py-3.5 px-4 rounded-xl bg-[#0F172A] hover:bg-slate-800 text-white font-bold text-[14px] sm:text-[15px] shadow-md transition-all flex items-center justify-center gap-2"
+            >
+              <span id="modal-oneclick-btn-text">Купить в 1 клик • 4 990 сом</span>
+              <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+            </button>
+
+            <button
+              type="button"
+              id="modal-add-to-cart-btn"
+              class="w-full py-2.5 px-4 rounded-xl bg-surface-container-low hover:bg-surface-container text-[#0F172A] font-semibold text-[13px] transition-all flex items-center justify-center gap-1.5"
+            >
+              <span class="material-symbols-outlined text-[18px] text-[#0D9488]">add_shopping_cart</span>
+              <span>Добавить в корзину</span>
+            </button>
+
+            <div id="modal-order-success" class="hidden p-3 rounded-xl bg-teal-50 border border-teal-200 text-[12px]"></div>
+          </form>
+
+          <!-- Условия Бишкека под формой -->
+          <div class="flex flex-col gap-1 pt-2 border-t border-slate-100 text-[11px] sm:text-[12px] text-slate-600">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[#0D9488] text-[15px] shrink-0">local_shipping</span>
+              <span><strong>Бесплатная экспресс-доставка</strong> по Бишкеку в день заказа</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[#0D9488] text-[15px] shrink-0">verified_user</span>
+              <span><strong>Официальная гарантия 12 месяцев</strong> в г. Бишкек</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[#0D9488] text-[15px] shrink-0">payments</span>
+              <span><strong>Оплата после проверки:</strong> MBank, Optima, QR или наличными</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Блок C (Характеристики + Калькулятор комнаты): на мобильном идет под формой, на десктопе слева внизу -->
+      <div class="lg:col-span-6 lg:col-start-1 lg:row-start-2 flex flex-col gap-3">
+        <!-- Сетка ключевых характеристик модели -->
+        <div class="grid grid-cols-2 gap-2">
+          <div class="p-3 rounded-2xl bg-white border border-slate-200/70">
+            <span class="text-[11px] text-slate-500 font-semibold block">Подача воздуха (CADR)</span>
+            <span id="modal-spec-cadr" class="text-[16px] sm:text-[18px] font-extrabold text-[#0F172A]">240 м³/ч</span>
+            <span id="modal-spec-area" class="text-[11px] text-[#0D9488] font-semibold block">До 30 м²</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-white border border-slate-200/70">
+            <span class="text-[11px] text-slate-500 font-semibold block">Высота и габариты</span>
+            <span id="modal-spec-height" class="text-[16px] sm:text-[18px] font-extrabold text-[#0F172A]">51 см</span>
+            <span id="modal-spec-dimensions" class="text-[11px] text-slate-600 font-medium block">300×155×510 мм</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-white border border-slate-200/70">
+            <span class="text-[11px] text-slate-500 font-semibold block">Ночной режим</span>
+            <span id="modal-spec-noise" class="text-[16px] sm:text-[18px] font-extrabold text-[#0F172A]">28 дБ</span>
+            <span id="modal-spec-power" class="text-[11px] text-slate-600 font-medium block">Мощность 35 Вт • Пульт ДУ</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-white border border-slate-200/70">
+            <span class="text-[11px] text-slate-500 font-semibold block">Дисплей и датчики</span>
+            <span id="modal-spec-display" class="text-[11px] sm:text-[12px] font-bold text-[#0F172A] leading-snug block mt-0.5">
+              Цветной LCD-дисплей с PM2.5
+            </span>
+          </div>
+        </div>
+
+        <!-- Полный список ключевых характеристик модели (Шаг 2) -->
+        <div class="p-3 rounded-2xl bg-white border border-slate-200/70">
+          <span class="text-[11px] text-[#0D9488] font-bold uppercase tracking-wider block mb-1.5">
+            Полные технические характеристики:
+          </span>
+          <ul id="modal-highlights-list" class="flex flex-col gap-1 text-[12px] text-slate-700"></ul>
+        </div>
+
+        <!-- Калькулятор времени очистки в карточке товара (из aera_pro_x_2) -->
+        <div class="p-3.5 rounded-2xl bg-white border border-slate-200/70 flex flex-col gap-1.5">
+          <div class="flex items-center justify-between text-[12px] sm:text-[13px]">
+            <span class="font-bold text-[#0F172A]">Расчет времени очистки комнаты:</span>
+            <span id="modal-room-area-val" class="font-extrabold text-[#0D9488] whitespace-nowrap">26 м²</span>
+          </div>
+          <input
+            id="modal-area-slider"
+            type="range"
+            min="10"
+            max="60"
+            value="26"
+            aria-label="Ползунок площади для расчета времени очистки"
+            class="w-full accent-[#0D9488] cursor-pointer h-2 bg-slate-200 rounded-lg"
+          />
+          <div class="flex items-center justify-between text-[11px] sm:text-[12px] pt-0.5">
+            <span class="text-slate-500">Полный цикл рециркуляции воздуха:</span>
+            <span id="modal-calc-time-result" class="font-extrabold text-[#0F172A] whitespace-nowrap">~ 5 мин</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Фиксированная нижняя панель быстрого действия в модалке (из aera_pro_x_2/code.html) -->
+    <div class="sticky bottom-0 z-30 bg-white/95 backdrop-blur-xl px-4 sm:px-5 py-2.5 sm:py-3 border-t border-slate-200/80 flex items-center justify-between gap-2.5">
+      <div class="flex flex-col min-w-0">
+        <span id="modal-bottom-price" class="text-[18px] sm:text-[20px] font-extrabold text-[#0F172A] leading-tight whitespace-nowrap">4 990 сом</span>
+        <span id="modal-bottom-pkg-label" class="text-[10px] sm:text-[11px] text-[#0D9488] font-semibold truncate">
+          Комплект «Базовый» (прибор + фильтр + пульт)
+        </span>
+      </div>
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <button
+          type="button"
+          id="modal-bottom-cart-btn"
+          aria-label="Добавить в корзину"
+          class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-[#0F172A] transition-colors shrink-0"
+        >
+          <span class="material-symbols-outlined text-[19px] sm:text-[20px]">add_shopping_cart</span>
+        </button>
+        <button
+          type="button"
+          id="modal-bottom-order-btn"
+          class="px-3.5 sm:px-4 h-10 sm:h-11 rounded-xl bg-[#0F172A] hover:bg-slate-800 text-white font-bold text-[12px] sm:text-[13px] shadow-md flex items-center justify-center gap-1 transition-all whitespace-nowrap"
+        >
+          <span>Купить в 1 клик</span>
+          <span class="material-symbols-outlined text-[15px] text-[#0D9488]">bolt</span>
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 3. КОРЗИНА И ОФОРМЛЕНИЕ ЗАКАЗА (Drawer, основа из aero_pure_3/code.html) -->
+  <dialog
+    id="cart-drawer"
+    closedby="any"
+    aria-labelledby="cart-drawer-title"
+    class="w-[calc(100%-16px)] sm:w-full max-w-[460px] rounded-2xl sm:rounded-3xl p-0 bg-[#F8FAFC] text-[#0F172A] shadow-2xl border border-slate-200/80 m-auto max-h-[92dvh] overflow-x-hidden overflow-y-auto"
+  >
+    <div class="sticky top-0 z-30 bg-white/95 backdrop-blur-xl px-3.5 sm:px-5 py-3 border-b border-slate-200/70 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="w-2 h-2 rounded-full bg-[#0D9488] animate-pulse shrink-0"></span>
+        <h2 id="cart-drawer-title" class="text-[16px] sm:text-[18px] font-extrabold text-[#0F172A] truncate">
+          Корзина<span class="hidden sm:inline"> и оформление</span>
+        </h2>
+        <span id="cart-items-count-pill" class="text-[11px] px-2 py-0.5 rounded-full bg-surface-container-highest text-[#0F172A] font-bold whitespace-nowrap shrink-0">
+          1 шт.
+        </span>
+      </div>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button
+          type="button"
+          id="clear-cart-btn"
+          class="text-[11px] sm:text-[12px] text-slate-500 hover:text-red-600 font-semibold flex items-center gap-1 px-2 py-1 rounded-lg transition-colors whitespace-nowrap"
+        >
+          <span class="material-symbols-outlined text-[15px]">delete_sweep</span>
+          <span>Очистить</span>
+        </button>
+        <button
+          type="button"
+          id="cart-close-btn"
+          aria-label="Закрыть корзину"
+          class="w-8 h-8 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-[#0F172A] shrink-0"
+        >
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="p-3 sm:p-5 flex flex-col gap-2.5 sm:gap-3.5">
+      <!-- Список выбранных приборов -->
+      <div id="cart-items-list" class="flex flex-col gap-2"></div>
+
+      <!-- Блок «Рекомендуемые дополнения (Спеццена к заказу)» из aero_pure_3 -->
+      <div class="p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white border border-[#0D9488]/30 shadow-xs flex flex-col gap-1">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] sm:text-[12px] font-bold text-[#0F172A] truncate">Рекомендуемые дополнения</span>
+          <span class="text-[10px] font-bold text-[#0D9488] uppercase tracking-wider whitespace-nowrap shrink-0">Спеццена -53%</span>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-surface-container-low overflow-hidden shrink-0 relative border border-slate-200/60">
+            <img
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBo2obxvR-EM-hMfuZrsFr22EIinLDhA0r6RBnqs4M2_eGEqLOe_0tQsP_xJeJp27pduJci3CAHovWQpUFZLvvPt7lRDfiEvWzGdZ_NEzL7wXIjU_5Ess3ObXXr7SbeLMDlpRtfv4pCV7Fq1tYn5ZpOpfOQL2Jf_tcYSDNrwGWYFS2mNuluaEi5SLRP1WHBxnIq4voDCDrsWVZYhOUjvPy48rXPgbH6Ve1Ye_dhFRcR11EgpZaB_wxp"
+              alt="Запасной картридж AERA HEPA H13 + Carbon"
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <div class="flex-1 min-w-0">
+            <h4 class="text-[12px] sm:text-[13px] font-bold text-[#0F172A] leading-tight truncate">
+              Запасной картридж AERA HEPA H13 + Carbon
+            </h4>
+            <div class="flex items-baseline gap-1.5 mt-0.5 flex-wrap">
+              <span class="text-[13px] sm:text-[14px] font-extrabold text-[#0D9488] whitespace-nowrap">+ 450 сом</span>
+              <span class="text-[11px] text-slate-400 line-through whitespace-nowrap">950 сом</span>
+              <span class="text-[10px] text-slate-500 hidden sm:inline">к заказу прибора</span>
+            </div>
+          </div>
+
+          <!-- Рабочая кнопка + -->
+          <button
+            type="button"
+            id="add-upsell-filter-btn"
+            aria-label="Добавить запасной картридж AERA HEPA H13 + Carbon за 450 сом"
+            class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#0F172A] text-white hover:bg-[#0D9488] transition-all flex items-center justify-center shrink-0 shadow-sm active:scale-95"
+          >
+            <span class="material-symbols-outlined text-[18px]">add</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Выбор способа оплаты при получении в Бишкеке (как в макете aero_pure_3) -->
+      <div class="flex flex-col gap-1">
+        <span class="text-[11px] sm:text-[12px] font-bold text-[#0F172A]">Оплата курьеру после проверки:</span>
+        <div class="grid grid-cols-2 gap-1.5 sm:gap-2" id="cart-payment-methods">
+          <button
+            type="button"
+            data-cart-payment="MBank"
+            class="flex items-center gap-2 py-1.5 px-2.5 sm:p-2.5 rounded-xl bg-[#eff4ff] ring-2 ring-[#0D9488] shadow-xs text-left transition-all"
+          >
+            <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-surface-container flex items-center justify-center text-[#0D9488] shrink-0">
+              <span class="material-symbols-outlined text-[15px] sm:text-[17px]">account_balance_wallet</span>
+            </div>
+            <div class="min-w-0">
+              <p class="text-[12px] sm:text-[13px] font-bold text-[#0F172A] leading-tight truncate">MBank</p>
+              <p class="text-[10px] text-[#0D9488] font-semibold truncate">Перевод / QR</p>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            data-cart-payment="Optima Pay"
+            class="flex items-center gap-2 py-1.5 px-2.5 sm:p-2.5 rounded-xl bg-white shadow-xs text-left transition-all"
+          >
+            <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-surface-container flex items-center justify-center text-[#0D9488] shrink-0">
+              <span class="material-symbols-outlined text-[15px] sm:text-[17px]">payments</span>
+            </div>
+            <div class="min-w-0">
+              <p class="text-[12px] sm:text-[13px] font-bold text-[#0F172A] leading-tight truncate">Optima Pay</p>
+              <p class="text-[10px] text-slate-500 truncate">Без комиссии</p>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            data-cart-payment="Элкарт / QR"
+            class="flex items-center gap-2 py-1.5 px-2.5 sm:p-2.5 rounded-xl bg-white shadow-xs text-left transition-all"
+          >
+            <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-surface-container flex items-center justify-center text-[#0F172A] shrink-0">
+              <span class="material-symbols-outlined text-[15px] sm:text-[17px]">qr_code_scanner</span>
+            </div>
+            <div class="min-w-0">
+              <p class="text-[12px] sm:text-[13px] font-bold text-[#0F172A] leading-tight truncate">Элкарт / QR</p>
+              <p class="text-[10px] text-slate-500 truncate">Любой банк КР</p>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            data-cart-payment="Наличными при получении"
+            class="flex items-center gap-2 py-1.5 px-2.5 sm:p-2.5 rounded-xl bg-white shadow-xs text-left transition-all"
+          >
+            <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-surface-container flex items-center justify-center text-[#0F172A] shrink-0">
+              <span class="material-symbols-outlined text-[15px] sm:text-[17px]">local_atm</span>
+            </div>
+            <div class="min-w-0">
+              <p class="text-[12px] sm:text-[13px] font-bold text-[#0F172A] leading-tight truncate">Наличными<span class="hidden sm:inline"> при получении</span></p>
+              <p class="text-[10px] text-slate-500 truncate">Курьеру в сомах</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Детализация расчета -->
+      <div class="px-3 py-2 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white border border-slate-200/80 space-y-1 text-[11px] sm:text-[12px]">
+        <div class="hidden sm:flex justify-between gap-2 text-slate-600">
+          <span>Стоимость без скидки:</span>
+          <span id="cart-subtotal-price" class="font-semibold text-[#0F172A] whitespace-nowrap">6 500 сом</span>
+        </div>
+        <div class="flex justify-between gap-2 text-[#0D9488] font-semibold">
+          <span>Экономия • Доставка по Бишкеку (0 сом):</span>
+          <span id="cart-savings-price" class="whitespace-nowrap">- 1 510 сом</span>
+        </div>
+        <div class="pt-1 border-t border-slate-100 flex justify-between items-baseline gap-2">
+          <span class="text-[13px] sm:text-[15px] font-extrabold text-[#0F172A]">Итого к оплате курьеру</span>
+          <span id="cart-final-total" class="text-[18px] sm:text-[22px] font-extrabold text-[#0F172A] whitespace-nowrap">4 990 сом</span>
+        </div>
+      </div>
+
+      <!-- Форма «Оформить заказ из корзины» -->
+      <form id="cart-checkout-form" class="flex flex-col gap-2">
+        <div class="grid grid-cols-5 sm:grid-cols-2 gap-1.5 sm:gap-2">
+          <input
+            id="cart-order-name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            placeholder="Имя"
+            aria-label="Ваше имя для доставки"
+            class="col-span-2 sm:col-span-1 glass-input w-full px-3 py-2.5 rounded-xl text-[13px] sm:text-[14px] text-[#0F172A]"
+          />
+          <div class="col-span-3 sm:col-span-1 relative">
+            <span class="absolute inset-y-0 left-0 pl-2.5 sm:pl-3 flex items-center pointer-events-none text-slate-400">
+              <span class="material-symbols-outlined text-[16px] sm:text-[18px]">call</span>
+            </span>
+            <input
+              id="cart-order-phone"
+              name="phone"
+              type="tel"
+              inputmode="tel"
+              autocomplete="tel"
+              required
+              placeholder="+996 (___) __-__-__"
+              aria-label="Номер телефона для оформления заказа из корзины"
+              class="glass-input w-full pl-8 sm:pl-9 pr-2.5 py-2.5 rounded-xl text-[13px] sm:text-[14px] font-semibold text-[#0F172A]"
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          id="cart-checkout-submit-btn"
+          class="w-full py-3 sm:py-3.5 px-3.5 sm:px-4 rounded-xl bg-[#0F172A] hover:bg-slate-800 text-white font-bold text-[13px] sm:text-[15px] shadow-lg transition-all flex items-center justify-between gap-2"
+        >
+          <span class="flex items-center gap-1.5 min-w-0">
+            <span class="material-symbols-outlined text-[17px] sm:text-[18px] text-[#0D9488] shrink-0">lock</span>
+            <span class="truncate">Оформить заказ<span class="hidden sm:inline"> из корзины</span></span>
+          </span>
+          <span class="flex items-center gap-1 shrink-0 whitespace-nowrap">
+            <span id="cart-checkout-btn-price" class="font-extrabold">4 990 сом</span>
+            <span class="material-symbols-outlined text-[17px]">arrow_forward</span>
+          </span>
+        </button>
+
+        <div id="cart-order-success" class="hidden p-3 rounded-xl bg-teal-50 border border-teal-200 text-[12px]"></div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- ПОДВАЛ САЙТА (Реальные данные г. Бишкек, без вымышленных адресов и условий) -->
+  <footer class="w-full bg-white border-t border-slate-200/80 py-12">
+    <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-[#0F172A] flex items-center justify-center text-white">
+            <span class="material-symbols-outlined text-[18px] text-[#0D9488]">air</span>
+          </div>
+          <span class="text-[20px] font-extrabold text-[#0F172A]">AERA Bishkek</span>
+          <span class="px-2.5 py-0.5 rounded-full bg-[#0D9488]/15 text-[#0D9488] text-[11px] font-bold">
+            Гарантия 12 месяцев в г. Бишкек
+          </span>
+        </div>
+        <p class="text-[13px] text-slate-500 max-w-md">
+          Официальный магазин очистителей воздуха AERA в Бишкеке: AERA Compact (AR-6614), AERA Sense (AR-920), AERA Pro X (AR-921) и сменные фильтры HEPA H13 + Active Carbon.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:items-end gap-1 text-[13px] text-slate-600">
+        <a href="tel:+996555909090" class="text-[16px] font-extrabold text-[#0F172A] hover:text-[#0D9488]">
+          +996 (555) 90-90-90
+        </a>
+        <span>Бесплатная экспресс-доставка по Бишкеку в день заказа</span>
+        <span class="text-[12px] text-slate-400">© 2026 AERA Bishkek. Оплата при получении после проверки.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Подключение конфигурации и логики приложения -->
+  <script src="./siteConfig.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
