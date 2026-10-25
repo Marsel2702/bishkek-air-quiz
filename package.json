@@ -4,6 +4,7 @@
   "private": true,
   "description": "AERA Bishkek — Веб-приложение магазина очистителей воздуха (Aether Pure Design System)",
   "scripts": {
+    "build": "echo 'Static site ready'",
     "start": "node server.js",
     "test": "node --test test.js"
   }
