@@ -264,11 +264,12 @@ test('Шаг 4: Отправка заказа вызывает fbq Lead (KGS), �
   assert.deepEqual(fbqCalls[0], ['track', 'Lead', { value: 5440, currency: 'KGS' }]);
 
   // 2. Проверка POST-запроса в Telegram Bot API и HTML-экранирования
-  assert.ok(capturedFetchUrl.includes(`https://api.telegram.org/bot${siteConfig.TELEGRAM_BOT_TOKEN}/sendMessage`));
+  assert.equal(capturedFetchUrl, siteConfig.ORDER_ENDPOINT);
+  assert.equal(siteConfig.TELEGRAM_BOT_TOKEN, '', 'Токен бота не должен храниться в клиентском коде');
   assert.equal(capturedFetchOptions.method, 'POST');
   assert.equal(capturedFetchOptions.keepalive, true);
   const parsedBody = JSON.parse(capturedFetchOptions.body);
-  assert.equal(parsedBody.chat_id, siteConfig.TELEGRAM_CHAT_ID);
+  assert.equal(parsedBody.chat_id, '');
   assert.equal(parsedBody.customer_name, 'Азамат & Айгуль <VIP>');
   assert.match(parsedBody.text, /Азамат &amp; Айгуль &lt;VIP&gt;/);
   assert.match(parsedBody.text, /bishkek_&lt;smog&gt;/);

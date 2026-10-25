@@ -11,8 +11,11 @@ const siteConfig = {
   currencySymbol: 'сом',
 
   // Контакты и интеграции (Шаг 4)
-  TELEGRAM_BOT_TOKEN: 'YOUR_TELEGRAM_BOT_TOKEN',
-  TELEGRAM_CHAT_ID: 'YOUR_TELEGRAM_CHAT_ID',
+  // Заказы уходят на серверную функцию /api/order (Vercel), токен бота хранится в переменных окружения
+  // TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID на сервере. Не вписывайте реальный токен сюда — он будет виден в браузере.
+  ORDER_ENDPOINT: '/api/order',
+  TELEGRAM_BOT_TOKEN: '',
+  TELEGRAM_CHAT_ID: '',
   WHATSAPP_NUMBER: '996555909090',
   PHONE_DISPLAY: '+996 (555) 90-90-90',
   PHONE_HREF: 'tel:+996555909090',

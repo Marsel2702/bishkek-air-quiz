@@ -259,7 +259,8 @@
     // 2. Подготовка POST-запроса в Telegram Bot API и ссылки WhatsApp
     const telegramPayload = buildTelegramPayload(normalizedOrder);
     const botToken = siteConfig.TELEGRAM_BOT_TOKEN;
-    const telegramEndpoint = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    const telegramEndpoint =
+      siteConfig.ORDER_ENDPOINT || `https://api.telegram.org/bot${botToken}/sendMessage`;
     const whatsappUrl = buildWhatsAppUrl(normalizedOrder);
     const whatsappText = buildWhatsAppOrderText(normalizedOrder);
 
@@ -284,7 +285,7 @@
 
     // Запускаем отправку в Telegram и синхронно открываем WhatsApp в рамках пользовательского жеста (защита от блокировщиков всплывающих окон)
     const telegramPromise =
-      fetchFn && botToken
+      fetchFn && (siteConfig.ORDER_ENDPOINT || botToken)
         ? Promise.resolve()
             .then(() =>
               fetchFn(telegramEndpoint, {
@@ -756,40 +757,40 @@
           const highlightsHtml = (model.highlights || [])
             .map(
               (hl) =>
-                `<li class="flex items-start gap-1.5 text-[11px] sm:text-[12px] text-slate-600"><span class="text-[#0D9488] font-bold">✓</span><span>${escapeHtml(hl)}</span></li>`
+                `<li class="flex items-start gap-1.5 text-[11px] sm:text-[12px] text-slate-600 leading-snug"><span class="text-[#0D9488] font-bold">✓</span><span>${escapeHtml(hl)}</span></li>`
             )
             .join('');
 
           return `
           <article
-            class="model-card flex flex-col justify-between p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white transition-all duration-300 ${cardRing} cursor-pointer group"
+            class="model-card flex flex-col justify-between p-3.5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white transition-all duration-300 ${cardRing} cursor-pointer group"
             data-model-card="${model.id}"
           >
             ${
               model.isHit
-                ? `<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3.5 py-0.5 sm:py-1 rounded-full bg-[#0D9488] text-white font-label-sm text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-md whitespace-nowrap z-10">
+                ? `<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 sm:py-1 rounded-full bg-[#0D9488] text-white font-label-sm text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-md whitespace-nowrap z-10">
                     ${escapeHtml(model.badge)}
                   </div>`
                 : ''
             }
-            <div class="flex flex-col ${model.isHit ? 'pt-1.5 sm:pt-2' : ''}">
-              <div class="relative w-full aspect-[16/11] sm:aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden bg-surface-container-low mb-3.5 sm:mb-5">
+            <div class="flex flex-col ${model.isHit ? 'pt-1 sm:pt-2' : ''}">
+              <div class="relative w-full aspect-[16/10] sm:aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden bg-surface-container-low mb-2.5 sm:mb-5">
                 <img
                   src="${escapeHtml(model.image)}"
                   alt="${escapeHtml(model.fullName)}"
                   class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
                   loading="lazy"
                 />
-                <div class="absolute top-2.5 left-2.5 px-2.5 py-0.5 sm:py-1 rounded-full bg-white/90 backdrop-blur-md font-label-sm text-[10px] sm:text-[11px] text-[#0F172A] font-bold uppercase tracking-wider shadow-sm">
+                <div class="absolute top-2 left-2 px-2.5 py-0.5 sm:py-1 rounded-full bg-white/90 backdrop-blur-md font-label-sm text-[10px] sm:text-[11px] text-[#0F172A] font-bold uppercase tracking-wider shadow-sm">
                   ${escapeHtml(model.badge)}
                 </div>
-                <div class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded-lg bg-[#0F172A]/85 backdrop-blur-md font-label-sm text-[10px] sm:text-[11px] text-white font-semibold">
+                <div class="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-[#0F172A]/85 backdrop-blur-md font-label-sm text-[10px] sm:text-[11px] text-white font-semibold">
                   ${escapeHtml(model.sku)}
                 </div>
               </div>
 
               <div class="flex items-baseline justify-between gap-2 mb-1">
-                <h3 class="font-headline-sm text-[19px] sm:text-[22px] font-bold text-[#0F172A] group-hover:text-[#0D9488] transition-colors">
+                <h3 class="font-headline-sm text-[18px] sm:text-[22px] font-bold text-[#0F172A] group-hover:text-[#0D9488] transition-colors">
                   ${escapeHtml(model.name)}
                 </h3>
                 <span class="font-label-sm text-[11px] text-[#0D9488] font-bold uppercase tracking-wider whitespace-nowrap">
@@ -797,21 +798,21 @@
                 </span>
               </div>
 
-              <p class="font-body-sm text-[13px] sm:text-body-sm text-slate-600 mb-3 sm:mb-4">
+              <p class="font-body-sm text-[12px] sm:text-body-sm text-slate-600 mb-2.5 sm:mb-4 line-clamp-2 sm:line-clamp-none">
                 ${escapeHtml(model.summary)}
               </p>
 
               <!-- Ключевые характеристики модели -->
-              <div class="flex flex-col gap-1.5 py-2.5 px-3 rounded-xl sm:rounded-2xl bg-[#F8FAFC] border border-slate-200/70 mb-3.5 sm:mb-5 text-[12px] sm:text-[13px]">
-                <div class="flex items-center justify-between gap-2">
+              <div class="flex flex-col gap-1.5 py-2 px-2.5 sm:py-2.5 sm:px-3 rounded-xl sm:rounded-2xl bg-[#F8FAFC] border border-slate-200/70 mb-2.5 sm:mb-5 text-[12px] sm:text-[13px]">
+                <div class="hidden sm:flex items-center justify-between gap-2">
                   <span class="text-slate-500">Мощность / CADR</span>
                   <span class="font-semibold text-[#0F172A]">${model.powerW} Вт • ${model.cadr} м³/ч</span>
                 </div>
-                <div class="flex items-center justify-between gap-2">
+                <div class="hidden sm:flex items-center justify-between gap-2">
                   <span class="text-slate-500">Габариты (В×Ш×Г)</span>
                   <span class="font-semibold text-[#0F172A]">${model.heightCm} см (${escapeHtml(model.dimensions)})</span>
                 </div>
-                <div class="flex items-center justify-between gap-2">
+                <div class="hidden sm:flex items-center justify-between gap-2">
                   <span class="text-slate-500">Ночной режим</span>
                   <span class="font-semibold text-[#0D9488]">${model.noiseDb} дБ + Пульт ДУ</span>
                 </div>
@@ -820,7 +821,7 @@
                 </div>
                 ${
                   highlightsHtml
-                    ? `<ul class="pt-1.5 border-t border-slate-200/70 flex flex-col gap-1" data-model-highlights="${model.id}">
+                    ? `<ul class="sm:pt-1.5 sm:border-t sm:border-slate-200/70 flex flex-col gap-1" data-model-highlights="${model.id}">
                         ${highlightsHtml}
                       </ul>`
                     : ''
@@ -828,12 +829,12 @@
               </div>
             </div>
 
-            <div class="flex flex-col gap-2.5 sm:gap-3 pt-2 border-t border-slate-100">
+            <div class="flex flex-col gap-2 sm:gap-3 pt-2 border-t border-slate-100">
               <div class="flex items-baseline justify-between">
                 <div>
                   <div class="flex items-baseline gap-2">
-                    <span class="font-headline-md text-[22px] sm:text-[26px] font-bold text-[#0F172A] whitespace-nowrap">${formatPrice(model.price)}</span>
-                    <span class="text-[13px] sm:text-body-sm text-slate-400 line-through whitespace-nowrap">${formatPrice(model.oldPrice)}</span>
+                    <span class="font-headline-md text-[20px] sm:text-[26px] font-bold text-[#0F172A] whitespace-nowrap">${formatPrice(model.price)}</span>
+                    <span class="text-[12px] sm:text-body-sm text-slate-400 line-through whitespace-nowrap">${formatPrice(model.oldPrice)}</span>
                   </div>
                   <span class="block text-[11px] sm:text-[12px] text-[#0D9488] font-semibold">
                     Комплект «Плюс» (+запасной фильтр): ${formatPrice(model.plusPrice)}
@@ -875,30 +876,32 @@
         .map(
           (stage, idx) => `
           <div
-            class="filter-stage-card flex flex-col justify-between p-4 sm:p-6 rounded-2xl bg-white/85 backdrop-blur-md border ${
+            class="filter-stage-card flex flex-col justify-between p-3.5 sm:p-6 rounded-2xl bg-white/85 backdrop-blur-md border ${
               idx === 1 || idx === 2 ? 'border-[#0D9488]/40 ring-1 ring-[#0D9488]/20' : 'border-slate-200/80'
             } shadow-sm hover:shadow-lg transition-all cursor-pointer"
             data-filter-stage="${stage.step}"
           >
             <div>
-              <div class="flex items-center justify-between mb-2.5 sm:mb-4">
-                <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl ${
-                  idx === 1 ? 'bg-[#0D9488] text-white' : 'bg-surface-container text-[#0F172A]'
-                } flex items-center justify-center font-label-md text-[13px] font-bold">
-                  ${stage.step}
-                </span>
-                <span class="px-2.5 py-0.5 sm:py-1 rounded-full bg-[#0D9488]/10 text-[#0D9488] font-label-sm text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">
+              <div class="flex items-center justify-between mb-1.5 sm:mb-4">
+                <div class="flex items-center gap-2 min-w-0">
+                  <span class="w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl ${
+                    idx === 1 ? 'bg-[#0D9488] text-white' : 'bg-surface-container text-[#0F172A]'
+                  } flex items-center justify-center font-label-md text-[12px] sm:text-[13px] font-bold shrink-0">
+                    ${stage.step}
+                  </span>
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="material-symbols-outlined text-[#0D9488] text-[18px] sm:text-[22px] shrink-0">${escapeHtml(stage.icon)}</span>
+                    <h3 class="font-headline-sm text-[15px] sm:text-[19px] font-bold text-[#0F172A] truncate">${escapeHtml(stage.title)}</h3>
+                  </div>
+                </div>
+                <span class="px-2 py-0.5 sm:py-1 rounded-full bg-[#0D9488]/10 text-[#0D9488] font-label-sm text-[9px] sm:text-[11px] font-bold uppercase tracking-wider whitespace-nowrap shrink-0">
                   ${escapeHtml(stage.badge)}
                 </span>
               </div>
-              <div class="flex items-center gap-2 mb-1">
-                <span class="material-symbols-outlined text-[#0D9488] text-[20px] sm:text-[22px]">${escapeHtml(stage.icon)}</span>
-                <h3 class="font-headline-sm text-[17px] sm:text-[19px] font-bold text-[#0F172A]">${escapeHtml(stage.title)}</h3>
-              </div>
-              <p class="font-label-sm text-[10px] sm:text-[11px] text-[#0D9488] font-bold uppercase tracking-wider mb-1.5 sm:mb-2.5">
+              <p class="font-label-sm text-[10px] sm:text-[11px] text-[#0D9488] font-bold uppercase tracking-wider mb-1 sm:mb-2">
                 ${escapeHtml(stage.subtitle)}
               </p>
-              <p class="font-body-sm text-[13px] sm:text-body-sm text-slate-600 leading-relaxed">
+              <p class="font-body-sm text-[12px] sm:text-body-sm text-slate-600 leading-snug sm:leading-relaxed line-clamp-2 sm:line-clamp-none">
                 ${escapeHtml(stage.description)}
               </p>
             </div>

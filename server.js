@@ -33,13 +33,34 @@ function getLanAddress() {
 
 const server = http.createServer((req, res) => {
   const rawPath = (req.url || '/').split('?')[0];
-  let safeRelPath = decodeURIComponent(rawPath);
+  let safeRelPath;
+  try {
+    safeRelPath = decodeURIComponent(rawPath);
+  } catch (_err) {
+    res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('400 Bad Request');
+    return;
+  }
+
   if (safeRelPath === '/' || safeRelPath === '') {
     safeRelPath = '/index.html';
   }
 
+  // Локальная эмуляция Vercel-функции заказа
+  if (safeRelPath === '/api/order') {
+    require('./api/order.js')(req, res);
+    return;
+  }
+
+  const segments = safeRelPath.split(/[\\/]+/).filter(Boolean);
+  if (segments.some((seg) => seg.startsWith('.'))) {
+    res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('403 Forbidden');
+    return;
+  }
+
   const resolvedPath = path.resolve(ROOT_DIR, '.' + safeRelPath);
-  if (!resolvedPath.startsWith(ROOT_DIR)) {
+  if (resolvedPath !== ROOT_DIR && !resolvedPath.startsWith(ROOT_DIR + path.sep)) {
     res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('403 Forbidden');
     return;
