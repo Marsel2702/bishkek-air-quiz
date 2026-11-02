@@ -561,22 +561,32 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         const modelCardsCount = document.querySelectorAll('[data-model-card]').length;
         const modelHighlightsCount = document.querySelectorAll('[data-model-highlights]').length;
         const comparisonRowsCount = document.querySelectorAll('[data-comparison-row]').length;
+        const comparisonHeadersCount = document.querySelectorAll('#models-comparison-table thead th').length;
+        const firstComparisonRowCellsCount = document.querySelectorAll('#comparison-table-body tr:first-child td').length;
+        const comparisonTableText = document.getElementById('comparison-table-body').textContent;
         const filtrationCardsCount = document.querySelectorAll('[data-filter-stage]').length;
         const initialReviewsCount = document.querySelectorAll('[data-review-card]').length;
+        const firstReviewMeta = document.querySelector('[data-review-meta]')?.textContent.trim() || '';
+        const reviewIconsText = Array.from(document.querySelectorAll('[data-review-card] .material-symbols-outlined')).map(el => el.textContent.trim());
         const faqItemsCount = document.querySelectorAll('#faq-accordion details[name="aera-faq-accordion"]').length;
         const firstFaqOpen = document.querySelector('#faq-accordion details[name="aera-faq-accordion"]')?.open === true;
 
         // 1B. Проверяем Живой виджет смога в Бишкеке (#live-smog-widget)
         const initialSmogText = document.getElementById('bishkek-smog-indicator').textContent.trim();
+        const smogIndicatorHasPingDot = Boolean(document.querySelector('#bishkek-smog-indicator .animate-ping'));
+        const initialSmogStatusBadge = document.getElementById('smog-district-status').textContent.trim();
+        const heroIndoorPm25Text = document.getElementById('hero-indoor-pm25').textContent.trim();
         const smogUpdatedText = document.getElementById('smog-updated-time').textContent.trim();
         document.querySelector('[data-smog-district="lower"]').click();
         const lowerOutdoorPm25 = document.getElementById('smog-outdoor-pm25').textContent.trim();
         const lowerIndoorPm25 = document.getElementById('smog-indoor-pm25').textContent.trim();
+        const lowerSmogStatusBadge = document.getElementById('smog-district-status').textContent.trim();
         document.querySelector('[data-smog-district="center"]').click();
 
         // 1C. Проверяем интерактивный блок «До и После», счетчик литров и калькулятор экономии
         document.querySelector('[data-compare-preset="15"]').click();
         const overlayWidthAfterPreset = document.getElementById('before-after-overlay').style.width;
+        const dividerLeftAfterPreset = document.getElementById('before-after-divider')?.style.left || '';
         const compareLabelAfterPreset = document.getElementById('before-after-percent-label').textContent.trim();
 
         document.querySelector('[data-liters-model="prox"]').click();
@@ -665,6 +675,7 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         const cartPhone = document.getElementById('cart-order-phone');
         cartPhone.value = '0500778899';
         cartPhone.dispatchEvent(new Event('input', { bubbles: true }));
+        const cartOperatorHint = document.getElementById('cart-phone-operator-hint').textContent.trim();
         document.getElementById('cart-checkout-form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
         await new Promise(r => setTimeout(r, 50));
 
@@ -676,15 +687,25 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
           modelCardsCount,
           modelHighlightsCount,
           comparisonRowsCount,
+          comparisonHeadersCount,
+          firstComparisonRowCellsCount,
+          comparisonTableText,
           filtrationCardsCount,
           initialReviewsCount,
+          firstReviewMeta,
+          reviewIconsText,
           faqItemsCount,
           firstFaqOpen,
           initialSmogText,
+          smogIndicatorHasPingDot,
+          initialSmogStatusBadge,
+          heroIndoorPm25Text,
           smogUpdatedText,
           lowerOutdoorPm25,
           lowerIndoorPm25,
+          lowerSmogStatusBadge,
           overlayWidthAfterPreset,
+          dividerLeftAfterPreset,
           compareLabelAfterPreset,
           litersCounterProX,
           econMonthly8h,
@@ -700,6 +721,7 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
           requestsAfterInvalidPhone,
           formattedCfgPhone,
           cfgOperatorHint,
+          cartOperatorHint,
           isModalOpen,
           modalTitle,
           modalBasePrice,
@@ -734,19 +756,32 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
     assert.equal(data.modelCardsCount, 3);
     assert.equal(data.modelHighlightsCount, 3);
     assert.equal(data.comparisonRowsCount, 3);
+    assert.equal(data.comparisonHeadersCount, 9);
+    assert.equal(data.firstComparisonRowCellsCount, 9);
+    assert.match(data.comparisonTableText, /28 дБ/);
+    assert.doesNotMatch(data.comparisonTableText, /24 дБ/);
     assert.equal(data.filtrationCardsCount, 4);
     assert.equal(data.initialReviewsCount, 5);
+    assert.match(data.firstReviewMeta, /Комплект.+•.+\d{4}/);
+    assert.ok(!data.reviewIconsText.includes('arrow_Outward'), 'Не должно быть сломанной лигатуры arrow_Outward');
+    assert.ok(data.reviewIconsText.includes('arrow_outward'), 'Должна быть корректная иконка arrow_outward');
     assert.equal(data.faqItemsCount, 6);
     assert.equal(data.firstFaqOpen, true);
 
     // Виджет смога
     assert.match(data.initialSmogText, /AQI 215\+/);
+    assert.doesNotMatch(data.initialSmogText, /\+\+/);
+    assert.equal(data.smogIndicatorHasPingDot, true);
+    assert.doesNotMatch(data.initialSmogStatusBadge, /\+\+/);
+    assert.doesNotMatch(data.lowerSmogStatusBadge, /\+\+/);
+    assert.equal(data.heroIndoorPm25Text, '005');
     assert.match(data.smogUpdatedText, /^Обновлено сегодня в \d{2}:\d{2}$/);
     assert.equal(data.lowerOutdoorPm25, '238 мкг/м³');
     assert.equal(data.lowerIndoorPm25, '006 мкг/м³');
 
     // Блок До/После, счетчик литров и калькулятор экономии
     assert.equal(data.overlayWidthAfterPreset, '15%');
+    assert.equal(data.dividerLeftAfterPreset, '15%');
     assert.match(data.compareLabelAfterPreset, /15% новый \/ 85% после 60 дней смога/);
     assert.equal(data.litersCounterProX, '7 680 000 л');
     assert.equal(data.econMonthly8h, '~ 9 сом / мес');
@@ -765,6 +800,7 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
     assert.equal(data.requestsAfterInvalidPhone, 0);
     assert.equal(data.formattedCfgPhone, '+996 (555) 11-22-33');
     assert.equal(data.cfgOperatorHint, 'Mega (555) ✓');
+    assert.equal(data.cartOperatorHint, 'O! (500) ✓');
     assert.equal(data.isModalOpen, true);
     assert.equal(data.modalTitle, 'AERA Compact');
     assert.equal(data.modalBasePrice, '3 990 сом');

@@ -293,7 +293,7 @@
       backdrop-filter: blur(4px);
     }
 
-    /* Modern Web Guidance: responsive-table (sticky headers + @container stacked layout) */
+    /* Modern Web Guidance: responsive-table (sticky headers + @container stacked layout with attr(data-label)) */
     .table-wrapper {
       overflow: auto;
       max-inline-size: 100%;
@@ -304,9 +304,7 @@
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      --label-2: "AERA Compact";
-      --label-3: "AERA Sense (Хит)";
-      --label-4: "AERA Pro X (360°)";
+      font-variant-numeric: tabular-nums;
     }
 
     .comparison-table thead {
@@ -315,14 +313,13 @@
       z-index: 2;
     }
 
-    .comparison-table tbody th {
-      position: sticky;
-      inset-inline-start: 0;
-      background: #ffffff;
-      z-index: 1;
+    .comparison-table th,
+    .comparison-table td {
+      padding: 0.75rem 0.875rem;
+      vertical-align: middle;
     }
 
-    @container (width < 680px) {
+    @container (max-width: 760px) {
       .comparison-table,
       .comparison-table thead,
       .comparison-table tbody,
@@ -344,13 +341,8 @@
         background: #ffffff;
       }
 
-      .comparison-table tbody th {
-        position: sticky;
-        inset-block-start: 0;
-        z-index: 2;
-        background: #eff4ff;
-        padding: 0.625rem 0.875rem;
-        border-bottom: 1px solid #e2e8f0;
+      .comparison-table tbody tr:last-child {
+        margin-block-end: 0;
       }
 
       .comparison-table tbody td {
@@ -359,34 +351,26 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 0.5rem;
+        gap: 0.75rem;
         text-align: right;
+      }
+
+      .comparison-table tbody td:first-child {
+        background: #eff4ff;
+        padding: 0.625rem 0.875rem;
+        border-bottom: 1px solid #e2e8f0;
+        text-align: left;
       }
 
       .comparison-table tbody td:last-child {
         border-bottom: none;
       }
 
-      .comparison-table td:nth-child(2)::before {
-        content: var(--label-2) ": ";
+      .comparison-table tbody td:not(:first-child)::before {
+        content: attr(data-label);
         font-weight: 700;
+        font-size: 11px;
         color: #475569;
-        text-align: left;
-        flex-shrink: 0;
-      }
-
-      .comparison-table td:nth-child(3)::before {
-        content: var(--label-3) ": ";
-        font-weight: 800;
-        color: #0D9488;
-        text-align: left;
-        flex-shrink: 0;
-      }
-
-      .comparison-table td:nth-child(4)::before {
-        content: var(--label-4) ": ";
-        font-weight: 700;
-        color: #0F172A;
         text-align: left;
         flex-shrink: 0;
       }
@@ -462,7 +446,7 @@
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-red-600"></span>
           </span>
-          <span class="text-[10px] sm:text-[12px] font-bold tracking-tight sm:tracking-wide text-red-900 truncate">
+          <span id="bishkek-smog-indicator-text" class="text-[10px] sm:text-[12px] font-bold tracking-tight sm:tracking-wide text-red-900 truncate">
             <span class="hidden md:inline">Бишкек: </span>AQI 215+ • Опасно для дыхания
           </span>
         </div>
@@ -608,8 +592,8 @@
                     <span id="smog-district-status" class="block text-[10px] sm:text-[11px] font-semibold text-red-700 truncate">Опасно для дыхания</span>
                   </div>
                   <div class="text-right shrink-0">
-                    <span id="smog-outdoor-pm25" class="text-[14px] sm:text-[17px] font-extrabold text-red-700 whitespace-nowrap">165</span>
-                    <span class="block text-[8px] sm:text-[9px] font-bold text-red-600 uppercase">мкг/м³</span>
+                    <span id="smog-outdoor-pm25" class="text-[12px] sm:text-[15px] font-extrabold text-red-700 whitespace-nowrap">165 мкг/м³</span>
+                    <span class="block text-[8px] sm:text-[9px] font-bold text-red-600 uppercase">PM2.5 на улице</span>
                   </div>
                 </div>
                 <div class="p-2 rounded-xl bg-teal-50/90 border border-[#0D9488]/30 flex items-center justify-between gap-1.5">
@@ -618,8 +602,8 @@
                     <span class="block text-[10px] sm:text-[11px] font-semibold text-slate-700 truncate">Норма ВОЗ за 5 мин</span>
                   </div>
                   <div class="text-right shrink-0">
-                    <span id="smog-indoor-pm25" class="text-[14px] sm:text-[17px] font-extrabold text-[#0D9488] whitespace-nowrap">005</span>
-                    <span class="block text-[8px] sm:text-[9px] font-bold text-[#0D9488] uppercase">мкг/м³</span>
+                    <span id="smog-indoor-pm25" class="text-[12px] sm:text-[15px] font-extrabold text-[#0D9488] whitespace-nowrap">005 мкг/м³</span>
+                    <span class="block text-[8px] sm:text-[9px] font-bold text-[#0D9488] uppercase">PM2.5 дома</span>
                   </div>
                 </div>
               </div>
@@ -1097,28 +1081,21 @@
           aria-labelledby="comparison-table-caption"
           class="table-wrapper rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-md bg-white"
         >
-          <table id="models-comparison-table" class="comparison-table text-left text-[12px] sm:text-[14px]">
+          <table id="models-comparison-table" class="comparison-table text-left text-[12px] sm:text-[13px]">
             <caption id="comparison-table-caption" class="sr-only">
               Сводная таблица сравнения очистителей воздуха AERA Compact, AERA Sense и AERA Pro X в Бишкеке
             </caption>
             <thead>
               <tr class="bg-[#0F172A] text-white">
-                <th scope="col" class="p-3.5 sm:p-4 font-bold text-[12px] sm:text-[13px] uppercase tracking-wider text-slate-300">Параметр</th>
-                <th scope="col" class="p-3.5 sm:p-4 font-extrabold text-[14px] sm:text-[16px]">
-                  <div>AERA Compact</div>
-                  <span class="block text-[10px] font-semibold text-slate-300">AR-6614 • Спальня и детская</span>
-                </th>
-                <th scope="col" class="p-3.5 sm:p-4 font-extrabold text-[14px] sm:text-[16px] bg-[#0D9488] text-white">
-                  <div class="flex items-center gap-1.5">
-                    <span>AERA Sense</span>
-                    <span class="px-1.5 py-0.5 rounded bg-white text-[#0F172A] text-[9px] font-extrabold uppercase">Хит 70%</span>
-                  </div>
-                  <span class="block text-[10px] font-semibold text-teal-100">AR-920 • Датчик PM2.5 + Авто</span>
-                </th>
-                <th scope="col" class="p-3.5 sm:p-4 font-extrabold text-[14px] sm:text-[16px]">
-                  <div>AERA Pro X</div>
-                  <span class="block text-[10px] font-semibold text-[#86f2e4]">AR-921 • Флагманская колонна 360°</span>
-                </th>
+                <th scope="col" class="font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-300">Модель и индекс</th>
+                <th scope="col" class="font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-300">Площадь</th>
+                <th scope="col" class="font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-300">CADR / Объем в сутки</th>
+                <th scope="col" class="font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-300">Датчик PM2.5 и экран</th>
+                <th scope="col" class="font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-300">Авто-режим и шум</th>
+                <th scope="col" class="font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-300">Габариты и мощность</th>
+                <th scope="col" class="font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-300">Комплект «Базовый»</th>
+                <th scope="col" class="font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-[#86f2e4]">Комплект «Плюс» (+фильтр)</th>
+                <th scope="col" class="font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-300">Заказ</th>
               </tr>
             </thead>
             <tbody id="comparison-table-body" class="divide-y divide-slate-200/70"></tbody>
@@ -1221,6 +1198,18 @@
                       Белоснежное медицинское микроволокно HEPA H13 + сотовый уголь
                     </p>
                   </div>
+                </div>
+              </div>
+
+              <!-- Разделитель ползунка До / После -->
+              <div
+                id="before-after-divider"
+                style="left: 50%;"
+                aria-hidden="true"
+                class="absolute inset-y-0 -translate-x-1/2 pointer-events-none flex items-center justify-center z-10"
+              >
+                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#0D9488] text-white shadow-lg border-2 border-white flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[16px]">swap_horiz</span>
                 </div>
               </div>
 
@@ -1483,7 +1472,7 @@
     target="_blank"
     rel="noopener noreferrer"
     aria-label="Консультация в WhatsApp — На связи"
-    class="fixed bottom-[76px] sm:bottom-5 right-3 sm:right-5 z-30 inline-flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full bg-[#0F172A] hover:bg-slate-800 text-white shadow-xl border border-[#0D9488]/50 transition-all group"
+    class="fixed bottom-[76px] lg:bottom-5 right-3 sm:right-5 z-30 inline-flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full bg-[#0F172A] hover:bg-slate-800 text-white shadow-xl border border-[#0D9488]/50 transition-all group"
   >
     <span class="relative flex h-2.5 w-2.5 shrink-0">
       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -1491,7 +1480,7 @@
     </span>
     <span class="material-symbols-outlined text-[18px] text-[#86f2e4]">chat</span>
     <span class="text-[11px] sm:text-[12px] font-bold whitespace-nowrap">
-      WhatsApp <span class="hidden sm:inline">• Консультация</span>
+      WhatsApp <span class="hidden sm:inline">• Консультация </span><span class="text-emerald-300 font-semibold">• На связи</span>
     </span>
   </a>
 
@@ -1558,7 +1547,7 @@
         <div class="relative w-full aspect-[16/11] sm:aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-b from-surface-container-low to-surface-container shadow-sm">
           <img
             id="modal-main-image"
-            src=""
+            src="/assets/purifier-sense.svg"
             alt="Фото модели AERA"
             data-fallback-src="/assets/purifier-sense.svg"
             onerror="this.onerror=null;this.src='/assets/purifier-sense.svg';"
@@ -2032,8 +2021,15 @@
                 required
                 placeholder="+996 (___) __-__-__"
                 aria-label="Номер телефона для оформления заказа из корзины"
-                class="glass-input w-full pl-7 sm:pl-9 pr-2 py-2 sm:py-2.5 rounded-xl text-[12px] sm:text-[14px] font-semibold text-[#0F172A]"
+                class="glass-input w-full pl-7 sm:pl-9 pr-14 sm:pr-18 py-2 sm:py-2.5 rounded-xl text-[12px] sm:text-[14px] font-semibold text-[#0F172A]"
               />
+              <span
+                id="cart-phone-operator-hint"
+                data-phone-hint
+                class="absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-500 pointer-events-none"
+              >
+                Коды КР
+              </span>
             </div>
           </div>
 

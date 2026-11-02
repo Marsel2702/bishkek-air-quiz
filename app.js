@@ -784,6 +784,7 @@
         customerProfile.district = partial.district;
       }
       saveStorageJson(STORAGE_KEYS.PROFILE, customerProfile);
+      syncProfileInputsToDom();
     }
 
     // Состояние Умного конфигуратора
@@ -899,9 +900,7 @@
     function bindImageFallbacks(rootEl = doc) {
       if (!rootEl || typeof rootEl.querySelectorAll !== 'function') return;
       rootEl.querySelectorAll('img').forEach((img) => {
-        if (img.dataset.fallbackBound === 'true') return;
-        img.dataset.fallbackBound = 'true';
-        img.addEventListener('error', () => {
+        const applyFallback = () => {
           const fallback =
             img.getAttribute('data-fallback-src') ||
             siteConfig.fallbackAssets?.sense ||
@@ -909,7 +908,14 @@
           if (img.getAttribute('src') !== fallback) {
             img.setAttribute('src', fallback);
           }
-        });
+        };
+        if (img.dataset.fallbackBound !== 'true') {
+          img.dataset.fallbackBound = 'true';
+          img.addEventListener('error', applyFallback);
+        }
+        if (img.complete && typeof img.naturalWidth === 'number' && img.naturalWidth === 0) {
+          applyFallback();
+        }
       });
     }
 
@@ -930,8 +936,8 @@
           label: 'Центр / Филармония',
           shortLabel: 'Центр',
           outdoorPm25: 198,
-          indoorPm25: 8,
-          aqi: 215,
+          indoorPm25: '005',
+          aqi: '215+',
           status: 'Опасно для дыхания'
         };
 
@@ -944,28 +950,33 @@
         if (el) el.textContent = text;
       };
 
+      const cleanAqi = String(current.aqi || '215').replace(/\+$/, '');
+      const cleanIndoor = String(current.indoorPm25 || '005').padStart(3, '0');
+
       setElText('smog-updated-time', smogWidgetState.updatedTimeText);
       setElText('smog-district-name', current.label);
-      setElText('smog-district-status', `AQI ${current.aqi}+ • ${current.status}`);
+      setElText('smog-district-status', `AQI ${cleanAqi}+ • ${current.status}`);
       setElText('smog-outdoor-pm25', `${current.outdoorPm25} мкг/м³`);
-      setElText('smog-indoor-pm25', `${current.indoorPm25} мкг/м³`);
-      setElText('hero-indoor-pm25', `00${current.indoorPm25} µg/m³`);
+      setElText('smog-indoor-pm25', `${cleanIndoor} мкг/м³`);
+      setElText('hero-indoor-pm25', cleanIndoor);
 
-      if (current.id === 'center') {
-        setElText('bishkek-smog-indicator', `Бишкек сейчас: AQI 215+ • ${current.status}`);
-      } else {
-        setElText(
-          'bishkek-smog-indicator',
-          `Бишкек (${current.shortLabel}): AQI ${current.aqi}+ • ${current.status}`
-        );
+      const headerSmogText =
+        current.id === 'center'
+          ? `Бишкек сейчас: AQI ${cleanAqi}+ • ${current.status}`
+          : `Бишкек (${current.shortLabel}): AQI ${cleanAqi}+ • ${current.status}`;
+      const headerIndicatorTextEl =
+        doc.getElementById('bishkek-smog-indicator-text') ||
+        doc.getElementById('bishkek-smog-indicator');
+      if (headerIndicatorTextEl) {
+        headerIndicatorTextEl.textContent = headerSmogText;
       }
 
       doc.querySelectorAll('[data-smog-district]').forEach((btn) => {
         const isSelected = btn.getAttribute('data-smog-district') === current.id;
         btn.classList.toggle('bg-[#0F172A]', isSelected);
         btn.classList.toggle('text-white', isSelected);
-        btn.classList.toggle('bg-surface-container', !isSelected);
-        btn.classList.toggle('text-slate-600', !isSelected);
+        btn.classList.toggle('bg-surface-container-low', !isSelected);
+        btn.classList.toggle('text-slate-700', !isSelected);
         btn.setAttribute('aria-pressed', String(isSelected));
       });
     }
@@ -1191,12 +1202,13 @@
       tbody.innerHTML = (siteConfig.models || [])
         .map((model) => {
           const dailyLiters = formatNumberOnly(calculateDailyLiters(model.cadr)) + ' л/сутки';
+          const noiseLabel = `${model.noiseDb || 28} дБ`;
           const autoModeLabel =
             model.id === 'compact'
-              ? 'Ручной (3 скорости) + Ночной 24 дБ'
+              ? `Ручной (3 скорости) + Ночной ${noiseLabel}`
               : model.id === 'sense'
-              ? 'Умный Авто-режим по датчику PM2.5 + 24 дБ'
-              : 'Двойной Авто-турбо 360° + Ночной 24 дБ';
+              ? `Умный Авто-режим по датчику PM2.5 + ${noiseLabel}`
+              : `Двойной Авто-турбо 360° + Ночной ${noiseLabel}`;
 
           const rowHighlight = model.isHit ? 'bg-[#0D9488]/[0.05]' : '';
 
@@ -1277,6 +1289,17 @@
         pctLabel.textContent = `${pct}% новый / ${100 - pct}% после 60 дней смога`;
       }
 
+      doc.querySelectorAll('[data-compare-preset]').forEach((btn) => {
+        const isSelected = Number(btn.getAttribute('data-compare-preset')) === pct;
+        btn.classList.toggle('bg-[#0F172A]', isSelected);
+        btn.classList.toggle('text-white', isSelected);
+        btn.classList.toggle('bg-white', !isSelected);
+        btn.classList.toggle('text-slate-700', !isSelected);
+        btn.classList.toggle('border', !isSelected);
+        btn.classList.toggle('border-slate-200', !isSelected);
+        btn.setAttribute('aria-pressed', String(isSelected));
+      });
+
       // Счетчик литров очищенного воздуха за сутки
       const litersModel = getModelById(beforeAfterState.litersModelId);
       if (litersModel) {
@@ -1315,8 +1338,10 @@
         const isSelected = Number(btn.getAttribute('data-econ-hours')) === Number(beforeAfterState.econHours);
         btn.classList.toggle('bg-[#0F172A]', isSelected);
         btn.classList.toggle('text-white', isSelected);
-        btn.classList.toggle('bg-surface-container', !isSelected);
+        btn.classList.toggle('bg-white', !isSelected);
         btn.classList.toggle('text-slate-700', !isSelected);
+        btn.classList.toggle('border', !isSelected);
+        btn.classList.toggle('border-slate-200', !isSelected);
         btn.setAttribute('aria-pressed', String(isSelected));
       });
     }
@@ -1380,14 +1405,18 @@
         const isSelected = btn.getAttribute('data-review-filter') === reviewsState.filterModelId;
         btn.classList.toggle('bg-[#0F172A]', isSelected);
         btn.classList.toggle('text-white', isSelected);
-        btn.classList.toggle('bg-surface-container', !isSelected);
+        btn.classList.toggle('bg-white', !isSelected);
         btn.classList.toggle('text-slate-700', !isSelected);
+        btn.classList.toggle('border', !isSelected);
+        btn.classList.toggle('border-slate-200', !isSelected);
         btn.setAttribute('aria-pressed', String(isSelected));
       });
 
       grid.innerHTML = filtered
-        .map(
-          (review) => `
+        .map((review) => {
+          const packageOrRole = review.packageLabel || review.role || 'Комплект «Плюс»';
+          const dateStr = review.dateLabel || review.date || '2026';
+          return `
           <article
             class="review-card flex flex-col justify-between p-4 sm:p-5 rounded-2xl bg-surface-container-low border border-slate-200/80 shadow-xs hover:shadow-md transition-all"
             data-review-card="${escapeHtml(review.id)}"
@@ -1400,7 +1429,7 @@
                     <h3 class="font-headline-sm text-[15px] font-bold text-[#0F172A]">${escapeHtml(review.author)}</h3>
                     <span class="text-amber-500 text-[12px]" aria-label="Рейтинг 5 из 5">★★★★★</span>
                   </div>
-                  <p class="text-[11px] text-slate-500">${escapeHtml(review.role)} • ${escapeHtml(review.date)}</p>
+                  <p class="text-[11px] text-slate-500" data-review-meta="${escapeHtml(review.id)}">${escapeHtml(packageOrRole)} • ${escapeHtml(dateStr)}</p>
                 </div>
                 <span class="px-2.5 py-1 rounded-full bg-[#0F172A] text-white font-label-sm text-[10px] font-bold whitespace-nowrap">
                   📍 ${escapeHtml(review.district)}
@@ -1425,12 +1454,12 @@
                 class="text-[11px] font-bold text-[#0D9488] hover:underline flex items-center gap-0.5"
               >
                 <span>${escapeHtml(review.modelName)}</span>
-                <span class="material-symbols-outlined text-[14px]">arrow_Outward</span>
+                <span class="material-symbols-outlined text-[14px]">arrow_outward</span>
               </button>
             </div>
           </article>
-        `
-        )
+        `;
+        })
         .join('');
     }
 
