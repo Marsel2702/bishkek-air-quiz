@@ -294,7 +294,136 @@ test('Шаг 4: Отправка заказа вызывает fbq Lead (KGS), �
   assert.equal(globalThis.window.__openedUrl, result.whatsappUrl);
 });
 
-test('E2E в реальном браузере Chrome: DOM-рендер, конфигуратор, модалка товара, корзина и все 3 формы заказа', async (t) => {
+test('Приоритеты 1 и 3: Умное определение операторов КР, расчет суточных литров, калькулятор электроэнергии и быстрый чат WhatsApp', () => {
+  // 1. Определение мобильных операторов Кыргызстана
+  const mega = app.detectKyrgyzOperator('+996 (555) 12-34-56');
+  assert.equal(mega.code, '555');
+  assert.equal(mega.operatorId, 'mega');
+  assert.equal(mega.operatorName, 'Mega');
+  assert.equal(mega.isKnownOperator, true);
+  assert.equal(mega.isValidLength, true);
+
+  const oshka = app.detectKyrgyzOperator('0700 99 88 77');
+  assert.equal(oshka.code, '700');
+  assert.equal(oshka.operatorId, 'o');
+  assert.equal(oshka.operatorName, 'O!');
+  assert.equal(oshka.isKnownOperator, true);
+  assert.equal(oshka.isValidLength, true);
+
+  const beeline = app.detectKyrgyzOperator('0770112233');
+  assert.equal(beeline.code, '770');
+  assert.equal(beeline.operatorId, 'beeline');
+  assert.equal(beeline.operatorName, 'Beeline');
+  assert.equal(beeline.isKnownOperator, true);
+  assert.equal(beeline.isValidLength, true);
+
+  const bishkekLandline = app.detectKyrgyzOperator('+996 (312) 60-00-00');
+  assert.equal(bishkekLandline.code, '312');
+  assert.equal(bishkekLandline.operatorId, 'kt');
+  assert.equal(bishkekLandline.isKnownOperator, true);
+
+  const unknownOp = app.detectKyrgyzOperator('+996 (123) 45-67-89');
+  assert.equal(unknownOp.code, '123');
+  assert.equal(unknownOp.isKnownOperator, false);
+  assert.equal(unknownOp.isValidLength, true);
+
+  const emptyOp = app.detectKyrgyzOperator('');
+  assert.equal(emptyOp.code, '');
+  assert.equal(emptyOp.isKnownOperator, false);
+  assert.equal(emptyOp.isValidLength, false);
+
+  // 2. Расчет суточного объема очищенного воздуха в литрах
+  assert.equal(app.calculateDailyLiters(180), 4320000);
+  assert.equal(app.calculateDailyLiters(240), 5760000);
+  assert.equal(app.calculateDailyLiters(320), 7680000);
+  assert.equal(app.calculateDailyLiters(0), 0);
+
+  // 3. Калькулятор экономии электроэнергии по тарифу Бишкека (35 Вт, 1.11 сом/кВт·ч)
+  const cost24 = app.calculateElectricityCost(24, 35, 1.11);
+  assert.equal(cost24.hoursPerDay, 24);
+  assert.equal(cost24.dailyKwh, 0.84);
+  assert.equal(cost24.dailyCostSom, 0.93);
+  assert.equal(cost24.monthlyCostSom, 28);
+
+  const cost8 = app.calculateElectricityCost(8, 35, 1.11);
+  assert.equal(cost8.hoursPerDay, 8);
+  assert.equal(cost8.dailyKwh, 0.28);
+  assert.equal(cost8.dailyCostSom, 0.31);
+  assert.equal(cost8.monthlyCostSom, 9);
+
+  // 4. Ссылка быстрого чата консультации в WhatsApp
+  const quickWaUrl = app.buildQuickWhatsAppChatUrl();
+  assert.ok(quickWaUrl.startsWith(`https://wa.me/${siteConfig.WHATSAPP_NUMBER}?text=`));
+  assert.ok(
+    decodeURIComponent(quickWaUrl).includes(
+      'Здравствуйте! Помогите, пожалуйста, подобрать очиститель AERA для квартиры'
+    )
+  );
+});
+
+test('Приоритет 2 и 3.4: SEO мета-теги Open Graph, Twitter Card, Schema.org JSON-LD (KGS), manifest.json и локальные SVG-ассеты', () => {
+  const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
+
+  // 1. Open Graph и Twitter Card
+  assert.match(html, /property="og:title"/);
+  assert.match(html, /property="og:description"/);
+  assert.match(html, /property="og:image"\s+content="https:\/\/bishkek-air-quiz\.vercel\.app\/assets\/og-banner\.svg"/);
+  assert.match(html, /property="og:url"\s+content="https:\/\/bishkek-air-quiz\.vercel\.app\/"/);
+  assert.match(html, /property="og:type"\s+content="website"/);
+  assert.match(html, /name="twitter:card"\s+content="summary_large_image"/);
+  assert.match(html, /name="theme-color"\s+content="#0F172A"/);
+  assert.match(html, /rel="icon"\s+type="image\/svg\+xml"\s+href="\/assets\/favicon\.svg"/);
+  assert.match(html, /rel="manifest"\s+href="\/manifest\.json"/);
+
+  // 2. Валидация Schema.org JSON-LD (Store + Product/AggregateOffer KGS + FAQPage)
+  const jsonLdMatch = html.match(/<script type="application\/ld\+json" id="schema-jsonld">([\s\S]*?)<\/script>/);
+  assert.ok(jsonLdMatch, 'В index.html должен присутствовать блок #schema-jsonld');
+  const schemaData = JSON.parse(jsonLdMatch[1]);
+  assert.equal(schemaData['@context'], 'https://schema.org');
+  assert.ok(Array.isArray(schemaData['@graph']));
+
+  const storeNode = schemaData['@graph'].find((n) => n['@type'] === 'Store');
+  const productNode = schemaData['@graph'].find((n) => n['@type'] === 'Product');
+  const faqNode = schemaData['@graph'].find((n) => n['@type'] === 'FAQPage');
+
+  assert.ok(storeNode, 'JSON-LD должен содержать Store');
+  assert.equal(storeNode.address.addressLocality, 'Бишкек');
+  assert.equal(storeNode.currenciesAccepted, 'KGS');
+
+  assert.ok(productNode, 'JSON-LD должен содержать Product');
+  assert.equal(productNode.offers['@type'], 'AggregateOffer');
+  assert.equal(productNode.offers.priceCurrency, 'KGS');
+  assert.equal(productNode.offers.lowPrice, '3990');
+  assert.equal(productNode.offers.highPrice, '7740');
+  assert.equal(productNode.offers.availability, 'https://schema.org/InStock');
+
+  assert.ok(faqNode, 'JSON-LD должен содержать FAQPage');
+  assert.ok(faqNode.mainEntity.length >= 3);
+
+  // 3. Проверка manifest.json и всех локальных SVG-заглушек в /assets/
+  const manifestRaw = fs.readFileSync(path.join(__dirname, 'manifest.json'), 'utf8');
+  const manifest = JSON.parse(manifestRaw);
+  assert.equal(manifest.theme_color, '#0F172A');
+  assert.equal(manifest.background_color, '#F8FAFC');
+  assert.ok(Array.isArray(manifest.icons) && manifest.icons.length >= 1);
+
+  const requiredAssets = [
+    'assets/favicon.svg',
+    'assets/og-banner.svg',
+    'assets/purifier-compact.svg',
+    'assets/purifier-sense.svg',
+    'assets/purifier-prox.svg',
+    'assets/filter-hepa.svg'
+  ];
+  for (const relAsset of requiredAssets) {
+    const fullAssetPath = path.join(__dirname, relAsset);
+    assert.ok(fs.existsSync(fullAssetPath), `Файл ассета должен существовать: ${relAsset}`);
+    const content = fs.readFileSync(fullAssetPath, 'utf8');
+    assert.match(content, /<svg[\s>]/, `${relAsset} должен быть валидным SVG`);
+  }
+});
+
+test('E2E в реальном браузере Chrome: DOM-рендер, конфигуратор, сравнение, До/После, отзывы, FAQ, живой смог, модалка товара, корзина и все 3 формы заказа', async (t) => {
   const http = require('node:http');
   const { spawn } = require('node:child_process');
 
@@ -320,6 +449,10 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         ? 'text/html; charset=utf-8'
         : ext === '.js'
         ? 'application/javascript; charset=utf-8'
+        : ext === '.svg'
+        ? 'image/svg+xml; charset=utf-8'
+        : ext === '.json'
+        ? 'application/json; charset=utf-8'
         : 'text/plain; charset=utf-8';
     res.writeHead(200, { 'Content-Type': mime });
     res.end(fs.readFileSync(filePath));
@@ -390,14 +523,25 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
     await sendCdp('Page.enable');
     await sendCdp('Runtime.enable');
     await sendCdp('Page.navigate', { url: pageUrl });
-    await new Promise((r) => setTimeout(r, 400));
+
+    // Надежное ожидание загрузки DOM и инициализации window.__aeraApp после навигации
+    for (let attempt = 0; attempt < 100; attempt++) {
+      const readyCheck = await sendCdp('Runtime.evaluate', {
+        returnByValue: true,
+        expression: `Boolean(window.__aeraApp && document.querySelectorAll('[data-model-card]').length === 3 && document.querySelectorAll('[data-comparison-row]').length === 3)`
+      }).catch(() => null);
+      if (readyCheck && readyCheck.result && readyCheck.result.value === true) {
+        break;
+      }
+      await new Promise((r) => setTimeout(r, 100));
+    }
 
     // Ждем полной инициализации window.__aeraApp в браузере
     const evalResult = await sendCdp('Runtime.evaluate', {
       awaitPromise: true,
       returnByValue: true,
       expression: `(async () => {
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 60; i++) {
           if (window.__aeraApp && document.querySelectorAll('[data-model-card]').length === 3) break;
           await new Promise(r => setTimeout(r, 50));
         }
@@ -413,10 +557,39 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         const fbqEvents = [];
         window.fbq = (...args) => { fbqEvents.push(args); };
 
-        // 1. Проверяем рендер 3 карточек моделей, их highlights и 4 ступеней фильтрации
+        // 1. Проверяем рендер 3 карточек моделей, таблицы сравнения, 4 ступеней фильтрации, 5 отзывов и 6 вопросов FAQ
         const modelCardsCount = document.querySelectorAll('[data-model-card]').length;
         const modelHighlightsCount = document.querySelectorAll('[data-model-highlights]').length;
+        const comparisonRowsCount = document.querySelectorAll('[data-comparison-row]').length;
         const filtrationCardsCount = document.querySelectorAll('[data-filter-stage]').length;
+        const initialReviewsCount = document.querySelectorAll('[data-review-card]').length;
+        const faqItemsCount = document.querySelectorAll('#faq-accordion details[name="aera-faq-accordion"]').length;
+        const firstFaqOpen = document.querySelector('#faq-accordion details[name="aera-faq-accordion"]')?.open === true;
+
+        // 1B. Проверяем Живой виджет смога в Бишкеке (#live-smog-widget)
+        const initialSmogText = document.getElementById('bishkek-smog-indicator').textContent.trim();
+        const smogUpdatedText = document.getElementById('smog-updated-time').textContent.trim();
+        document.querySelector('[data-smog-district="lower"]').click();
+        const lowerOutdoorPm25 = document.getElementById('smog-outdoor-pm25').textContent.trim();
+        const lowerIndoorPm25 = document.getElementById('smog-indoor-pm25').textContent.trim();
+        document.querySelector('[data-smog-district="center"]').click();
+
+        // 1C. Проверяем интерактивный блок «До и После», счетчик литров и калькулятор экономии
+        document.querySelector('[data-compare-preset="15"]').click();
+        const overlayWidthAfterPreset = document.getElementById('before-after-overlay').style.width;
+        const compareLabelAfterPreset = document.getElementById('before-after-percent-label').textContent.trim();
+
+        document.querySelector('[data-liters-model="prox"]').click();
+        const litersCounterProX = document.getElementById('daily-liters-counter').textContent.trim();
+
+        document.querySelector('[data-econ-hours="8"]').click();
+        const econMonthly8h = document.getElementById('econ-monthly-kwh-cost').textContent.trim();
+
+        // 1D. Проверяем фильтрацию отзывов по моделям
+        document.querySelector('[data-review-filter="sense"]').click();
+        const senseReviewsCount = document.querySelectorAll('[data-review-card]').length;
+        document.querySelector('[data-review-filter="all"]').click();
+        const restoredReviewsCount = document.querySelectorAll('[data-review-card]').length;
 
         // 2. Проверяем Умный конфигуратор: клик "До 20 м²" -> AERA Compact (3 990 сом, 18 м²)
         document.querySelector('[data-config-area="compact"]').click();
@@ -434,6 +607,11 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         document.querySelector('[data-config-package="plus"]').click();
         const priceAfterProXPlus = document.getElementById('calc-result-price').textContent.trim();
 
+        // Выбираем район доставки в конфигураторе
+        const districtSelect = document.getElementById('config-order-district');
+        districtSelect.value = 'Южные мкр (Асанбай, Джал, Кок-Жар)';
+        districtSelect.dispatchEvent(new Event('change', { bubbles: true }));
+
         // Проверяем отклонение неполного номера +996 (555) 12-3 (6 абонентских цифр)
         const cfgPhone = document.getElementById('config-order-phone');
         cfgPhone.value = '+996 (555) 12-3';
@@ -447,6 +625,7 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         cfgPhone.value = cfgPhone.value + '0555112233';
         cfgPhone.dispatchEvent(new Event('input', { bubbles: true }));
         const formattedCfgPhone = cfgPhone.value;
+        const cfgOperatorHint = document.getElementById('config-phone-operator-hint').textContent.trim();
         document.getElementById('configurator-order-form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
         await new Promise(r => setTimeout(r, 50));
 
@@ -489,10 +668,28 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         document.getElementById('cart-checkout-form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
         await new Promise(r => setTimeout(r, 50));
 
+        // Проверяем сохранение профиля и корзины в localStorage
+        const savedProfileRaw = window.localStorage.getItem('aera_customer_profile_v1');
+        const savedCartRaw = window.localStorage.getItem('aera_cart_state_v1');
+
         return {
           modelCardsCount,
           modelHighlightsCount,
+          comparisonRowsCount,
           filtrationCardsCount,
+          initialReviewsCount,
+          faqItemsCount,
+          firstFaqOpen,
+          initialSmogText,
+          smogUpdatedText,
+          lowerOutdoorPm25,
+          lowerIndoorPm25,
+          overlayWidthAfterPreset,
+          compareLabelAfterPreset,
+          litersCounterProX,
+          econMonthly8h,
+          senseReviewsCount,
+          restoredReviewsCount,
           titleAfterCompact,
           priceAfterCompact,
           sqmAfterCompact,
@@ -502,6 +699,7 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
           priceAfterProXPlus,
           requestsAfterInvalidPhone,
           formattedCfgPhone,
+          cfgOperatorHint,
           isModalOpen,
           modalTitle,
           modalBasePrice,
@@ -513,6 +711,8 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
           modalBannerVisibleAfterOrder,
           modalBannerHiddenAfterBundleSwitch,
           cartTotalAfterUpsell,
+          savedProfile: savedProfileRaw ? JSON.parse(savedProfileRaw) : null,
+          savedCart: savedCartRaw ? JSON.parse(savedCartRaw) : null,
           fbqEvents,
           telegramRequests,
           openedUrls
@@ -520,10 +720,41 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
       })()`
     });
 
+    if (evalResult.exceptionDetails) {
+      throw new Error(
+        `Ошибка в браузерном E2E сценарии: ${
+          evalResult.exceptionDetails.exception?.description ||
+          evalResult.exceptionDetails.text ||
+          JSON.stringify(evalResult.exceptionDetails)
+        }`
+      );
+    }
+
     const data = evalResult.result.value;
     assert.equal(data.modelCardsCount, 3);
     assert.equal(data.modelHighlightsCount, 3);
+    assert.equal(data.comparisonRowsCount, 3);
     assert.equal(data.filtrationCardsCount, 4);
+    assert.equal(data.initialReviewsCount, 5);
+    assert.equal(data.faqItemsCount, 6);
+    assert.equal(data.firstFaqOpen, true);
+
+    // Виджет смога
+    assert.match(data.initialSmogText, /AQI 215\+/);
+    assert.match(data.smogUpdatedText, /^Обновлено сегодня в \d{2}:\d{2}$/);
+    assert.equal(data.lowerOutdoorPm25, '238 мкг/м³');
+    assert.equal(data.lowerIndoorPm25, '006 мкг/м³');
+
+    // Блок До/После, счетчик литров и калькулятор экономии
+    assert.equal(data.overlayWidthAfterPreset, '15%');
+    assert.match(data.compareLabelAfterPreset, /15% новый \/ 85% после 60 дней смога/);
+    assert.equal(data.litersCounterProX, '7 680 000 л');
+    assert.equal(data.econMonthly8h, '~ 9 сом / мес');
+
+    // Фильтр отзывов
+    assert.equal(data.senseReviewsCount, 3);
+    assert.equal(data.restoredReviewsCount, 5);
+
     assert.equal(data.titleAfterCompact, 'AERA Compact');
     assert.equal(data.priceAfterCompact, '3 990 сом');
     assert.equal(data.sqmAfterCompact, '18 м²');
@@ -533,6 +764,7 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
     assert.equal(data.priceAfterProXPlus, '7 740 сом');
     assert.equal(data.requestsAfterInvalidPhone, 0);
     assert.equal(data.formattedCfgPhone, '+996 (555) 11-22-33');
+    assert.equal(data.cfgOperatorHint, 'Mega (555) ✓');
     assert.equal(data.isModalOpen, true);
     assert.equal(data.modalTitle, 'AERA Compact');
     assert.equal(data.modalBasePrice, '3 990 сом');
@@ -545,6 +777,13 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
     assert.equal(data.modalBannerHiddenAfterBundleSwitch, true);
     assert.equal(data.cartTotalAfterUpsell, '5 440 сом');
 
+    // Проверка localStorage
+    assert.ok(data.savedProfile);
+    assert.equal(data.savedProfile.district, 'Южные мкр (Асанбай, Джал, Кок-Жар)');
+    assert.ok(data.savedCart);
+    assert.equal(data.savedCart.selectedPayment, 'Optima Pay');
+    assert.equal(data.savedCart.items.length, 2);
+
     // Все 3 формы заказа отправили fbq Lead, Telegram POST и открыли WhatsApp
     assert.equal(data.fbqEvents.length, 3);
     assert.deepEqual(data.fbqEvents[0], ['track', 'Lead', { value: 7740, currency: 'KGS' }]);
@@ -553,11 +792,13 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
 
     assert.equal(data.telegramRequests.length, 3);
     assert.equal(data.telegramRequests[0].body.utm.utm_source, 'meta_ads');
+    assert.equal(data.telegramRequests[0].body.district, 'Южные мкр (Асанбай, Джал, Кок-Жар)');
+    assert.match(data.telegramRequests[0].body.text, /Район доставки:/);
     assert.equal(data.telegramRequests[2].body.payment_method, 'Optima Pay');
     assert.equal(data.openedUrls.length, 3);
     assert.ok(data.openedUrls[0].startsWith('https://wa.me/996555909090?text='));
 
-    // 5. Проверка мобильной верстки (360x640): отсутствие горизонтального скролла и полное размещение корзины
+    // 5. Проверка мобильной верстки (360x640): отсутствие горизонтального скролла, плавающая кнопка WhatsApp не перекрывает бар корзины, полное размещение корзины
     await sendCdp('Emulation.setDeviceMetricsOverride', {
       width: 360,
       height: 640,
@@ -584,6 +825,7 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         const docScrollW = document.documentElement.scrollWidth;
         const headerCartRect = document.querySelector('[data-open-cart]').getBoundingClientRect();
         const floatingRect = document.getElementById('floating-cart-bar').getBoundingClientRect();
+        const waBtnRect = document.getElementById('floating-whatsapp-btn').getBoundingClientRect();
         const floatingLbl = document.getElementById('floating-cart-label');
         const floatingClientW = floatingLbl.clientWidth;
         const floatingScrollW = floatingLbl.scrollWidth;
@@ -611,6 +853,10 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
           headerCartRight: Math.round(headerCartRect.right),
           floatingLeft: Math.round(floatingRect.left),
           floatingRight: Math.round(floatingRect.right),
+          floatingTop: Math.round(floatingRect.top),
+          waBtnLeft: Math.round(waBtnRect.left),
+          waBtnRight: Math.round(waBtnRect.right),
+          waBtnBottom: Math.round(waBtnRect.bottom),
           floatingClientW,
           floatingScrollW,
           floatingTruncated,
@@ -629,6 +875,8 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
     assert.equal(m.docScrollW, m.docClientW, `На мобильном 360px не должно быть горизонтального скролла страницы: ${JSON.stringify(m)}`);
     assert.ok(m.headerCartLeft >= 0 && m.headerCartRight <= 360, `Кнопка корзины в шапке должна полностью помещаться в 360px: ${JSON.stringify(m)}`);
     assert.ok(m.floatingLeft >= 0 && m.floatingRight <= 360, `Плавающая панель корзины должна помещаться в 360px: ${JSON.stringify(m)}`);
+    assert.ok(m.waBtnLeft >= 0 && m.waBtnRight <= 360, `Плавающая кнопка WhatsApp должна помещаться в 360px: ${JSON.stringify(m)}`);
+    assert.ok(m.waBtnBottom <= m.floatingTop, `Плавающая кнопка WhatsApp не должна перекрывать плавающую панель корзины на мобильном: ${JSON.stringify(m)}`);
     assert.equal(m.floatingTruncated, false, `Текст в плавающей панели корзины не должен обрезаться: ${JSON.stringify(m)}`);
     assert.ok(m.cartLeft >= 0 && m.cartRight <= 360, `Модальное окно корзины должно помещаться по ширине 360px: ${JSON.stringify(m)}`);
     assert.equal(m.cartScrollW, m.cartClientW, `Внутри корзины не должно быть горизонтального переполнения: ${JSON.stringify(m)}`);

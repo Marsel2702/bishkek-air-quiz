@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" fill="none">
+  <rect width="600" height="450" fill="#EFF4FF"/>
+  <circle cx="300" cy="220" r="190" fill="#0D9488" fill-opacity="0.14"/>
+  <rect x="205" y="35" width="190" height="380" rx="38" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="4"/>
+  <ellipse cx="300" cy="60" rx="68" ry="16" fill="#0F172A" stroke="#0D9488" stroke-width="3"/>
+  <circle cx="300" cy="135" r="38" fill="#0F172A" stroke="#0D9488" stroke-width="3"/>
+  <text x="300" y="139" text-anchor="middle" fill="#86F2E4" font-family="Plus Jakarta Sans, sans-serif" font-size="18" font-weight="800">360°</text>
+  <rect x="228" y="195" width="144" height="190" rx="22" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="300" y="285" text-anchor="middle" fill="#0F172A" font-family="Plus Jakarta Sans, sans-serif" font-size="20" font-weight="800">AERA Pro X</text>
+  <text x="300" y="309" text-anchor="middle" fill="#0D9488" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="700">AR-921 • CADR 320 м³/ч</text>
+</svg>

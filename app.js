@@ -64,6 +64,24 @@
     return digits.slice(0, 9);
   }
 
+  // --- Определение мобильного оператора Кыргызстана по коду (Mega, O!, Beeline, Бишкек) ---
+  function detectKyrgyzOperator(phoneStr) {
+    const digits = extractKyrgyzSubscriberDigits(phoneStr);
+    const code = digits.slice(0, 3);
+    const operators = siteConfig.kyrgyzOperators || [];
+    const matched =
+      code.length === 3
+        ? operators.find((op) => (op.codes || op.prefixes || []).includes(code))
+        : null;
+    return {
+      code,
+      operatorId: matched ? matched.id || matched.name.toLowerCase() : null,
+      operatorName: matched ? matched.name : null,
+      isKnownOperator: Boolean(matched),
+      isValidLength: digits.length === 9
+    };
+  }
+
   // --- Маска телефона Кыргызстана +996 (___) __-__-__ ---
   function formatKyrgyzPhone(rawInput) {
     if (!rawInput) return '';
@@ -87,6 +105,34 @@
     if (!phoneStr) return false;
     const subscriberDigits = extractKyrgyzSubscriberDigits(phoneStr);
     return subscriberDigits.length === 9;
+  }
+
+  // --- Расчет суточного объема очищенного воздуха в литрах (CADR м³/ч -> л/сутки) ---
+  function calculateDailyLiters(cadr) {
+    const cadrVal = Math.max(0, Number(cadr) || 0);
+    return Math.round(cadrVal * 1000 * 24);
+  }
+
+  // --- Расчет стоимости электроэнергии по тарифу Бишкека (1.11 сом/кВт·ч) ---
+  function calculateElectricityCost(
+    hoursPerDay = 24,
+    powerW = siteConfig.economyCalculator?.powerWatts || 35,
+    tariff = siteConfig.economyCalculator?.tariffSomPerKwh || 1.11
+  ) {
+    const hours = Math.max(1, Math.min(24, Number(hoursPerDay) || 24));
+    const watts = Math.max(1, Number(powerW) || 35);
+    const rate = Math.max(0.1, Number(tariff) || 1.11);
+    const dailyKwh = (watts * hours) / 1000;
+    const dailyCostSom = Number((dailyKwh * rate).toFixed(2));
+    const monthlyCostSom = Math.round(dailyKwh * 30 * rate);
+    return {
+      hoursPerDay: hours,
+      powerW: watts,
+      tariff: rate,
+      dailyKwh: Number(dailyKwh.toFixed(3)),
+      dailyCostSom,
+      monthlyCostSom
+    };
   }
 
   // --- Поиск модели по ID ---
@@ -165,12 +211,24 @@
     return `https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`;
   }
 
+  // --- Генерация ссылки быстрого чата консультации в WhatsApp ---
+  function buildQuickWhatsAppChatUrl(customText) {
+    const waNumber = String(siteConfig.WHATSAPP_NUMBER || '996555909090').replace(/\D/g, '');
+    const message = (
+      customText ||
+      siteConfig.quickWhatsAppMessage ||
+      'Здравствуйте! Помогите, пожалуйста, подобрать очиститель AERA для квартиры'
+    ).trim();
+    return `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+  }
+
   // --- Генерация полезной нагрузки для Telegram Bot API (Шаг 4, п. 2) ---
   function buildTelegramPayload(orderData) {
     const {
       source = 'Сайт AERA Bishkek',
       name = 'Клиент',
       phone = '',
+      district = '',
       modelName = 'AERA Sense',
       packageName = 'Базовый',
       modelAndPackage = '',
@@ -191,14 +249,19 @@
       '🏔 <b>Новый заказ AERA Bishkek!</b>',
       `📍 <b>Источник формы:</b> ${escapeHtml(source)}`,
       `👤 <b>Имя:</b> ${escapeHtml(name || 'Не указано')}`,
-      `📞 <b>Телефон:</b> ${escapeHtml(phone)}`,
+      `📞 <b>Телефон:</b> ${escapeHtml(phone)}`
+    ];
+    if (district) {
+      lines.push(`🏘 <b>Район доставки:</b> ${escapeHtml(district)}`);
+    }
+    lines.push(
       `💨 <b>Модель:</b> ${escapeHtml(modelName)}`,
       `📦 <b>Комплект:</b> ${escapeHtml(packageName)}`,
       `🧾 <b>Состав заказа:</b> ${escapeHtml(composedModelPkg)}`,
       `💳 <b>Способ оплаты:</b> ${escapeHtml(paymentMethod)}`,
       `💰 <b>Сумма к оплате:</b> ${escapeHtml(formatPrice(totalAmount))} (${Number(totalAmount) || 0} KGS)`,
       `📊 <b>UTM-метки:</b> ${utmString}`
-    ];
+    );
 
     return {
       chat_id: siteConfig.TELEGRAM_CHAT_ID,
@@ -207,6 +270,7 @@
       meta: {
         name: name || 'Не указано',
         phone,
+        district: district || 'Бишкек',
         modelName,
         packageName,
         modelAndPackage: composedModelPkg,
@@ -227,14 +291,22 @@
     const modelAndPackage =
       orderInput.modelAndPackage || `${modelName} (Комплект «${packageName}»)`;
     const paymentMethod = orderInput.paymentMethod || 'MBank';
-    const phone = (orderInput.phone || '').trim();
-    const name = (orderInput.name || 'Клиент').trim();
+    const phone = String(orderInput.phone || '').trim();
+    const name = String(orderInput.name || 'Клиент').trim();
+    const rawDistrict = orderInput.district;
+    const district =
+      typeof rawDistrict === 'string'
+        ? rawDistrict.trim()
+        : rawDistrict && typeof rawDistrict.label === 'string'
+        ? rawDistrict.label.trim()
+        : '';
     const source = orderInput.source || 'Быстрый заказ';
 
     const normalizedOrder = {
       source,
       name,
       phone,
+      district,
       modelName,
       packageName,
       modelAndPackage,
@@ -298,6 +370,7 @@
                   parse_mode: telegramPayload.parse_mode,
                   customer_name: name,
                   phone,
+                  district,
                   model: modelName,
                   package: packageName,
                   payment_method: paymentMethod,
@@ -581,6 +654,33 @@
     }
   }
 
+  // --- Безопасная работа с localStorage (корзина и профиль клиента) ---
+  const STORAGE_KEYS = {
+    CART: 'aera_cart_state_v1',
+    PROFILE: 'aera_customer_profile_v1'
+  };
+
+  function loadStorageJson(key) {
+    try {
+      if (typeof window === 'undefined' || !window.localStorage) return null;
+      const raw = window.localStorage.getItem(key);
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch (_err) {
+      return null;
+    }
+  }
+
+  function saveStorageJson(key, value) {
+    try {
+      if (typeof window === 'undefined' || !window.localStorage) return false;
+      window.localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (_err) {
+      return false;
+    }
+  }
+
   // --- Инициализация DOM-интерфейса ---
   function initApp(doc = typeof document !== 'undefined' ? document : null) {
     if (!doc) return null;
@@ -595,8 +695,8 @@
       }
     }
 
-    // По умолчанию в корзине лежит хит продаж AERA Sense (AR-920), чтобы пользователь сразу видел живую корзину
-    const cartStore = createCartStore([
+    // Проверяем сохраненное состояние корзины в localStorage; если нет — кладем хит продаж AERA Sense (AR-920)
+    const defaultCartItems = [
       {
         key: 'sense__base',
         type: 'purifier',
@@ -612,7 +712,79 @@
         badge: '★ Хит продаж • До 30 м²',
         qty: 1
       }
-    ]);
+    ];
+
+    const savedCartState = loadStorageJson(STORAGE_KEYS.CART);
+    const initialCartItems =
+      savedCartState && Array.isArray(savedCartState.items)
+        ? savedCartState.items
+        : defaultCartItems;
+
+    const cartStore = createCartStore(initialCartItems);
+    if (savedCartState && savedCartState.selectedPayment) {
+      cartStore.setPaymentMethod(savedCartState.selectedPayment);
+    }
+
+    function persistCartState(state) {
+      const current = state || cartStore.getState();
+      saveStorageJson(STORAGE_KEYS.CART, {
+        items: current.items.map((item) => ({
+          key: item.key,
+          type: item.type,
+          modelId: item.modelId,
+          sku: item.sku,
+          name: item.name,
+          packageId: item.packageId,
+          packageTitle: item.packageTitle,
+          packageShortTitle: item.packageShortTitle,
+          unitPrice: item.unitPrice,
+          oldUnitPrice: item.oldUnitPrice,
+          image: item.image,
+          badge: item.badge,
+          qty: item.qty
+        })),
+        selectedPayment: current.selectedPayment
+      });
+    }
+
+    // Профиль клиента в localStorage (имя, телефон, район Бишкека)
+    const savedProfile = loadStorageJson(STORAGE_KEYS.PROFILE) || {};
+    const customerProfile = {
+      name: typeof savedProfile.name === 'string' ? savedProfile.name : '',
+      phone: typeof savedProfile.phone === 'string' ? savedProfile.phone : '',
+      district: typeof savedProfile.district === 'string' ? savedProfile.district : ''
+    };
+
+    function syncProfileInputsToDom() {
+      const nameIds = ['config-order-name', 'modal-order-name', 'cart-order-name'];
+      const phoneIds = ['config-order-phone', 'modal-order-phone', 'cart-order-phone'];
+      nameIds.forEach((id) => {
+        const el = doc.getElementById(id);
+        if (el && customerProfile.name && !el.value) {
+          el.value = customerProfile.name;
+        }
+      });
+      phoneIds.forEach((id) => {
+        const el = doc.getElementById(id);
+        if (el && customerProfile.phone && !el.value) {
+          el.value = customerProfile.phone;
+          updatePhoneOperatorHint(el);
+        }
+      });
+      const districtSelect = doc.getElementById('config-order-district');
+      if (districtSelect && customerProfile.district) {
+        districtSelect.value = customerProfile.district;
+      }
+    }
+
+    function saveCustomerProfile(partial = {}) {
+      if (typeof partial.name === 'string') customerProfile.name = partial.name;
+      if (typeof partial.phone === 'string') customerProfile.phone = partial.phone;
+      if (typeof partial.district === 'string') {
+        customerProfile.district = partial.district;
+      }
+      saveStorageJson(STORAGE_KEYS.PROFILE, customerProfile);
+    }
 
     // Состояние Умного конфигуратора
     const configuratorState = {
@@ -633,6 +805,22 @@
       paymentMethod: 'MBank'
     };
 
+    // Состояние виджета смога, блока До/После, калькулятора экономии и отзывов
+    const smogWidgetState = {
+      districtId: 'center',
+      updatedTimeText: ''
+    };
+
+    const beforeAfterState = {
+      sliderPercent: 50,
+      litersModelId: 'sense',
+      econHours: 24
+    };
+
+    const reviewsState = {
+      filterModelId: 'all'
+    };
+
     // Уведомления (Toast)
     function showToast(message) {
       const toast = doc.getElementById('toast-notification');
@@ -648,7 +836,28 @@
       }, 2800);
     }
 
-    // Привязка маски телефона ко всем полям input[type="tel"]
+    // Обновление бейджа оператора рядом с полем телефона
+    function updatePhoneOperatorHint(input) {
+      if (!input) return;
+      const hintEl =
+        (input.id && doc.querySelector(`[data-phone-hint="${input.id}"]`)) ||
+        input.parentElement?.querySelector('[data-phone-hint]');
+      if (!hintEl) return;
+      const info = detectKyrgyzOperator(input.value);
+      if (!info.code) {
+        hintEl.textContent = 'Коды КР';
+        return;
+      }
+      if (info.isKnownOperator) {
+        hintEl.textContent = `${info.operatorName} (${info.code})${info.isValidLength ? ' ✓' : ''}`;
+      } else if (info.code.length === 3) {
+        hintEl.textContent = `Код ${info.code}`;
+      } else {
+        hintEl.textContent = 'Коды КР';
+      }
+    }
+
+    // Привязка маски телефона ко всем полям input[type="tel"] + сохранение в localStorage
     function bindPhoneMasks() {
       const inputs = doc.querySelectorAll('input[type="tel"]');
       inputs.forEach((input) => {
@@ -662,7 +871,102 @@
         input.addEventListener('input', (e) => {
           const formatted = formatKyrgyzPhone(e.target.value);
           e.target.value = formatted;
+          updatePhoneOperatorHint(e.target);
+          saveCustomerProfile({ phone: formatted });
         });
+      });
+
+      const nameInputs = ['config-order-name', 'modal-order-name', 'cart-order-name'];
+      nameInputs.forEach((id) => {
+        const el = doc.getElementById(id);
+        if (!el || el.dataset.profileBound === 'true') return;
+        el.dataset.profileBound = 'true';
+        el.addEventListener('input', (e) => {
+          saveCustomerProfile({ name: e.target.value });
+        });
+      });
+
+      const districtSelect = doc.getElementById('config-order-district');
+      if (districtSelect && districtSelect.dataset.profileBound !== 'true') {
+        districtSelect.dataset.profileBound = 'true';
+        districtSelect.addEventListener('change', (e) => {
+          saveCustomerProfile({ district: e.target.value });
+        });
+      }
+    }
+
+    // Привязка локальных SVG-заглушек (/assets/*.svg) при ошибке загрузки внешних изображений
+    function bindImageFallbacks(rootEl = doc) {
+      if (!rootEl || typeof rootEl.querySelectorAll !== 'function') return;
+      rootEl.querySelectorAll('img').forEach((img) => {
+        if (img.dataset.fallbackBound === 'true') return;
+        img.dataset.fallbackBound = 'true';
+        img.addEventListener('error', () => {
+          const fallback =
+            img.getAttribute('data-fallback-src') ||
+            siteConfig.fallbackAssets?.sense ||
+            '/assets/purifier-sense.svg';
+          if (img.getAttribute('src') !== fallback) {
+            img.setAttribute('src', fallback);
+          }
+        });
+      });
+    }
+
+    // --- 0. Живой виджет смога в Бишкеке (#live-smog-widget) ---
+    function formatCurrentTimeHHMM() {
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      return `${hh}:${mm}`;
+    }
+
+    function renderLiveSmogWidget() {
+      const districts = siteConfig.smogDistricts || [];
+      const current =
+        districts.find((d) => d.id === smogWidgetState.districtId) ||
+        districts[0] || {
+          id: 'center',
+          label: 'Центр / Филармония',
+          shortLabel: 'Центр',
+          outdoorPm25: 198,
+          indoorPm25: 8,
+          aqi: 215,
+          status: 'Опасно для дыхания'
+        };
+
+      if (!smogWidgetState.updatedTimeText) {
+        smogWidgetState.updatedTimeText = `Обновлено сегодня в ${formatCurrentTimeHHMM()}`;
+      }
+
+      const setElText = (id, text) => {
+        const el = doc.getElementById(id);
+        if (el) el.textContent = text;
+      };
+
+      setElText('smog-updated-time', smogWidgetState.updatedTimeText);
+      setElText('smog-district-name', current.label);
+      setElText('smog-district-status', `AQI ${current.aqi}+ • ${current.status}`);
+      setElText('smog-outdoor-pm25', `${current.outdoorPm25} мкг/м³`);
+      setElText('smog-indoor-pm25', `${current.indoorPm25} мкг/м³`);
+      setElText('hero-indoor-pm25', `00${current.indoorPm25} µg/m³`);
+
+      if (current.id === 'center') {
+        setElText('bishkek-smog-indicator', `Бишкек сейчас: AQI 215+ • ${current.status}`);
+      } else {
+        setElText(
+          'bishkek-smog-indicator',
+          `Бишкек (${current.shortLabel}): AQI ${current.aqi}+ • ${current.status}`
+        );
+      }
+
+      doc.querySelectorAll('[data-smog-district]').forEach((btn) => {
+        const isSelected = btn.getAttribute('data-smog-district') === current.id;
+        btn.classList.toggle('bg-[#0F172A]', isSelected);
+        btn.classList.toggle('text-white', isSelected);
+        btn.classList.toggle('bg-surface-container', !isSelected);
+        btn.classList.toggle('text-slate-600', !isSelected);
+        btn.setAttribute('aria-pressed', String(isSelected));
       });
     }
 
@@ -726,6 +1030,10 @@
 
       const imgEl = doc.getElementById('calc-result-img');
       if (imgEl) {
+        imgEl.setAttribute(
+          'data-fallback-src',
+          model.fallbackImage || siteConfig.fallbackAssets?.[model.id] || '/assets/purifier-sense.svg'
+        );
         imgEl.src = model.image;
         imgEl.alt = model.fullName;
       }
@@ -761,6 +1069,11 @@
             )
             .join('');
 
+          const fallbackImg =
+            model.fallbackImage ||
+            siteConfig.fallbackAssets?.[model.id] ||
+            '/assets/purifier-sense.svg';
+
           return `
           <article
             class="model-card flex flex-col justify-between p-3.5 sm:p-6 rounded-2xl sm:rounded-3xl bg-white transition-all duration-300 ${cardRing} cursor-pointer group"
@@ -777,6 +1090,7 @@
               <div class="relative w-full aspect-[16/10] sm:aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden bg-surface-container-low mb-2.5 sm:mb-5">
                 <img
                   src="${escapeHtml(model.image)}"
+                  data-fallback-src="${escapeHtml(fallbackImg)}"
                   alt="${escapeHtml(model.fullName)}"
                   class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
                   loading="lazy"
@@ -865,6 +1179,146 @@
         `;
         })
         .join('');
+
+      bindImageFallbacks(container);
+    }
+
+    // --- 2.1. Рендер наглядной таблицы сравнения 3 моделей (#models-comparison-table) ---
+    function renderComparisonTable() {
+      const tbody = doc.getElementById('comparison-table-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = (siteConfig.models || [])
+        .map((model) => {
+          const dailyLiters = formatNumberOnly(calculateDailyLiters(model.cadr)) + ' л/сутки';
+          const autoModeLabel =
+            model.id === 'compact'
+              ? 'Ручной (3 скорости) + Ночной 24 дБ'
+              : model.id === 'sense'
+              ? 'Умный Авто-режим по датчику PM2.5 + 24 дБ'
+              : 'Двойной Авто-турбо 360° + Ночной 24 дБ';
+
+          const rowHighlight = model.isHit ? 'bg-[#0D9488]/[0.05]' : '';
+
+          return `
+            <tr data-comparison-row="${escapeHtml(model.id)}" class="${rowHighlight}">
+              <td data-label="Модель и индекс" class="font-headline-sm font-bold text-[#0F172A]">
+                <div class="flex flex-col gap-0.5">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="text-[15px] font-bold text-[#0F172A]">${escapeHtml(model.name)}</span>
+                    ${
+                      model.isHit
+                        ? `<span class="px-2 py-0.5 rounded-full bg-[#0D9488] text-white text-[10px] font-bold uppercase tracking-wider">Хит</span>`
+                        : ''
+                    }
+                  </div>
+                  <span class="text-[11px] text-slate-500 font-medium">Индекс ${escapeHtml(model.sku)}</span>
+                </div>
+              </td>
+              <td data-label="Площадь">${escapeHtml(model.specs.area)}</td>
+              <td data-label="CADR / Объем в сутки">
+                <div class="flex flex-col">
+                  <strong class="text-[#0F172A]">${model.cadr} м³/ч</strong>
+                  <span class="text-[11px] text-[#0D9488] font-semibold">${dailyLiters}</span>
+                </div>
+              </td>
+              <td data-label="Датчик PM2.5 и экран" class="text-[12px] text-slate-700">${escapeHtml(model.specs.display)}</td>
+              <td data-label="Авто-режим и шум" class="text-[12px] text-slate-700">${escapeHtml(autoModeLabel)}</td>
+              <td data-label="Габариты и мощность" class="text-[12px] text-slate-700">${model.heightCm} см (${escapeHtml(model.dimensions)}) • ${model.powerW} Вт</td>
+              <td data-label="Комплект «Базовый»">
+                <div class="flex flex-col">
+                  <strong class="text-[15px] font-bold text-[#0F172A] whitespace-nowrap">${formatPrice(model.price)}</strong>
+                  <span class="text-[11px] text-slate-400 line-through whitespace-nowrap">${formatPrice(model.oldPrice)}</span>
+                </div>
+              </td>
+              <td data-label="Комплект «Плюс» (+фильтр)">
+                <div class="flex flex-col">
+                  <strong class="text-[15px] font-bold text-[#0D9488] whitespace-nowrap">${formatPrice(model.plusPrice)}</strong>
+                  <span class="text-[10px] text-slate-500">Прибор + 2 фильтра</span>
+                </div>
+              </td>
+              <td data-label="Заказ">
+                <div class="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    data-open-model="${escapeHtml(model.id)}"
+                    class="py-2 px-3 rounded-xl bg-[#0F172A] text-white hover:bg-slate-800 font-label-sm text-[11px] font-bold transition-all whitespace-nowrap"
+                  >
+                    Выбрать
+                  </button>
+                  <button
+                    type="button"
+                    data-quick-cart="${escapeHtml(model.id)}"
+                    aria-label="В корзину ${escapeHtml(model.name)}"
+                    class="p-2 rounded-xl bg-surface-container text-[#0F172A] hover:bg-[#0D9488] hover:text-white transition-all"
+                  >
+                    <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        })
+        .join('');
+    }
+
+    // --- 2.2. Рендер блока «До и После» + Счетчик литров в сутки + Калькулятор экономии ---
+    function renderBeforeAfterAndEconomy() {
+      const pct = Math.max(0, Math.min(100, Number(beforeAfterState.sliderPercent) || 50));
+      const overlay = doc.getElementById('before-after-overlay');
+      const divider = doc.getElementById('before-after-divider');
+      const slider = doc.getElementById('before-after-slider');
+      const pctLabel = doc.getElementById('before-after-percent-label');
+
+      if (overlay) overlay.style.width = `${pct}%`;
+      if (divider) divider.style.left = `${pct}%`;
+      if (slider && Number(slider.value) !== pct) slider.value = String(pct);
+      if (pctLabel) {
+        pctLabel.textContent = `${pct}% новый / ${100 - pct}% после 60 дней смога`;
+      }
+
+      // Счетчик литров очищенного воздуха за сутки
+      const litersModel = getModelById(beforeAfterState.litersModelId);
+      if (litersModel) {
+        const dailyLiters = calculateDailyLiters(litersModel.cadr);
+        const counterEl = doc.getElementById('daily-liters-counter');
+        const descEl = doc.getElementById('daily-liters-desc');
+        if (counterEl) {
+          counterEl.textContent = `${formatNumberOnly(dailyLiters)} л`;
+        }
+        if (descEl) {
+          descEl.textContent = `${litersModel.name} (${litersModel.sku}, CADR ${litersModel.cadr} м³/ч) пропускает через HEPA H13 фильтр ${(dailyLiters / 1000000).toFixed(2).replace('.', ',')} млн литров воздуха каждые 24 часа.`;
+        }
+      }
+
+      doc.querySelectorAll('[data-liters-model]').forEach((btn) => {
+        const isSelected = btn.getAttribute('data-liters-model') === beforeAfterState.litersModelId;
+        btn.classList.toggle('bg-[#0D9488]', isSelected);
+        btn.classList.toggle('text-white', isSelected);
+        btn.classList.toggle('bg-white/10', !isSelected);
+        btn.classList.toggle('text-slate-300', !isSelected);
+        btn.setAttribute('aria-pressed', String(isSelected));
+      });
+
+      // Калькулятор экономии электроэнергии
+      const econ = calculateElectricityCost(beforeAfterState.econHours);
+      const monthlyEl = doc.getElementById('econ-monthly-kwh-cost');
+      const dailyEl = doc.getElementById('econ-daily-kwh-cost');
+      if (monthlyEl) {
+        monthlyEl.textContent = `~ ${econ.monthlyCostSom} сом / мес`;
+      }
+      if (dailyEl) {
+        dailyEl.textContent = `При работе ${econ.hoursPerDay} ч/сутки (~${String(econ.dailyCostSom).replace('.', ',')} сом/день)`;
+      }
+
+      doc.querySelectorAll('[data-econ-hours]').forEach((btn) => {
+        const isSelected = Number(btn.getAttribute('data-econ-hours')) === Number(beforeAfterState.econHours);
+        btn.classList.toggle('bg-[#0F172A]', isSelected);
+        btn.classList.toggle('text-white', isSelected);
+        btn.classList.toggle('bg-surface-container', !isSelected);
+        btn.classList.toggle('text-slate-700', !isSelected);
+        btn.setAttribute('aria-pressed', String(isSelected));
+      });
     }
 
     // --- 3. Рендер секции «4 ступени очистки воздуха» ---
@@ -890,7 +1344,7 @@
                     ${stage.step}
                   </span>
                   <div class="flex items-center gap-1.5 min-w-0">
-                    <span class="material-symbols-outlined text-[#0D9488] text-[18px] sm:text-[22px] shrink-0">${escapeHtml(stage.icon)}</span>
+                    <span class="material-symbols-outlined text-[#0D9488] text-[18px] sm:text-[18px] shrink-0">${escapeHtml(stage.icon)}</span>
                     <h3 class="font-headline-sm text-[15px] sm:text-[19px] font-bold text-[#0F172A] truncate">${escapeHtml(stage.title)}</h3>
                   </div>
                 </div>
@@ -906,6 +1360,102 @@
               </p>
             </div>
           </div>
+        `
+        )
+        .join('');
+    }
+
+    // --- 3.1. Рендер секции Отзывов покупателей по районам Бишкека (#reviews-grid) ---
+    function renderReviews() {
+      const grid = doc.getElementById('reviews-grid');
+      if (!grid) return;
+
+      const allReviews = siteConfig.reviews || [];
+      const filtered =
+        reviewsState.filterModelId === 'all'
+          ? allReviews
+          : allReviews.filter((r) => r.modelId === reviewsState.filterModelId);
+
+      doc.querySelectorAll('[data-review-filter]').forEach((btn) => {
+        const isSelected = btn.getAttribute('data-review-filter') === reviewsState.filterModelId;
+        btn.classList.toggle('bg-[#0F172A]', isSelected);
+        btn.classList.toggle('text-white', isSelected);
+        btn.classList.toggle('bg-surface-container', !isSelected);
+        btn.classList.toggle('text-slate-700', !isSelected);
+        btn.setAttribute('aria-pressed', String(isSelected));
+      });
+
+      grid.innerHTML = filtered
+        .map(
+          (review) => `
+          <article
+            class="review-card flex flex-col justify-between p-4 sm:p-5 rounded-2xl bg-surface-container-low border border-slate-200/80 shadow-xs hover:shadow-md transition-all"
+            data-review-card="${escapeHtml(review.id)}"
+            data-review-model="${escapeHtml(review.modelId)}"
+          >
+            <div>
+              <div class="flex items-start justify-between gap-2 mb-3">
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <h3 class="font-headline-sm text-[15px] font-bold text-[#0F172A]">${escapeHtml(review.author)}</h3>
+                    <span class="text-amber-500 text-[12px]" aria-label="Рейтинг 5 из 5">★★★★★</span>
+                  </div>
+                  <p class="text-[11px] text-slate-500">${escapeHtml(review.role)} • ${escapeHtml(review.date)}</p>
+                </div>
+                <span class="px-2.5 py-1 rounded-full bg-[#0F172A] text-white font-label-sm text-[10px] font-bold whitespace-nowrap">
+                  📍 ${escapeHtml(review.district)}
+                </span>
+              </div>
+
+              <p class="font-body-sm text-[12px] sm:text-[13px] text-slate-700 leading-relaxed mb-3.5">
+                «${escapeHtml(review.text)}»
+              </p>
+            </div>
+
+            <div class="pt-3 border-t border-slate-200/80 flex items-center justify-between gap-2 flex-wrap">
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200/80 text-[11px]">
+                <span class="text-slate-500">Замер PM2.5:</span>
+                <strong class="text-red-600">${review.pmBefore}</strong>
+                <span class="text-slate-400">→</span>
+                <strong class="text-[#0D9488]">${review.pmAfter} мкг/м³</strong>
+              </div>
+              <button
+                type="button"
+                data-open-model="${escapeHtml(review.modelId)}"
+                class="text-[11px] font-bold text-[#0D9488] hover:underline flex items-center gap-0.5"
+              >
+                <span>${escapeHtml(review.modelName)}</span>
+                <span class="material-symbols-outlined text-[14px]">arrow_Outward</span>
+              </button>
+            </div>
+          </article>
+        `
+        )
+        .join('');
+    }
+
+    // --- 3.2. Рендер секции FAQ с нативным <details name="aera-faq-accordion"> (modern-web-guidance: search-hidden-content) ---
+    function renderFaqAccordion() {
+      const container = doc.getElementById('faq-accordion');
+      if (!container) return;
+
+      container.innerHTML = (siteConfig.faqItems || [])
+        .map(
+          (item, idx) => `
+          <details
+            class="faq-disclosure group rounded-2xl bg-white border border-slate-200/80 shadow-xs overflow-hidden transition-all"
+            name="aera-faq-accordion"
+            data-faq-id="${escapeHtml(item.id)}"
+            ${idx === 0 ? 'open' : ''}
+          >
+            <summary class="flex items-center justify-between gap-3 p-4 sm:p-5 cursor-pointer select-none font-headline-sm text-[14px] sm:text-[16px] font-bold text-[#0F172A] hover:text-[#0D9488] transition-colors">
+              <span>${escapeHtml(item.question)}</span>
+              <span class="faq-chevron material-symbols-outlined text-[20px] text-[#0D9488] shrink-0">expand_more</span>
+            </summary>
+            <div class="px-4 sm:px-5 pb-4 sm:pb-5 pt-0 font-body-sm text-[12px] sm:text-[14px] text-slate-600 leading-relaxed border-t border-slate-100">
+              ${escapeHtml(item.answer)}
+            </div>
+          </details>
         `
         )
         .join('');
@@ -936,6 +1486,10 @@
 
       const mainImg = doc.getElementById('modal-main-image');
       if (mainImg) {
+        mainImg.setAttribute(
+          'data-fallback-src',
+          model.fallbackImage || siteConfig.fallbackAssets?.[model.id] || '/assets/purifier-sense.svg'
+        );
         mainImg.src = activeSlide.src;
         mainImg.alt = activeSlide.alt || model.fullName;
       }
@@ -1068,7 +1622,7 @@
       openDialogModal(dialog);
     }
 
-    // --- 5. Рендер Корзины и Оформления заказа (#cart-drawer + плавающий бар) ---
+    // --- 5. Рендер Корзины и Оформления заказа (#cart-drawer + плавающий бар + позиционирование кнопки WhatsApp) ---
     function renderCart(state) {
       const cartState = state || cartStore.getState();
 
@@ -1083,6 +1637,7 @@
       const floatingBar = doc.getElementById('floating-cart-bar');
       const floatingCount = doc.getElementById('floating-cart-count');
       const floatingLabel = doc.getElementById('floating-cart-label');
+      const isFloatingCartVisible = cartState.totalCount > 0;
       if (floatingBar && floatingCount && floatingLabel) {
         floatingCount.textContent = String(cartState.totalCount);
         const word =
@@ -1092,7 +1647,15 @@
             ? 'позиции'
             : 'позиций';
         floatingLabel.textContent = `${cartState.totalCount} ${word} • ${formatPrice(cartState.totalAmount)}`;
-        floatingBar.classList.toggle('hidden', cartState.totalCount === 0);
+        floatingBar.classList.toggle('hidden', !isFloatingCartVisible);
+      }
+
+      // Плавающая кнопка консультации в WhatsApp поднимается над плавающей корзиной, чтобы никогда не перекрывать её на мобильном
+      const floatingWaBtn = doc.getElementById('floating-whatsapp-btn');
+      if (floatingWaBtn) {
+        floatingWaBtn.href = buildQuickWhatsAppChatUrl();
+        floatingWaBtn.classList.toggle('bottom-[76px]', isFloatingCartVisible);
+        floatingWaBtn.classList.toggle('bottom-4', !isFloatingCartVisible);
       }
 
       // Счетчик внутри корзины
@@ -1119,7 +1682,12 @@
               <div class="w-full bg-white rounded-xl sm:rounded-2xl p-3 sm:p-3.5 shadow-sm border border-slate-200/70 relative transition-all" data-cart-item="${escapeHtml(item.key)}">
                 <div class="flex gap-3">
                   <div class="relative w-14 h-16 sm:w-18 sm:h-20 rounded-lg sm:rounded-xl overflow-hidden bg-surface-container-low shrink-0">
-                    <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}" class="w-full h-full object-cover" />
+                    <img
+                      src="${escapeHtml(item.image)}"
+                      data-fallback-src="${escapeHtml(item.type === 'addon-filter' ? '/assets/filter-hepa.svg' : '/assets/purifier-sense.svg')}"
+                      alt="${escapeHtml(item.name)}"
+                      class="w-full h-full object-cover"
+                    />
                     <span class="absolute top-0.5 left-0.5 bg-[#0F172A]/85 text-white font-label-sm text-[8px] px-1 py-0.5 rounded">
                       ${escapeHtml(item.sku)}
                     </span>
@@ -1195,6 +1763,8 @@
             `
             )
             .join('');
+
+          bindImageFallbacks(listEl);
         }
       }
 
@@ -1248,6 +1818,26 @@
 
     // --- Обработчики событий ---
     function bindEvents() {
+      // 0. Переключение районов в Живом виджете смога (#live-smog-widget)
+      doc.querySelectorAll('[data-smog-district]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const districtId = btn.getAttribute('data-smog-district');
+          if (!districtId) return;
+          smogWidgetState.districtId = districtId;
+          smogWidgetState.updatedTimeText = `Обновлено сегодня в ${formatCurrentTimeHHMM()}`;
+          renderLiveSmogWidget();
+        });
+      });
+
+      const smogRefreshBtn = doc.getElementById('smog-refresh-btn');
+      if (smogRefreshBtn) {
+        smogRefreshBtn.addEventListener('click', () => {
+          smogWidgetState.updatedTimeText = `Обновлено сегодня в ${formatCurrentTimeHHMM()}`;
+          renderLiveSmogWidget();
+          showToast('Данные мониторинга PM2.5 по Бишкеку обновлены');
+        });
+      }
+
       // 1. Клики по площади в Конфигураторе
       doc.querySelectorAll('[data-config-area]').forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -1297,7 +1887,7 @@
         });
       }
 
-      // 3. Клики по приоритету в Конфигураторе (сохраняем выбранную пользователем площадь sqm для честного расчета минут очистки)
+      // 3. Клики по приоритету в Конфигураторе
       doc.querySelectorAll('[data-config-priority]').forEach((btn) => {
         btn.addEventListener('click', () => {
           const priorityId = btn.getAttribute('data-config-priority');
@@ -1343,6 +1933,7 @@
           const nameInput = doc.getElementById('config-order-name');
           const phoneInput = doc.getElementById('config-order-phone');
           const paymentSelect = doc.getElementById('config-order-payment');
+          const districtSelect = doc.getElementById('config-order-district');
 
           const phone = phoneInput ? phoneInput.value.trim() : '';
           if (!isValidKyrgyzPhone(phone)) {
@@ -1351,10 +1942,15 @@
             return;
           }
 
+          const customerName = nameInput?.value || 'Клиент';
+          const district = districtSelect?.value || customerProfile.district || '';
+          saveCustomerProfile({ name: customerName, phone, district });
+
           const result = await submitOrder({
             source: 'Забронировать из конфигуратора',
-            name: nameInput?.value || 'Клиент',
+            name: customerName,
             phone,
+            district,
             modelName: model.name,
             packageName: pkg.shortTitle,
             modelAndPackage: `${model.name} (${pkg.title})`,
@@ -1391,6 +1987,74 @@
           const card = e.target.closest('[data-model-card]');
           if (card) {
             openProductModal(card.getAttribute('data-model-card'), 'base');
+          }
+        });
+      }
+
+      // 7.1. Делегирование кликов в таблице сравнения (#models-comparison-table)
+      const comparisonTable = doc.getElementById('models-comparison-table');
+      if (comparisonTable) {
+        comparisonTable.addEventListener('click', (e) => {
+          const quickCartBtn = e.target.closest('[data-quick-cart]');
+          if (quickCartBtn) {
+            const modelId = quickCartBtn.getAttribute('data-quick-cart');
+            const model = getModelById(modelId);
+            cartStore.addPurifier(modelId, 'base', 1);
+            showToast(`${model.name} добавлен в корзину`);
+            return;
+          }
+
+          const openBtn = e.target.closest('[data-open-model]');
+          if (openBtn) {
+            openProductModal(openBtn.getAttribute('data-open-model'), 'base');
+          }
+        });
+      }
+
+      // 7.2. Ползунок и кнопки блока «До и После», счетчика литров и калькулятора экономии
+      const beforeAfterSlider = doc.getElementById('before-after-slider');
+      if (beforeAfterSlider) {
+        beforeAfterSlider.addEventListener('input', (e) => {
+          beforeAfterState.sliderPercent = Number(e.target.value) || 0;
+          renderBeforeAfterAndEconomy();
+        });
+      }
+
+      doc.querySelectorAll('[data-compare-preset]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          beforeAfterState.sliderPercent = Number(btn.getAttribute('data-compare-preset')) || 0;
+          renderBeforeAfterAndEconomy();
+        });
+      });
+
+      doc.querySelectorAll('[data-liters-model]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          beforeAfterState.litersModelId = btn.getAttribute('data-liters-model') || 'sense';
+          renderBeforeAfterAndEconomy();
+        });
+      });
+
+      doc.querySelectorAll('[data-econ-hours]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          beforeAfterState.econHours = Number(btn.getAttribute('data-econ-hours')) || 24;
+          renderBeforeAfterAndEconomy();
+        });
+      });
+
+      // 7.3. Фильтрация отзывов по модели и клики по модели внутри отзыва
+      doc.querySelectorAll('[data-review-filter]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          reviewsState.filterModelId = btn.getAttribute('data-review-filter') || 'all';
+          renderReviews();
+        });
+      });
+
+      const reviewsGrid = doc.getElementById('reviews-grid');
+      if (reviewsGrid) {
+        reviewsGrid.addEventListener('click', (e) => {
+          const openBtn = e.target.closest('[data-open-model]');
+          if (openBtn) {
+            openProductModal(openBtn.getAttribute('data-open-model'), 'base');
           }
         });
       }
@@ -1488,10 +2152,14 @@
             return;
           }
 
+          const customerName = nameInput?.value || 'Клиент';
+          saveCustomerProfile({ name: customerName, phone });
+
           const result = await submitOrder({
             source: 'Купить в 1 клик (Карточка товара)',
-            name: nameInput?.value || 'Клиент',
+            name: customerName,
             phone,
+            district: customerProfile.district,
             modelName: model.name,
             packageName: pkg.shortTitle,
             modelAndPackage: `${model.name} (${pkg.title})`,
@@ -1581,11 +2249,15 @@
             return;
           }
 
+          const customerName = nameInput?.value || 'Клиент';
+          saveCustomerProfile({ name: customerName, phone });
+
           const summary = cartStore.getOrderSummaryStrings();
           const result = await submitOrder({
             source: 'Оформить заказ из корзины',
-            name: nameInput?.value || 'Клиент',
+            name: customerName,
             phone,
+            district: customerProfile.district,
             modelName: summary.modelName,
             packageName: summary.packageName,
             modelAndPackage: summary.modelAndPackage,
@@ -1600,34 +2272,58 @@
     }
 
     // Первичный рендер всех секций
+    renderLiveSmogWidget();
     renderCatalogGrid();
+    renderComparisonTable();
+    renderBeforeAfterAndEconomy();
     renderFiltrationStages();
+    renderReviews();
+    renderFaqAccordion();
     renderConfigurator();
     renderProductModal();
     renderCart(cartStore.getState());
-    cartStore.subscribe(renderCart);
+    cartStore.subscribe((state) => {
+      renderCart(state);
+      persistCartState(state);
+    });
     bindEvents();
     bindPhoneMasks();
+    syncProfileInputsToDom();
+    bindImageFallbacks(doc);
 
     const api = {
       siteConfig,
       cartStore,
       configuratorState,
       modalState,
+      smogWidgetState,
+      beforeAfterState,
+      reviewsState,
+      customerProfile,
       openProductModal,
+      renderLiveSmogWidget,
       renderConfigurator,
+      renderComparisonTable,
+      renderBeforeAfterAndEconomy,
+      renderReviews,
+      renderFaqAccordion,
       renderProductModal,
       renderCart,
       submitOrder,
       escapeHtml,
       extractKyrgyzSubscriberDigits,
+      detectKyrgyzOperator,
       formatPrice,
+      formatNumberOnly,
       formatKyrgyzPhone,
       isValidKyrgyzPhone,
       calculateCleaningMinutes,
+      calculateDailyLiters,
+      calculateElectricityCost,
       getRecommendedModel,
       buildWhatsAppOrderText,
       buildWhatsAppUrl,
+      buildQuickWhatsAppChatUrl,
       buildTelegramPayload,
       extractUtmParams
     };
@@ -1654,16 +2350,20 @@
     createCartStore,
     escapeHtml,
     extractKyrgyzSubscriberDigits,
+    detectKyrgyzOperator,
     formatPrice,
     formatNumberOnly,
     formatKyrgyzPhone,
     isValidKyrgyzPhone,
     calculateCleaningMinutes,
+    calculateDailyLiters,
+    calculateElectricityCost,
     getModelById,
     getRecommendedModel,
     extractUtmParams,
     buildWhatsAppOrderText,
     buildWhatsAppUrl,
+    buildQuickWhatsAppChatUrl,
     buildTelegramPayload,
     submitOrder
   };

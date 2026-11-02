@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 96" fill="none">
+  <!--
+    AERA Horizontal Brand Lockup (100% Vector Paths, Swiss 2:1 Geometric Grid)
+  -->
+
+  <!-- Left Symbol Badge (80x80 Squircle at x=8, y=8) -->
+  <rect x="8" y="8" width="80" height="80" rx="18" fill="#0F172A"/>
+  <g transform="translate(8, 8) scale(0.6667)">
+    <!-- Piece 1: Alpine Peak & Left Wing -->
+    <path d="M20 96L57 22H63L78.5 53H64.5L60 44L34 96H20Z" fill="#F8FAFC"/>
+    <!-- Piece 2: Laminar Air Louver & Right Base -->
+    <path d="M59 60H82L100 96H86L74 72H53L59 60Z" fill="#0D9488"/>
+  </g>
+
+  <!-- Custom Bespoke Vector Wordmark: A E R A (Translated to x=112, y=16) -->
+  <g transform="translate(112, 16)" fill="#0F172A">
+    <!-- A (with 4u laminar air channel) -->
+    <path d="M0 46L22 2H28L50 46H40L35 36H19L23 28H31L25 16L10 46H0Z"/>
+
+    <!-- E (with detached laminar middle louver) -->
+    <path d="M66 2H101V10H75V38H102V46H66V2Z"/>
+    <path d="M79 20H98V28H79V20Z" fill="#0D9488"/>
+
+    <!-- R (2:1 leg slope matching A) -->
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M120 2H144A13.5 13.5 0 0 1 150.5 27.3L160 46H149.5L140.5 29H129V46H120V2ZM129 10V21H143A5.5 5.5 0 0 0 143 10H129Z"/>
+
+    <!-- A (bookend symmetry) -->
+    <path d="M174 46L196 2H202L224 46H214L209 36H193L197 28H205L199 16L184 46H174Z"/>
+
+    <!-- Precision Air Quality Index Dot -->
+    <circle cx="240" cy="41" r="5" fill="#0D9488"/>
+  </g>
+
+  <!-- Architectural Divider & Descriptor -->
+  <line x1="113" y1="71" x2="356" y2="71" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="113" y="85" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif" font-size="10.5" font-weight="700" letter-spacing="0.34em" fill="#64748B">CLEAN AIR TECHNOLOGIES</text>
+</svg>

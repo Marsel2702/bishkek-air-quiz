@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" fill="none">
+  <rect width="600" height="450" fill="#EFF4FF"/>
+  <circle cx="300" cy="220" r="180" fill="#0D9488" fill-opacity="0.12"/>
+  <rect x="200" y="45" width="200" height="360" rx="30" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="4"/>
+  <circle cx="300" cy="128" r="42" fill="#0F172A"/>
+  <circle cx="300" cy="128" r="36" stroke="#0D9488" stroke-width="3.5"/>
+  <text x="300" y="126" text-anchor="middle" fill="#86F2E4" font-family="Plus Jakarta Sans, sans-serif" font-size="22" font-weight="800">005</text>
+  <text x="300" y="144" text-anchor="middle" fill="#94A3B8" font-family="Plus Jakarta Sans, sans-serif" font-size="9" font-weight="700">PM2.5 µg/m³</text>
+  <rect x="226" y="195" width="148" height="180" rx="18" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="2"/>
+  <text x="300" y="280" text-anchor="middle" fill="#0F172A" font-family="Plus Jakarta Sans, sans-serif" font-size="20" font-weight="800">AERA Sense</text>
+  <text x="300" y="304" text-anchor="middle" fill="#0D9488" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="700">AR-920 • CADR 240 м³/ч</text>
+</svg>

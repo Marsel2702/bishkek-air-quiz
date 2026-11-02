@@ -1,0 +1,20 @@
+{
+  "name": "AERA Bishkek — Очистители воздуха от смога в Бишкеке",
+  "short_name": "AERA Bishkek",
+  "description": "Очистители воздуха AERA Compact, AERA Sense и AERA Pro X с медицинским фильтром HEPA H13, активированным углем и ионизатором 20 млн ионов. Бесплатная доставка по Бишкеку в день заказа.",
+  "lang": "ru-KG",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#0F172A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

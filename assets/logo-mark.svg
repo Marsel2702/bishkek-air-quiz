@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!--
+    AERA Swiss Industrial Mark
+    Grid: 120x120 | Slope: 2:1 exact | Stroke: 14u | Air Channel Gap: 7u
+  -->
+  <!-- Piece 1: Alpine Peak & Left Wing (Primary Solid) -->
+  <path d="M20 96L57 22H63L78.5 53H64.5L60 44L34 96H20Z" fill="#F8FAFC"/>
+
+  <!-- Piece 2: Laminar Air Louver & Right Base (Alpine Teal Accent) -->
+  <path d="M59 60H82L100 96H86L74 72H53L59 60Z" fill="#0D9488"/>
+</svg>

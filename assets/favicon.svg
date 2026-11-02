@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="26" fill="#0F172A"/>
+  <!-- Piece 1: Alpine Peak & Left Wing -->
+  <path d="M20 96L57 22H63L78.5 53H64.5L60 44L34 96H20Z" fill="#F8FAFC"/>
+  <!-- Piece 2: Laminar Air Louver & Right Base -->
+  <path d="M59 60H82L100 96H86L74 72H53L59 60Z" fill="#0D9488"/>
+</svg>

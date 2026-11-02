@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" fill="none">
+  <rect width="600" height="450" fill="#EFF4FF"/>
+  <circle cx="300" cy="220" r="170" fill="#0D9488" fill-opacity="0.1"/>
+  <rect x="210" y="55" width="180" height="340" rx="28" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="4"/>
+  <rect x="235" y="82" width="130" height="36" rx="12" fill="#0F172A"/>
+  <circle cx="260" cy="100" r="5" fill="#0D9488"/>
+  <circle cx="285" cy="100" r="5" fill="#06B6D4"/>
+  <circle cx="310" cy="100" r="5" fill="#86F2E4"/>
+  <circle cx="335" cy="100" r="5" fill="#64748B"/>
+  <rect x="235" y="150" width="130" height="215" rx="16" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="2"/>
+  <text x="300" y="250" text-anchor="middle" fill="#0F172A" font-family="Plus Jakarta Sans, sans-serif" font-size="18" font-weight="800">AERA Compact</text>
+  <text x="300" y="274" text-anchor="middle" fill="#0D9488" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="700">AR-6614 • CADR 180 м³/ч</text>
+</svg>

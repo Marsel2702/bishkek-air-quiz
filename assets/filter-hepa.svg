@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" fill="none">
+  <rect width="600" height="450" fill="#EFF4FF"/>
+  <rect x="175" y="55" width="250" height="340" rx="22" fill="#0F172A"/>
+  <rect x="195" y="75" width="210" height="300" rx="14" fill="#F8FAFC"/>
+  <path d="M210 95H390M210 120H390M210 145H390M210 170H390M210 195H390M210 220H390M210 245H390M210 270H390M210 295H390M210 320H390M210 345H390" stroke="#CBD5E1" stroke-width="5" stroke-linecap="round"/>
+  <rect x="215" y="185" width="170" height="80" rx="12" fill="#0F172A" fill-opacity="0.9"/>
+  <text x="300" y="222" text-anchor="middle" fill="#86F2E4" font-family="Plus Jakarta Sans, sans-serif" font-size="18" font-weight="800">HEPA H13 + CARBON</text>
+  <text x="300" y="246" text-anchor="middle" fill="#FFFFFF" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="600">99.97% фильтрация PM2.5</text>
+</svg>
