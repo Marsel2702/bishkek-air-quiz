@@ -2,7 +2,7 @@
  * Основная клиентская логика приложения AERA Bishkek (app.js)
  * Объединяет:
  * 1. Умный конфигуратор (площадь + ползунок + приоритет + быстрый заказ из конфигуратора)
- * 2. Каталог из 3 реальных моделей (AERA Compact AR-6614, AERA Sense AR-920, AERA Pro X AR-921)
+ * 2. Каталог из 3 реальных моделей (AERA Compact AR-6614, AERA Sense AR-6662, AERA Pro X AR-669)
  * 3. Модальное окно / Drawer детальной карточки товара (выбор Базовый / Плюс +450 сом, заказ в 1 клик)
  * 4. Выезжающую корзину (Drawer) с апсейлом фильтра за +450 сом и выбором оплаты (MBank, Optima Pay, Элкарт / QR, Наличными)
  * 5. Отправку лидов: Meta Pixel fbq('track', 'Lead'), Telegram Bot API Webhook, WhatsApp Redirect.
@@ -206,14 +206,21 @@
   }
 
   function buildWhatsAppUrl(orderData) {
-    const waNumber = String(siteConfig.WHATSAPP_NUMBER || '996555909090').replace(/\D/g, '');
+    const waNumber = String(
+      siteConfig.contacts?.whatsappNumber || siteConfig.WHATSAPP_NUMBER || '996555909090'
+    ).replace(/\D/g, '');
     const text = buildWhatsAppOrderText(orderData);
     return `https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`;
   }
 
   // --- Генерация ссылки быстрого чата консультации в WhatsApp ---
   function buildQuickWhatsAppChatUrl(customText) {
-    const waNumber = String(siteConfig.WHATSAPP_NUMBER || '996555909090').replace(/\D/g, '');
+    if (!customText && siteConfig.contacts?.whatsappHref) {
+      return siteConfig.contacts.whatsappHref;
+    }
+    const waNumber = String(
+      siteConfig.contacts?.whatsappNumber || siteConfig.WHATSAPP_NUMBER || '996555909090'
+    ).replace(/\D/g, '');
     const message = (
       customText ||
       siteConfig.quickWhatsAppMessage ||
@@ -695,21 +702,43 @@
       }
     }
 
-    // Проверяем сохраненное состояние корзины в localStorage; если нет — кладем хит продаж AERA Sense (AR-920)
+    // Синхронизация всех ссылок телефона и WhatsApp в шапке и футере из единой переменной siteConfig.contacts (защита от about:invalid)
+    function renderContactLinks() {
+      const contacts = siteConfig.contacts || {};
+      const phoneHref = contacts.phoneHref || siteConfig.PHONE_HREF || 'tel:+996555909090';
+      const phoneDisplay =
+        contacts.phoneDisplay || siteConfig.PHONE_DISPLAY || '+996 (555) 90-90-90';
+      const whatsappHref =
+        contacts.whatsappHref || siteConfig.WHATSAPP_HREF || buildQuickWhatsAppChatUrl();
+
+      doc.querySelectorAll('[data-contact-phone]').forEach((el) => {
+        el.setAttribute('href', phoneHref);
+        if (el.textContent && el.textContent.includes('996')) {
+          el.textContent = phoneDisplay;
+        }
+      });
+
+      doc.querySelectorAll('[data-contact-whatsapp]').forEach((el) => {
+        el.setAttribute('href', whatsappHref);
+      });
+    }
+
+    // Проверяем сохраненное состояние корзины в localStorage; если нет — кладем хит продаж AERA Sense (AR-6662)
+    const senseModel = getModelById('sense') || {};
     const defaultCartItems = [
       {
         key: 'sense__base',
         type: 'purifier',
         modelId: 'sense',
-        sku: 'AR-920',
-        name: 'AERA Sense',
+        sku: senseModel.sku || 'AR-6662',
+        name: senseModel.name || 'AERA Sense',
         packageId: 'base',
         packageTitle: 'Комплект «Базовый»',
         packageShortTitle: 'Базовый',
-        unitPrice: 4990,
-        oldUnitPrice: 6500,
-        image: getModelById('sense').image,
-        badge: '★ Хит продаж • До 30 м²',
+        unitPrice: senseModel.price || 4990,
+        oldUnitPrice: senseModel.oldPrice || 6500,
+        image: senseModel.image,
+        badge: senseModel.shortBadge || '★ Хит продаж • До 30 м²',
         qty: 1
       }
     ];
@@ -1051,12 +1080,16 @@
 
       setElText('calc-result-badge', model.badge);
       setElText('calc-result-sku', `Индекс: ${model.sku}`);
+      setElText('calc-result-stock', model.stockLabel || '');
       setElText('calc-result-title', model.name);
       setElText('calc-result-desc', model.configuratorReason);
       setElText('calc-result-price', formatPrice(pkg.price));
       setElText('calc-result-old-price', formatPrice(pkg.oldPrice));
       setElText('calc-result-cadr', `CADR ${model.cadr} м³/ч • Очистка ${configuratorState.sqm} м² за ~${cleanMins} мин`);
-      setElText('calc-result-dimensions', `Высота ${model.heightCm} см (${model.dimensions}), мощность ${model.powerW} Вт`);
+      setElText(
+        'calc-result-dimensions',
+        `Высота ${model.heightCm} см (${model.dimensions}), вес ${model.weight || model.specs?.weight || ''}, мощность ${model.powerW} Вт`
+      );
       setElText('calc-result-noise', `Ночной режим ${model.noiseDb} дБ • ${model.specs.display}`);
       setElText('calc-submit-btn-text', `Забронировать ${model.name} • ${formatPrice(pkg.price)}`);
     }
@@ -1109,6 +1142,9 @@
                 <div class="absolute top-2 left-2 px-2.5 py-0.5 sm:py-1 rounded-full bg-white/90 backdrop-blur-md font-label-sm text-[10px] sm:text-[11px] text-[#0F172A] font-bold uppercase tracking-wider shadow-sm">
                   ${escapeHtml(model.badge)}
                 </div>
+                <div class="absolute bottom-2 left-2 px-2 py-0.5 rounded-lg bg-amber-100/95 backdrop-blur-md font-label-sm text-[10px] sm:text-[11px] text-amber-900 font-extrabold shadow-xs" data-model-stock="${escapeHtml(model.id)}">
+                  ${escapeHtml(model.stockLabel || '')}
+                </div>
                 <div class="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-[#0F172A]/85 backdrop-blur-md font-label-sm text-[10px] sm:text-[11px] text-white font-semibold">
                   ${escapeHtml(model.sku)}
                 </div>
@@ -1134,8 +1170,8 @@
                   <span class="font-semibold text-[#0F172A]">${model.powerW} Вт • ${model.cadr} м³/ч</span>
                 </div>
                 <div class="hidden sm:flex items-center justify-between gap-2">
-                  <span class="text-slate-500">Габариты (В×Ш×Г)</span>
-                  <span class="font-semibold text-[#0F172A]">${model.heightCm} см (${escapeHtml(model.dimensions)})</span>
+                  <span class="text-slate-500">Габариты и вес</span>
+                  <span class="font-semibold text-[#0F172A]">${model.heightCm} см (${escapeHtml(model.dimensions)}) • ${escapeHtml(model.weight || '')}</span>
                 </div>
                 <div class="hidden sm:flex items-center justify-between gap-2">
                   <span class="text-slate-500">Ночной режим</span>
@@ -1214,29 +1250,32 @@
 
           return `
             <tr data-comparison-row="${escapeHtml(model.id)}" class="${rowHighlight}">
-              <td data-label="Модель и индекс" class="font-headline-sm font-bold text-[#0F172A]">
+              <td data-label="Модель и индекс" class="sticky left-0 z-20 bg-white/95 backdrop-blur font-headline-sm font-bold text-[#0F172A]">
                 <div class="flex flex-col gap-0.5">
                   <div class="flex items-center gap-1.5 flex-wrap">
-                    <span class="text-[15px] font-bold text-[#0F172A]">${escapeHtml(model.name)}</span>
+                    <span class="text-[14px] sm:text-[15px] font-bold text-[#0F172A] whitespace-nowrap">${escapeHtml(model.name)}</span>
                     ${
                       model.isHit
                         ? `<span class="px-2 py-0.5 rounded-full bg-[#0D9488] text-white text-[10px] font-bold uppercase tracking-wider">Хит</span>`
                         : ''
                     }
                   </div>
-                  <span class="text-[11px] text-slate-500 font-medium">Индекс ${escapeHtml(model.sku)}</span>
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="text-[11px] text-slate-500 font-medium whitespace-nowrap">Индекс ${escapeHtml(model.sku)}</span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 font-extrabold whitespace-nowrap">${escapeHtml(model.stockLabel || '')}</span>
+                  </div>
                 </div>
               </td>
-              <td data-label="Площадь">${escapeHtml(model.specs.area)}</td>
+              <td data-label="Площадь" class="whitespace-nowrap font-semibold text-[#0F172A]">${escapeHtml(model.specs.area)}</td>
               <td data-label="CADR / Объем в сутки">
                 <div class="flex flex-col">
-                  <strong class="text-[#0F172A]">${model.cadr} м³/ч</strong>
-                  <span class="text-[11px] text-[#0D9488] font-semibold">${dailyLiters}</span>
+                  <strong class="text-[#0F172A] whitespace-nowrap">${model.cadr} м³/ч</strong>
+                  <span class="text-[11px] text-[#0D9488] font-semibold whitespace-nowrap">${dailyLiters}</span>
                 </div>
               </td>
               <td data-label="Датчик PM2.5 и экран" class="text-[12px] text-slate-700">${escapeHtml(model.specs.display)}</td>
               <td data-label="Авто-режим и шум" class="text-[12px] text-slate-700">${escapeHtml(autoModeLabel)}</td>
-              <td data-label="Габариты и мощность" class="text-[12px] text-slate-700">${model.heightCm} см (${escapeHtml(model.dimensions)}) • ${model.powerW} Вт</td>
+              <td data-label="Габариты и мощность" class="text-[12px] text-slate-700">${model.heightCm} см (${escapeHtml(model.dimensions)}) • Вес ${escapeHtml(model.weight || '')} • ${model.powerW} Вт</td>
               <td data-label="Комплект «Базовый»">
                 <div class="flex flex-col">
                   <strong class="text-[15px] font-bold text-[#0F172A] whitespace-nowrap">${formatPrice(model.price)}</strong>
@@ -1246,7 +1285,7 @@
               <td data-label="Комплект «Плюс» (+фильтр)">
                 <div class="flex flex-col">
                   <strong class="text-[15px] font-bold text-[#0D9488] whitespace-nowrap">${formatPrice(model.plusPrice)}</strong>
-                  <span class="text-[10px] text-slate-500">Прибор + 2 фильтра</span>
+                  <span class="text-[10px] text-slate-500 whitespace-nowrap">Прибор + 2 фильтра</span>
                 </div>
               </td>
               <td data-label="Заказ">
@@ -1286,7 +1325,7 @@
       if (divider) divider.style.left = `${pct}%`;
       if (slider && Number(slider.value) !== pct) slider.value = String(pct);
       if (pctLabel) {
-        pctLabel.textContent = `${pct}% новый / ${100 - pct}% после 60 дней смога`;
+        pctLabel.textContent = `${pct}% До (PM2.5 500 мкг/м³) / ${100 - pct}% После (PM2.5 005 мкг/м³)`;
       }
 
       doc.querySelectorAll('[data-compare-preset]').forEach((btn) => {
@@ -1510,6 +1549,7 @@
 
       setElText('modal-model-badge', model.badge);
       setElText('modal-model-sku', `ЗАВОДСКОЙ ИНДЕКС: ${model.sku}`);
+      setElText('modal-model-stock', model.stockLabel || '');
       setElText('modal-model-title', model.name);
       setElText('modal-model-summary', model.summary);
 
@@ -1592,7 +1632,10 @@
       setElText('modal-spec-cadr', `${model.cadr} м³/ч`);
       setElText('modal-spec-area', model.specs.area);
       setElText('modal-spec-height', `${model.heightCm} см`);
-      setElText('modal-spec-dimensions', model.dimensions);
+      setElText(
+        'modal-spec-dimensions',
+        model.weight ? `${model.dimensions} • Вес ${model.weight}` : model.dimensions
+      );
       setElText('modal-spec-noise', `${model.noiseDb} дБ`);
       setElText('modal-spec-power', `Мощность ${model.powerW} Вт • Пульт ДУ`);
       setElText('modal-spec-display', model.specs.display);
@@ -2070,6 +2113,15 @@
         });
       });
 
+      // Кнопка «Добавить запасной фильтр за +450 сом» в секции #before-after
+      doc.querySelectorAll('[data-add-filter-addon]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          hideOrderConfirmationBanner('cart-order-success');
+          cartStore.addFilterAddon(1);
+          showToast('Запасной фильтр за +450 сом добавлен в корзину');
+        });
+      });
+
       // 7.3. Фильтрация отзывов по модели и клики по модели внутри отзыва
       doc.querySelectorAll('[data-review-filter]').forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -2301,6 +2353,7 @@
     }
 
     // Первичный рендер всех секций
+    renderContactLinks();
     renderLiveSmogWidget();
     renderCatalogGrid();
     renderComparisonTable();
@@ -2330,6 +2383,7 @@
       reviewsState,
       customerProfile,
       openProductModal,
+      renderContactLinks,
       renderLiveSmogWidget,
       renderConfigurator,
       renderComparisonTable,

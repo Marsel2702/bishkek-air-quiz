@@ -8,5 +8,5 @@
   <text x="300" y="144" text-anchor="middle" fill="#94A3B8" font-family="Plus Jakarta Sans, sans-serif" font-size="9" font-weight="700">PM2.5 µg/m³</text>
   <rect x="226" y="195" width="148" height="180" rx="18" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="2"/>
   <text x="300" y="280" text-anchor="middle" fill="#0F172A" font-family="Plus Jakarta Sans, sans-serif" font-size="20" font-weight="800">AERA Sense</text>
-  <text x="300" y="304" text-anchor="middle" fill="#0D9488" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="700">AR-920 • CADR 240 м³/ч</text>
+  <text x="300" y="304" text-anchor="middle" fill="#0D9488" font-family="Plus Jakarta Sans, sans-serif" font-size="13" font-weight="700">AR-6662 • CADR 240 м³/ч</text>
 </svg>

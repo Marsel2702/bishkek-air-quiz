@@ -10,7 +10,7 @@ const siteConfig = {
   currency: 'KGS',
   currencySymbol: 'сом',
 
-  // Контакты и интеграции (Шаг 4)
+  // Контакты и интеграции (Шаг 4): единый блок контактов для шапки, футера и виджетов
   // Заказы уходят на серверную функцию /api/order (Vercel), токен бота хранится в переменных окружения
   // TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID на сервере. Не вписывайте реальный токен сюда — он будет виден в браузере.
   ORDER_ENDPOINT: '/api/order',
@@ -19,8 +19,21 @@ const siteConfig = {
   WHATSAPP_NUMBER: '996555909090',
   PHONE_DISPLAY: '+996 (555) 90-90-90',
   PHONE_HREF: 'tel:+996555909090',
+  WHATSAPP_HREF:
+    'https://wa.me/996555909090?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9F%D0%BE%D0%BC%D0%BE%D0%B3%D0%B8%D1%82%D0%B5%2C%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20%D0%BF%D0%BE%D0%B4%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D0%BE%D1%87%D0%B8%D1%81%D1%82%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%20AERA%20%D0%B4%D0%BB%D1%8F%20%D0%BA%D0%B2%D0%B0%D1%80%D1%82%D0%B8%D1%80%D1%8B',
   WORK_HOURS: 'Ежедневно 09:00 — 21:00',
   META_PIXEL_ID: 'AERA_BISHKEK_PIXEL',
+
+  contacts: {
+    phoneDisplay: '+996 (555) 90-90-90',
+    phoneRaw: '+996555909090',
+    phoneHref: 'tel:+996555909090',
+    whatsappNumber: '996555909090',
+    whatsappDisplay: '+996 (555) 90-90-90',
+    whatsappHref:
+      'https://wa.me/996555909090?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9F%D0%BE%D0%BC%D0%BE%D0%B3%D0%B8%D1%82%D0%B5%2C%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20%D0%BF%D0%BE%D0%B4%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D0%BE%D1%87%D0%B8%D1%81%D1%82%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%20AERA%20%D0%B4%D0%BB%D1%8F%20%D0%BA%D0%B2%D0%B0%D1%80%D1%82%D0%B8%D1%80%D1%8B',
+    workHours: 'Ежедневно 09:00 — 21:00'
+  },
 
   // Индикатор смога в шапке и Hero-блок (Шаг 1)
   smogIndicator: {
@@ -54,7 +67,7 @@ const siteConfig = {
       'https://lh3.googleusercontent.com/aida-public/AB6AXuBo2obxvR-EM-hMfuZrsFr22EIinLDhA0r6RBnqs4M2_eGEqLOe_0tQsP_xJeJp27pduJci3CAHovWQpUFZLvvPt7lRDfiEvWzGdZ_NEzL7wXIjU_5Ess3ObXXr7SbeLMDlpRtfv4pCV7Fq1tYn5ZpOpfOQL2Jf_tcYSDNrwGWYFS2mNuluaEi5SLRP1WHBxnIq4voDCDrsWVZYhOUjvPy48rXPgbH6Ve1Ye_dhFRcR11EgpZaB_wxp'
   },
 
-  // Линейка приборов AERA (Шаг 2, п. 1–3)
+  // Линейка приборов AERA (Фактическая партия со склада в г. Бишкек)
   models: [
     {
       id: 'compact',
@@ -69,7 +82,7 @@ const siteConfig = {
       oldPrice: 5200,
       plusPrice: 4440,
       plusOldPrice: 6150,
-      areaLabel: 'До 20 м²',
+      areaLabel: 'До 25 м²',
       areaRecommendedMax: 25,
       areaSliderDefault: 18,
       priorityId: 'bedroom',
@@ -78,9 +91,13 @@ const siteConfig = {
       cadr: 180,
       heightCm: 48,
       dimensions: '256×128×480 мм',
+      weightKg: 1.75,
+      weight: '1.75 кг',
+      stockCount: 4,
+      stockLabel: 'Осталось 4 шт',
       noiseDb: 28,
       summary:
-        'Компактный и тихий очиститель для спальни и детской комнаты. Ночной режим 28 дБ, 6 сенсорных кнопок, таймер 1–8 ч и пульт ДУ в комплекте.',
+        'Компактный и тихий очиститель для спальни и детской комнаты до 25 м². Ночной режим 28 дБ, 6 сенсорных кнопок, таймер 1–8 ч и пульт ДУ в комплекте.',
       configuratorReason:
         'Идеален для детских и спален до 25 м²: тихий ночной режим 28 дБ не тревожит сон ребенка, а фильтр HEPA H13 + уголь убирает смог и аллергены за 5 минут.',
       specs: {
@@ -88,6 +105,8 @@ const siteConfig = {
         cadr: '180 м³/ч',
         area: 'До 25 м²',
         height: '48 см (256×128×480 мм)',
+        weight: '1.75 кг',
+        stock: 'Осталось 4 шт',
         noise: '28 дБ (ночной режим)',
         controls: '6 сенсорных кнопок, таймер 1–8 ч',
         display: 'Сенсорная панель с LED-индикацией режимов',
@@ -95,8 +114,8 @@ const siteConfig = {
         filtration: '4 ступени: Pre-Filter + HEPA H13 + Active Carbon + Ионизатор 20 млн'
       },
       highlights: [
-        'Мощность 35 Вт, CADR 180 м³/ч',
-        'Высота 48 см (256×128×480 мм)',
+        'Мощность 35 Вт, CADR 180 м³/ч, площадь до 25 м²',
+        'Высота 48 см (256×128×480 мм), вес 1.75 кг',
         'Ночной режим 28 дБ — тихий сон без бликов',
         '6 сенсорных кнопок, таймер 1–8 ч, пульт ДУ в комплекте'
       ],
@@ -150,9 +169,9 @@ const siteConfig = {
     },
     {
       id: 'sense',
-      sku: 'AR-920',
+      sku: 'AR-6662',
       name: 'AERA Sense',
-      fullName: 'AERA Sense (AR-920)',
+      fullName: 'AERA Sense (AR-6662)',
       badge: '★ ВЫБОР 70% В БИШКЕКЕ • ДО 30 М²',
       shortBadge: 'Хит продаж • До 30 м²',
       isHit: true,
@@ -161,15 +180,19 @@ const siteConfig = {
       oldPrice: 6500,
       plusPrice: 5440,
       plusOldPrice: 7450,
-      areaLabel: '20–30 м²',
+      areaLabel: 'До 30 м²',
       areaRecommendedMax: 30,
       areaSliderDefault: 26,
       priorityId: 'smog_auto',
       priorityLabel: 'Видеть цифры смога PM2.5 + Авторежим',
       powerW: 35,
       cadr: 240,
-      heightCm: 51,
-      dimensions: '300×155×510 мм',
+      heightCm: 57,
+      dimensions: '320×165×570 мм',
+      weightKg: 2.85,
+      weight: '2.85 кг',
+      stockCount: 12,
+      stockLabel: 'Осталось 12 шт',
       noiseDb: 28,
       summary:
         'Хит продаж в Бишкеке: цветной LCD-дисплей с лазерным датчиком PM2.5 и температурой, датчик запаха гари TVOC и Умный Авторежим.',
@@ -179,7 +202,9 @@ const siteConfig = {
         power: '35 Вт',
         cadr: '240 м³/ч',
         area: 'До 30 м²',
-        height: '51 см (300×155×510 мм)',
+        height: '57 см (320×165×570 мм)',
+        weight: '2.85 кг',
+        stock: 'Осталось 12 шт',
         noise: '28 дБ (ночной режим)',
         controls: 'Умный Авторежим + сенсорное управление + таймер',
         display: 'Цветной LCD-дисплей с лазерным датчиком PM2.5, TVOC и температурой',
@@ -189,7 +214,7 @@ const siteConfig = {
       highlights: [
         'Цветной LCD-дисплей: цифры PM2.5 и температура',
         'Датчик запаха гари TVOC + Умный Авторежим',
-        'Мощность 35 Вт, CADR 240 м³/ч, высота 51 см (300×155×510 мм)',
+        'Мощность 35 Вт, CADR 240 м³/ч, высота 57 см (320×165×570 мм), вес 2.85 кг',
         'Ночной режим 28 дБ, пульт ДУ в комплекте'
       ],
       image:
@@ -198,7 +223,7 @@ const siteConfig = {
         {
           label: '1. Общий вид',
           src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDNFPl_c9lpLr-LbGTokDdSxn1kOrk3_mLGrFrV_oTyTukpps8g4CdLb-4zEcxh8XACy6X4Tw6bzZ1DrnVVtBVMlPBbtazEt_n1FJDuQv0zTOOCw0saqNpHcz6Gp1jg6tvRKEKlnpEWQb8pTzLgr7WLBm60S7hk_sUS3FE57bUbScopGHI4FKARhEPtRTQZeX_Et5od5AaykYjbW-bVUkmiEGon_cVODZGztV04D1DYqU32p2tRKree',
-          alt: 'AERA Sense AR-920 с цветным LCD-дисплеем PM2.5'
+          alt: 'AERA Sense AR-6662 с цветным LCD-дисплеем PM2.5'
         },
         {
           label: '2. LCD-дисплей PM2.5',
@@ -242,36 +267,42 @@ const siteConfig = {
     },
     {
       id: 'prox',
-      sku: 'AR-921',
+      sku: 'AR-669',
       name: 'AERA Pro X',
-      fullName: 'AERA Pro X (AR-921)',
-      badge: 'ФЛАГМАН 360° • ДЛЯ ЗАЛА И СТУДИИ 40–60 М²',
-      shortBadge: 'Флагман 360° • 40–60 м²',
+      fullName: 'AERA Pro X (AR-669)',
+      badge: 'ФЛАГМАН 360° • ДЛЯ ЗАЛА И СТУДИИ 30–50 М²',
+      shortBadge: 'Флагман 360° • 30–50 м²',
       isHit: false,
       isFlagship: true,
       price: 7290,
       oldPrice: 9800,
       plusPrice: 7740,
       plusOldPrice: 10750,
-      areaLabel: '40–60 м²',
-      areaRecommendedMax: 60,
-      areaSliderDefault: 50,
+      areaLabel: '30–50 м²',
+      areaRecommendedMax: 50,
+      areaSliderDefault: 45,
       priorityId: 'max_360',
       priorityLabel: 'Максимальная мощность 360° для зала',
       powerW: 35,
       cadr: 320,
-      heightCm: 60,
-      dimensions: '252×252×600 мм',
+      heightCm: 63,
+      dimensions: '260×260×630 мм',
+      weightKg: 3.5,
+      weight: '3.5 кг',
+      stockCount: 3,
+      stockLabel: 'Осталось 3 шт',
       noiseDb: 28,
       summary:
-        'Флагманская колонна 60 см с цилиндрическим фильтром-бочонком 360°, CADR 320 м³/ч и верхним круглым OLED-дисплеем с трехцветным кольцом качества воздуха.',
+        'Флагманская круглая башня 63 см с цилиндрическим фильтром-бочонком 360°, CADR 320 м³/ч и верхним круглым OLED-дисплеем с трехцветным кольцом качества воздуха.',
       configuratorReason:
-        'Максимальная турбо-тяга 360° (CADR 320 м³/ч) для просторных залов и квартир-студий 40–60 м²: цилиндрический фильтр-бочонок забирает смог со всех сторон, а верхний OLED-дисплей светится Зеленым/Желтым/Красным.',
+        'Максимальная турбо-тяга 360° (CADR 320 м³/ч) для просторных залов и квартир-студий 30–50 м²: цилиндрический фильтр-бочонок забирает смог со всех сторон, а верхний OLED-дисплей светится Зеленым/Желтым/Красным.',
       specs: {
         power: '35 Вт',
         cadr: '320 м³/ч',
-        area: '40–60 м² (зал / студия)',
-        height: '60 см (252×252×600 мм), корпус ABS-пластик',
+        area: '30–50 м²',
+        height: '63 см (260×260×630 мм), корпус ABS-пластик',
+        weight: '3.5 кг',
+        stock: 'Осталось 3 шт',
         noise: '28 дБ (ночной режим)',
         controls: 'Сенсорный верхний OLED-дисплей + Авторежим',
         display:
@@ -280,8 +311,8 @@ const siteConfig = {
         filtration: 'Цилиндрический фильтр-бочонок 360° (HEPA H13 + уголь) + Ионизатор 20 млн'
       },
       highlights: [
-        'Высокая колонна 60 см (252×252×600 мм) из ABS-пластика',
-        'Цилиндрический фильтр-бочонок 360°, CADR 320 м³/ч',
+        'Круглая башня 63 см (260×260×630 мм), вес 3.5 кг, корпус ABS-пластик',
+        'Цилиндрический фильтр-бочонок 360°, CADR 320 м³/ч, площадь 30–50 м²',
         'Верхний круглый OLED-дисплей с 3-цветным кольцом AQI, PM2.5 и °C',
         'Мощность 35 Вт, ночной режим 28 дБ, пульт ДУ в комплекте'
       ],
@@ -289,9 +320,9 @@ const siteConfig = {
         'https://lh3.googleusercontent.com/aida-public/AB6AXuA8EstV8GIewqkJf6jwih-_x_HT-R1-LfqCNPVwg6RrdZGgV34MIBqcyhvN3HCJpAy9HBTCPTqTAOrfNFIXjmAjsJEHe-pdgPC24tK9P8i8CtQwprdepLNCSBUVUoY20eOtzyz6SZqaNrQqroPVzrcM3v0uPTZILHC691KDPnaLoIEuUnn4V-JGy9YXElhMyn1lO2Equff62LNZnLSR4yYiogSgrm33lepQ3rB-7DszRzrVneYiX2H5',
       gallery: [
         {
-          label: '1. Колонна 60 см',
+          label: '1. Башня 63 см',
           src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA8EstV8GIewqkJf6jwih-_x_HT-R1-LfqCNPVwg6RrdZGgV34MIBqcyhvN3HCJpAy9HBTCPTqTAOrfNFIXjmAjsJEHe-pdgPC24tK9P8i8CtQwprdepLNCSBUVUoY20eOtzyz6SZqaNrQqroPVzrcM3v0uPTZILHC691KDPnaLoIEuUnn4V-JGy9YXElhMyn1lO2Equff62LNZnLSR4yYiogSgrm33lepQ3rB-7DszRzrVneYiX2H5',
-          alt: 'Флагманская колонна AERA Pro X AR-921 высотой 60 см'
+          alt: 'Флагманская круглая башня AERA Pro X AR-669 высотой 63 см'
         },
         {
           label: '2. Круглый OLED',
@@ -306,7 +337,7 @@ const siteConfig = {
         {
           label: '4. В интерьере',
           src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBefvM1_Io5tWiqVVvOXKo8l_Gj7AhsCMU52RudWkh8u7PUCP58AWsGQKj3ELbFa-mmoNV6sfCGvl36kAWt9miA5WMH0Yo_jG0AF5wiXluvP96vqlSbAa7KUnr1IdbJexn4gdvPOYFfBWGk7_eX4bQXutpkCk5XnpNEg1CwwfQElfOPtXT0GuPXrBm8RDFNbivAnyBtbXSiu0aRca2QHcXbNtC3dkkbNs49y_3XldKCYQO8iIFDVB5H',
-          alt: 'AERA Pro X в просторном зале 40–60 м²'
+          alt: 'AERA Pro X в просторном зале 30–50 м²'
         }
       ],
       packages: {
@@ -338,9 +369,9 @@ const siteConfig = {
   // Опции умного конфигуратора (Шаг 1, п. 1)
   configurator: {
     areas: [
-      { id: 'compact', label: 'До 20 м²', modelId: 'compact', defaultSqm: 18, minSqm: 10, maxSqm: 20 },
-      { id: 'sense', label: '20–30 м²', modelId: 'sense', defaultSqm: 26, minSqm: 21, maxSqm: 35 },
-      { id: 'prox', label: '40–60 м²', modelId: 'prox', defaultSqm: 50, minSqm: 36, maxSqm: 60 }
+      { id: 'compact', label: 'До 25 м²', modelId: 'compact', defaultSqm: 18, minSqm: 10, maxSqm: 25 },
+      { id: 'sense', label: 'До 30 м²', modelId: 'sense', defaultSqm: 26, minSqm: 21, maxSqm: 30 },
+      { id: 'prox', label: '30–50 м²', modelId: 'prox', defaultSqm: 45, minSqm: 31, maxSqm: 50 }
     ],
     priorities: [
       {
@@ -362,7 +393,7 @@ const siteConfig = {
         label: 'Максимальная мощность 360° для зала',
         icon: 'cyclone',
         modelId: 'prox',
-        subtitle: 'Колонна 60 см, бочонок 360° и круглый OLED'
+        subtitle: 'Круглая башня 63 см, бочонок 360° и круглый OLED'
       }
     ]
   },
@@ -585,7 +616,7 @@ const siteConfig = {
       author: 'Айжан К.',
       district: 'мкр. Асанбай',
       modelId: 'sense',
-      modelName: 'AERA Sense (AR-920)',
+      modelName: 'AERA Sense (AR-6662)',
       packageLabel: 'Комплект «Плюс»',
       role: 'Комплект «Плюс»',
       pmBefore: 168,
@@ -600,7 +631,7 @@ const siteConfig = {
       author: 'Бакыт и Мээрим',
       district: 'район Филармонии',
       modelId: 'sense',
-      modelName: 'AERA Sense (AR-920)',
+      modelName: 'AERA Sense (AR-6662)',
       packageLabel: 'Комплект «Плюс»',
       role: 'Комплект «Плюс»',
       pmBefore: 194,
@@ -615,7 +646,7 @@ const siteConfig = {
       author: 'Тимур А.',
       district: 'Южные ворота',
       modelId: 'prox',
-      modelName: 'AERA Pro X (AR-921)',
+      modelName: 'AERA Pro X (AR-669)',
       packageLabel: 'Комплект «Плюс»',
       role: 'Комплект «Плюс»',
       pmBefore: 152,
@@ -623,7 +654,7 @@ const siteConfig = {
       rating: 5,
       dateLabel: 'Январь 2026',
       date: 'Январь 2026',
-      text: 'У нас квартира-студия 48 м² выше Южных ворот. Взяли флагманскую колонну AERA Pro X с круглым фильтром-бочонком 360°. Выглядит очень солидно, верхний круглый OLED-экран светится зеленым когда воздух чистый, тяга мощная и при этом ночью вообще не слышно.'
+      text: 'У нас квартира-студия 48 м² выше Южных ворот. Взяли флагманскую круглую башню AERA Pro X с цилиндрическим фильтром-бочонком 360°. Выглядит очень солидно, верхний круглый OLED-экран светится зеленым когда воздух чистый, тяга мощная и при этом ночью вообще не слышно.'
     },
     {
       id: 'rev-jal',
@@ -645,7 +676,7 @@ const siteConfig = {
       author: 'Эрмек Т.',
       district: 'Кызыл-Аскер / частный сектор',
       modelId: 'sense',
-      modelName: 'AERA Sense (AR-920)',
+      modelName: 'AERA Sense (AR-6662)',
       packageLabel: 'Комплект «Плюс»',
       role: 'Комплект «Плюс»',
       pmBefore: 245,
@@ -712,7 +743,11 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports.siteConfig = siteConfig;
   module.exports.default = siteConfig;
   module.exports.MODELS = siteConfig.models;
+  module.exports.CONTACTS = siteConfig.contacts;
   module.exports.TELEGRAM_BOT_TOKEN = siteConfig.TELEGRAM_BOT_TOKEN;
   module.exports.TELEGRAM_CHAT_ID = siteConfig.TELEGRAM_CHAT_ID;
   module.exports.WHATSAPP_NUMBER = siteConfig.WHATSAPP_NUMBER;
+  module.exports.PHONE_DISPLAY = siteConfig.PHONE_DISPLAY;
+  module.exports.PHONE_HREF = siteConfig.PHONE_HREF;
+  module.exports.WHATSAPP_HREF = siteConfig.WHATSAPP_HREF;
 }

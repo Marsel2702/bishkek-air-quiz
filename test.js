@@ -24,15 +24,20 @@ test('Шаг 2: siteConfig.js содержит точные реальные д�
   assert.equal(compact.cadr, 180);
   assert.equal(compact.heightCm, 48);
   assert.equal(compact.dimensions, '256×128×480 мм');
+  assert.equal(compact.weightKg, 1.75);
+  assert.equal(compact.weight, '1.75 кг');
+  assert.equal(compact.stockCount, 4);
+  assert.equal(compact.stockLabel, 'Осталось 4 шт');
+  assert.equal(compact.specs.area, 'До 25 м²');
   assert.equal(compact.noiseDb, 28);
   assert.equal(compact.packages.base.price, 3990);
   assert.equal(compact.packages.plus.price, 4440);
   assert.equal(compact.packages.plus.badge, 'ВЫБОР 82%');
   assert.equal(compact.packages.plus.extraFilterPrice, 450);
 
-  // 2. AERA Sense (AR-920 — ХИТ ПРОДАЖ)
+  // 2. AERA Sense (AR-6662 — ХИТ ПРОДАЖ)
   assert.equal(sense.name, 'AERA Sense');
-  assert.equal(sense.sku, 'AR-920');
+  assert.equal(sense.sku, 'AR-6662');
   assert.equal(sense.isHit, true);
   assert.equal(sense.badge, '★ ВЫБОР 70% В БИШКЕКЕ • ДО 30 М²');
   assert.equal(sense.price, 4990);
@@ -40,8 +45,13 @@ test('Шаг 2: siteConfig.js содержит точные реальные д�
   assert.equal(sense.plusPrice, 5440);
   assert.equal(sense.powerW, 35);
   assert.equal(sense.cadr, 240);
-  assert.equal(sense.heightCm, 51);
-  assert.equal(sense.dimensions, '300×155×510 мм');
+  assert.equal(sense.heightCm, 57);
+  assert.equal(sense.dimensions, '320×165×570 мм');
+  assert.equal(sense.weightKg, 2.85);
+  assert.equal(sense.weight, '2.85 кг');
+  assert.equal(sense.stockCount, 12);
+  assert.equal(sense.stockLabel, 'Осталось 12 шт');
+  assert.equal(sense.specs.area, 'До 30 м²');
   assert.equal(sense.noiseDb, 28);
   assert.match(sense.specs.display, /LCD-дисплей/i);
   assert.match(sense.specs.display, /PM2\.5/i);
@@ -49,28 +59,37 @@ test('Шаг 2: siteConfig.js содержит точные реальные д�
   assert.equal(sense.packages.base.price, 4990);
   assert.equal(sense.packages.plus.price, 5440);
 
-  // 3. AERA Pro X (AR-921 — ФЛАГМАН 360°)
+  // 3. AERA Pro X (AR-669 — ФЛАГМАН 360°)
   assert.equal(prox.name, 'AERA Pro X');
-  assert.equal(prox.sku, 'AR-921');
+  assert.equal(prox.sku, 'AR-669');
   assert.equal(prox.isFlagship, true);
-  assert.equal(prox.badge, 'ФЛАГМАН 360° • ДЛЯ ЗАЛА И СТУДИИ 40–60 М²');
+  assert.equal(prox.badge, 'ФЛАГМАН 360° • ДЛЯ ЗАЛА И СТУДИИ 30–50 М²');
   assert.equal(prox.price, 7290);
   assert.equal(prox.oldPrice, 9800);
   assert.equal(prox.plusPrice, 7740);
   assert.equal(prox.powerW, 35);
   assert.equal(prox.cadr, 320);
-  assert.equal(prox.heightCm, 60);
-  assert.equal(prox.dimensions, '252×252×600 мм');
+  assert.equal(prox.heightCm, 63);
+  assert.equal(prox.dimensions, '260×260×630 мм');
+  assert.equal(prox.weightKg, 3.5);
+  assert.equal(prox.weight, '3.5 кг');
+  assert.equal(prox.stockCount, 3);
+  assert.equal(prox.stockLabel, 'Осталось 3 шт');
+  assert.equal(prox.specs.area, '30–50 м²');
   assert.equal(prox.noiseDb, 28);
   assert.match(prox.specs.display, /OLED/i);
   assert.match(prox.specs.filtration, /360°/);
   assert.equal(prox.packages.base.price, 7290);
   assert.equal(prox.packages.plus.price, 7740);
 
-  // 4. Сменный картридж AERA HEPA H13 + Active Carbon
+  // 4. Сменный картридж AERA HEPA H13 + Active Carbon и единый объект контактов siteConfig.contacts
   assert.equal(siteConfig.filterCartridge.standalonePrice, 950);
   assert.equal(siteConfig.filterCartridge.bundlePrice, 450);
   assert.equal(siteConfig.filterCartridge.savings, 500);
+  assert.ok(siteConfig.contacts, 'В siteConfig должен быть единый объект contacts');
+  assert.equal(siteConfig.contacts.phoneHref, 'tel:+996555909090');
+  assert.equal(siteConfig.contacts.phoneDisplay, '+996 (555) 90-90-90');
+  assert.ok(siteConfig.contacts.whatsappHref.startsWith('https://wa.me/996555909090?text='));
 
   // 5. 4 ступени очистки воздуха
   assert.equal(siteConfig.filtrationStages.length, 4);
@@ -584,6 +603,11 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         document.querySelector('[data-smog-district="center"]').click();
 
         // 1C. Проверяем интерактивный блок «До и После», счетчик литров и калькулятор экономии
+        const beforeAfterSectionText = document.getElementById('before-after')?.textContent || '';
+        const economyBadgeText = document.getElementById('before-after-economy-badge')?.textContent.trim() || '';
+        const winterFilterText = document.getElementById('winter-filter-comparison')?.textContent || '';
+        const beforeAfterAddFilterBtnText = document.getElementById('before-after-add-filter-btn')?.textContent.trim() || '';
+
         document.querySelector('[data-compare-preset="15"]').click();
         const overlayWidthAfterPreset = document.getElementById('before-after-overlay').style.width;
         const dividerLeftAfterPreset = document.getElementById('before-after-divider')?.style.left || '';
@@ -595,13 +619,21 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         document.querySelector('[data-econ-hours="8"]').click();
         const econMonthly8h = document.getElementById('econ-monthly-kwh-cost').textContent.trim();
 
+        // 1C-2. Проверяем первую липкую колонку таблицы #comparison и все ссылки телефона и WhatsApp в шапке и футере
+        const firstComparisonTd = document.querySelector('#comparison-table-body tr:first-child td:first-child');
+        const firstComparisonTdClass = firstComparisonTd?.className || '';
+        const allAnchorsHrefs = Array.from(document.querySelectorAll('a[href]')).map(a => a.getAttribute('href') || '');
+        const hasInvalidHref = allAnchorsHrefs.some(h => h.includes('about:invalid') || h.trim() === '');
+        const phoneLinksHrefs = Array.from(document.querySelectorAll('[data-contact-phone]')).map(a => a.getAttribute('href'));
+        const whatsappLinksHrefs = Array.from(document.querySelectorAll('[data-contact-whatsapp]')).map(a => a.getAttribute('href'));
+
         // 1D. Проверяем фильтрацию отзывов по моделям
         document.querySelector('[data-review-filter="sense"]').click();
         const senseReviewsCount = document.querySelectorAll('[data-review-card]').length;
         document.querySelector('[data-review-filter="all"]').click();
         const restoredReviewsCount = document.querySelectorAll('[data-review-card]').length;
 
-        // 2. Проверяем Умный конфигуратор: клик "До 20 м²" -> AERA Compact (3 990 сом, 18 м²)
+        // 2. Проверяем Умный конфигуратор: клик "До 25 м²" -> AERA Compact (3 990 сом, 18 м²)
         document.querySelector('[data-config-area="compact"]').click();
         const titleAfterCompact = document.getElementById('calc-result-title').textContent.trim();
         const priceAfterCompact = document.getElementById('calc-result-price').textContent.trim();
@@ -666,8 +698,8 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         document.getElementById('modal-bundle-base').click();
         const modalBannerHiddenAfterBundleSwitch = document.getElementById('modal-order-success').classList.contains('hidden');
 
-        // 4. Проверяем корзину: по умолчанию лежит AERA Sense (4 990 сом), нажимаем "+" на запасном картридже (+450 сом) -> 5 440 сом
-        document.getElementById('add-upsell-filter-btn').click();
+        // 4. Проверяем корзину: по умолчанию лежит AERA Sense (4 990 сом), нажимаем кнопку «Добавить запасной фильтр за +450 сом» в блоке #before-after -> 5 440 сом
+        document.getElementById('before-after-add-filter-btn').click();
         const cartTotalAfterUpsell = document.getElementById('cart-final-total').textContent.trim();
 
         // Выбираем способ оплаты Optima Pay и отправляем заказ из корзины
@@ -704,11 +736,19 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
           lowerOutdoorPm25,
           lowerIndoorPm25,
           lowerSmogStatusBadge,
+          beforeAfterSectionText,
+          economyBadgeText,
+          winterFilterText,
+          beforeAfterAddFilterBtnText,
           overlayWidthAfterPreset,
           dividerLeftAfterPreset,
           compareLabelAfterPreset,
           litersCounterProX,
           econMonthly8h,
+          firstComparisonTdClass,
+          hasInvalidHref,
+          phoneLinksHrefs,
+          whatsappLinksHrefs,
           senseReviewsCount,
           restoredReviewsCount,
           titleAfterCompact,
@@ -759,6 +799,12 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
     assert.equal(data.comparisonHeadersCount, 9);
     assert.equal(data.firstComparisonRowCellsCount, 9);
     assert.match(data.comparisonTableText, /28 дБ/);
+    assert.match(data.comparisonTableText, /AR-6614/);
+    assert.match(data.comparisonTableText, /AR-6662/);
+    assert.match(data.comparisonTableText, /AR-669/);
+    assert.match(data.comparisonTableText, /Осталось 4 шт/);
+    assert.match(data.comparisonTableText, /Осталось 12 шт/);
+    assert.match(data.comparisonTableText, /Осталось 3 шт/);
     assert.doesNotMatch(data.comparisonTableText, /24 дБ/);
     assert.equal(data.filtrationCardsCount, 4);
     assert.equal(data.initialReviewsCount, 5);
@@ -779,12 +825,39 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
     assert.equal(data.lowerOutdoorPm25, '238 мкг/м³');
     assert.equal(data.lowerIndoorPm25, '006 мкг/м³');
 
-    // Блок До/После, счетчик литров и калькулятор экономии
+    // Блок До/После, дымовой тест за 5 секунд, зимний фильтр, плашка экономичности, счетчик литров и калькулятор экономии
+    assert.match(data.beforeAfterSectionText, /Дымовой тест за 5 секунд/);
+    assert.match(data.beforeAfterSectionText, /PM2\.5 500 мкг\/м³/);
+    assert.match(data.beforeAfterSectionText, /PM2\.5 005 мкг\/м³/);
+    assert.match(
+      data.economyBadgeText,
+      /Потребление всего 35 Вт — около 25 сом в месяц за электричество при ежедневной работе/
+    );
+    assert.match(data.winterFilterText, /Что задерживает фильтр AERA за 1 зиму в Бишкеке/);
+    assert.match(data.beforeAfterAddFilterBtnText, /Добавить запасной фильтр за \+450 сом/);
     assert.equal(data.overlayWidthAfterPreset, '15%');
     assert.equal(data.dividerLeftAfterPreset, '15%');
-    assert.match(data.compareLabelAfterPreset, /15% новый \/ 85% после 60 дней смога/);
+    assert.match(data.compareLabelAfterPreset, /15% До \(PM2\.5 500 мкг\/м³\) \/ 85% После \(PM2\.5 005 мкг\/м³\)/);
     assert.equal(data.litersCounterProX, '7 680 000 л');
     assert.equal(data.econMonthly8h, '~ 9 сом / мес');
+
+    // Липкая первая колонка таблицы #comparison и проверка отсутствия about:invalid в ссылках
+    assert.match(data.firstComparisonTdClass, /sticky/);
+    assert.match(data.firstComparisonTdClass, /left-0/);
+    assert.match(data.firstComparisonTdClass, /z-20/);
+    assert.match(data.firstComparisonTdClass, /bg-white\/95/);
+    assert.match(data.firstComparisonTdClass, /backdrop-blur/);
+    assert.equal(data.hasInvalidHref, false, 'На странице не должно быть ссылок с about:invalid');
+    assert.ok(data.phoneLinksHrefs.length >= 2, 'В шапке и футере должны быть ссылки телефона [data-contact-phone]');
+    assert.ok(
+      data.phoneLinksHrefs.every((h) => h === siteConfig.contacts.phoneHref),
+      'Все телефонные ссылки должны ссылаться на siteConfig.contacts.phoneHref'
+    );
+    assert.ok(data.whatsappLinksHrefs.length >= 3, 'В шапке, футере и плавающей кнопке должны быть ссылки WhatsApp');
+    assert.ok(
+      data.whatsappLinksHrefs.every((h) => h === siteConfig.contacts.whatsappHref),
+      'Все ссылки WhatsApp должны ссылаться на siteConfig.contacts.whatsappHref'
+    );
 
     // Фильтр отзывов
     assert.equal(data.senseReviewsCount, 3);
@@ -834,7 +907,7 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
     assert.equal(data.openedUrls.length, 3);
     assert.ok(data.openedUrls[0].startsWith('https://wa.me/996555909090?text='));
 
-    // 5. Проверка мобильной верстки (360x640): отсутствие горизонтального скролла, плавающая кнопка WhatsApp не перекрывает бар корзины, полное размещение корзины
+    // 5. Проверка мобильной верстки (360x640): отсутствие горизонтального скролла, липкая первая колонка #comparison, плавающая кнопка WhatsApp не перекрывает бар корзины, полное размещение корзины
     await sendCdp('Emulation.setDeviceMetricsOverride', {
       width: 360,
       height: 640,
@@ -859,6 +932,8 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
 
         const docClientW = document.documentElement.clientWidth;
         const docScrollW = document.documentElement.scrollWidth;
+        const firstTd = document.querySelector('#comparison-table-body tr:first-child td:first-child');
+        const firstTdPosition = firstTd ? window.getComputedStyle(firstTd).position : '';
         const headerCartRect = document.querySelector('[data-open-cart]').getBoundingClientRect();
         const floatingRect = document.getElementById('floating-cart-bar').getBoundingClientRect();
         const waBtnRect = document.getElementById('floating-whatsapp-btn').getBoundingClientRect();
@@ -885,6 +960,7 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         return {
           docClientW,
           docScrollW,
+          firstTdPosition,
           headerCartLeft: Math.round(headerCartRect.left),
           headerCartRight: Math.round(headerCartRect.right),
           floatingLeft: Math.round(floatingRect.left),
@@ -909,6 +985,7 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
 
     const m = mobileEval.result.value;
     assert.equal(m.docScrollW, m.docClientW, `На мобильном 360px не должно быть горизонтального скролла страницы: ${JSON.stringify(m)}`);
+    assert.equal(m.firstTdPosition, 'sticky', 'На мобильном 360px первая колонка таблицы #comparison должна иметь position: sticky');
     assert.ok(m.headerCartLeft >= 0 && m.headerCartRight <= 360, `Кнопка корзины в шапке должна полностью помещаться в 360px: ${JSON.stringify(m)}`);
     assert.ok(m.floatingLeft >= 0 && m.floatingRight <= 360, `Плавающая панель корзины должна помещаться в 360px: ${JSON.stringify(m)}`);
     assert.ok(m.waBtnLeft >= 0 && m.waBtnRight <= 360, `Плавающая кнопка WhatsApp должна помещаться в 360px: ${JSON.stringify(m)}`);

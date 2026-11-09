@@ -71,7 +71,7 @@
             "@type": "Brand",
             "name": "AERA"
           },
-          "description": "Линейка очистителей воздуха AERA Compact (AR-6614), AERA Sense (AR-920) и AERA Pro X (AR-921) с 4-ступенчатой фильтрацией HEPA H13, сотовым активированным углем и ионизатором 20 млн ионов.",
+          "description": "Линейка очистителей воздуха AERA Compact (AR-6614), AERA Sense (AR-6662) и AERA Pro X (AR-669) с 4-ступенчатой фильтрацией HEPA H13, сотовым активированным углем и ионизатором 20 млн ионов.",
           "image": "https://bishkek-air-quiz.vercel.app/assets/og-banner.svg",
           "sku": "AERA-BISHKEK-LINEUP",
           "aggregateRating": {
@@ -98,24 +98,24 @@
               },
               {
                 "@type": "Offer",
-                "name": "AERA Sense (AR-920) — Хит продаж",
-                "sku": "AR-920",
+                "name": "AERA Sense (AR-6662) — Хит продаж",
+                "sku": "AR-6662",
                 "price": "4990",
                 "priceCurrency": "KGS",
                 "availability": "https://schema.org/InStock"
               },
               {
                 "@type": "Offer",
-                "name": "AERA Pro X (AR-921) — Флагман 360°",
-                "sku": "AR-921",
+                "name": "AERA Pro X (AR-669) — Флагман 360°",
+                "sku": "AR-669",
                 "price": "7290",
                 "priceCurrency": "KGS",
                 "availability": "https://schema.org/InStock"
               },
               {
                 "@type": "Offer",
-                "name": "AERA Pro X (AR-921) — Комплект Плюс",
-                "sku": "AR-921-PLUS",
+                "name": "AERA Pro X (AR-669) — Комплект Плюс",
+                "sku": "AR-669-PLUS",
                 "price": "7740",
                 "priceCurrency": "KGS",
                 "availability": "https://schema.org/InStock"
@@ -293,15 +293,16 @@
       backdrop-filter: blur(4px);
     }
 
-    /* Modern Web Guidance: responsive-table (sticky headers + @container stacked layout with attr(data-label)) */
+    /* Modern Web Guidance: responsive-table (horizontal scroll with sticky first column on mobile & desktop) */
     .table-wrapper {
-      overflow: auto;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       max-inline-size: 100%;
-      container-type: inline-size;
     }
 
     .comparison-table {
       width: 100%;
+      min-width: 780px;
       border-collapse: separate;
       border-spacing: 0;
       font-variant-numeric: tabular-nums;
@@ -310,70 +311,13 @@
     .comparison-table thead {
       position: sticky;
       inset-block-start: 0;
-      z-index: 2;
+      z-index: 25;
     }
 
     .comparison-table th,
     .comparison-table td {
       padding: 0.75rem 0.875rem;
       vertical-align: middle;
-    }
-
-    @container (max-width: 760px) {
-      .comparison-table,
-      .comparison-table thead,
-      .comparison-table tbody,
-      .comparison-table tr,
-      .comparison-table th,
-      .comparison-table td {
-        display: block;
-      }
-
-      .comparison-table thead {
-        display: none;
-      }
-
-      .comparison-table tbody tr {
-        margin-block-end: 0.75rem;
-        border: 1px solid #e2e8f0;
-        border-radius: 1rem;
-        overflow: hidden;
-        background: #ffffff;
-      }
-
-      .comparison-table tbody tr:last-child {
-        margin-block-end: 0;
-      }
-
-      .comparison-table tbody td {
-        padding: 0.5rem 0.875rem;
-        border-bottom: 1px solid #f1f5f9;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.75rem;
-        text-align: right;
-      }
-
-      .comparison-table tbody td:first-child {
-        background: #eff4ff;
-        padding: 0.625rem 0.875rem;
-        border-bottom: 1px solid #e2e8f0;
-        text-align: left;
-      }
-
-      .comparison-table tbody td:last-child {
-        border-bottom: none;
-      }
-
-      .comparison-table tbody td:not(:first-child)::before {
-        content: attr(data-label);
-        font-weight: 700;
-        font-size: 11px;
-        color: #475569;
-        text-align: left;
-        flex-shrink: 0;
-      }
     }
 
     /* Modern Web Guidance: search-hidden-content (<details name="aera-faq-accordion">) */
@@ -462,13 +406,31 @@
         <a href="#faq" class="px-3 py-1.5 text-[13px] font-semibold text-slate-700 hover:text-[#0F172A] hover:bg-white rounded-full transition-all">FAQ</a>
       </nav>
 
-      <!-- Правая часть: Телефон + Кнопка быстрого подбора + Корзина -->
+      <!-- Правая часть: Телефон + WhatsApp + Кнопка быстрого подбора + Корзина -->
       <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
         <div class="hidden lg:flex flex-col text-right mr-1">
-          <a href="tel:+996555909090" class="text-[14px] font-bold text-[#0F172A] hover:text-[#0D9488] transition-colors">
+          <a
+            id="header-phone-link"
+            data-contact-phone
+            href="tel:+996555909090"
+            class="text-[14px] font-bold text-[#0F172A] hover:text-[#0D9488] transition-colors"
+          >
             +996 (555) 90-90-90
           </a>
-          <span class="text-[10px] text-[#0D9488] uppercase tracking-widest font-bold">Доставка в день заказа</span>
+          <div class="flex items-center justify-end gap-2">
+            <a
+              id="header-whatsapp-link"
+              data-contact-whatsapp
+              href="https://wa.me/996555909090?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9F%D0%BE%D0%BC%D0%BE%D0%B3%D0%B8%D1%82%D0%B5%2C%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20%D0%BF%D0%BE%D0%B4%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D0%BE%D1%87%D0%B8%D1%81%D1%82%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%20AERA%20%D0%B4%D0%BB%D1%8F%20%D0%BA%D0%B2%D0%B0%D1%80%D1%82%D0%B8%D1%80%D1%8B"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-[10px] text-[#0D9488] hover:underline uppercase tracking-widest font-extrabold"
+            >
+              WhatsApp
+            </a>
+            <span class="text-[10px] text-slate-400">•</span>
+            <span class="text-[10px] text-[#0D9488] uppercase tracking-widest font-bold">Доставка сегодня</span>
+          </div>
         </div>
 
         <!-- Кнопка быстрого подбора -->
@@ -744,28 +706,28 @@
                   <span class="text-[11px] sm:text-[12px] font-semibold text-[#0D9488] whitespace-nowrap">Точный расчет</span>
                 </div>
 
-                <!-- 3 кнопки диапазонов площади (Строго по ТЗ: До 20 м², 20–30 м², 40–60 м²) -->
+                <!-- 3 кнопки диапазонов площади (До 25 м², До 30 м², 30–50 м²) -->
                 <div class="grid grid-cols-3 gap-1.5 sm:gap-2" id="calc-area-buttons">
                   <button
                     type="button"
                     data-config-area="compact"
                     class="px-2 sm:px-3 py-2 sm:py-3 rounded-xl font-bold text-[12px] sm:text-[14px] whitespace-nowrap transition-all text-center bg-surface-container text-on-surface hover:bg-secondary-container"
                   >
-                    До 20 м²
+                    До 25 м²
                   </button>
                   <button
                     type="button"
                     data-config-area="sense"
                     class="px-2 sm:px-3 py-2 sm:py-3 rounded-xl font-bold text-[12px] sm:text-[14px] whitespace-nowrap transition-all text-center bg-[#0F172A] text-white shadow-md ring-2 ring-[#0D9488]"
                   >
-                    20–30 м²
+                    До 30 м²
                   </button>
                   <button
                     type="button"
                     data-config-area="prox"
                     class="px-2 sm:px-3 py-2 sm:py-3 rounded-xl font-bold text-[12px] sm:text-[14px] whitespace-nowrap transition-all text-center bg-surface-container text-on-surface hover:bg-secondary-container"
                   >
-                    40–60 м²
+                    30–50 м²
                   </button>
                 </div>
 
@@ -791,7 +753,7 @@
                     <span>10 м²<span class="hidden sm:inline"> (Спальня)</span></span>
                     <span>25 м²<span class="hidden sm:inline"> (Детская)</span></span>
                     <span>40 м²<span class="hidden sm:inline"> (Зал)</span></span>
-                    <span>60 м²<span class="hidden sm:inline"> (Студия)</span></span>
+                    <span>50 м²<span class="hidden sm:inline"> (Студия)</span></span>
                   </div>
                 </div>
               </div>
@@ -849,13 +811,13 @@
                       <span class="material-symbols-outlined text-[#0D9488] text-[20px] sm:text-[22px] shrink-0">cyclone</span>
                       <div class="sm:hidden min-w-0">
                         <div class="text-[12px] font-bold text-[#0F172A] leading-tight truncate">Максимальная мощность 360° для зала</div>
-                        <div class="text-[10px] text-slate-500 truncate">Колонна 60 см, бочонок 360°</div>
+                        <div class="text-[10px] text-slate-500 truncate">Круглая башня 63 см, бочонок 360°</div>
                       </div>
                       <span class="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-white text-slate-600 whitespace-nowrap">360° OLED</span>
                     </div>
                     <div class="hidden sm:block">
                       <div class="text-[13px] font-bold text-[#0F172A] leading-snug">Максимальная мощность 360° для зала</div>
-                      <div class="text-[11px] text-slate-500 mt-0.5">Колонна 60 см, фильтр-бочонок 360°</div>
+                      <div class="text-[11px] text-slate-500 mt-0.5">Круглая башня 63 см, фильтр-бочонок 360°</div>
                     </div>
                     <span class="sm:hidden text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-white text-slate-600 whitespace-nowrap shrink-0">360° OLED</span>
                   </button>
@@ -902,9 +864,14 @@
                   >
                     ★ ВЫБОР 70% В БИШКЕКЕ • ДО 30 М²
                   </span>
-                  <span id="calc-result-sku" class="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase whitespace-nowrap">
-                    Индекс: AR-920
-                  </span>
+                  <div class="flex items-center gap-1.5">
+                    <span id="calc-result-sku" class="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase whitespace-nowrap">
+                      Индекс: AR-6662
+                    </span>
+                    <span id="calc-result-stock" class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-extrabold whitespace-nowrap">
+                      Осталось 12 шт
+                    </span>
+                  </div>
                 </div>
 
                 <div class="flex items-center gap-3 pt-0.5">
@@ -942,7 +909,7 @@
                   </div>
                   <div class="flex items-start gap-1.5">
                     <span class="material-symbols-outlined text-[#0D9488] text-[15px] sm:text-[18px] shrink-0 mt-0.5">check_circle</span>
-                    <span id="calc-result-dimensions" class="font-medium">Высота 51 см (300×155×510 мм), мощность 35 Вт</span>
+                    <span id="calc-result-dimensions" class="font-medium">Высота 57 см (320×165×570 мм), вес 2.85 кг, мощность 35 Вт</span>
                   </div>
                   <div class="flex items-start gap-1.5">
                     <span class="material-symbols-outlined text-[#0D9488] text-[15px] sm:text-[18px] shrink-0 mt-0.5">check_circle</span>
@@ -1087,7 +1054,7 @@
             </caption>
             <thead>
               <tr class="bg-[#0F172A] text-white">
-                <th scope="col" class="font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-300">Модель и индекс</th>
+                <th scope="col" class="sticky left-0 z-20 bg-[#0F172A] font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-300">Модель и индекс</th>
                 <th scope="col" class="font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-300">Площадь</th>
                 <th scope="col" class="font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-300">CADR / Объем в сутки</th>
                 <th scope="col" class="font-bold text-[11px] sm:text-[12px] uppercase tracking-wider text-slate-300">Датчик PM2.5 и экран</th>
@@ -1122,125 +1089,212 @@
       </div>
     </section>
 
-    <!-- 5B. ИНТЕРАКТИВНЫЙ БЛОК «ДО И ПОСЛЕ»: ФИЛЬТР ПОСЛЕ 60 ДНЕЙ БИШКЕКСКОГО СМОГА + СЧЕТЧИК ЛИТРОВ И КАЛЬКУЛЯТОР ЭКОНОМИИ (Приоритет 1.2 и 3.3) -->
+    <!-- 5B. ИНТЕРАКТИВНЫЙ БЛОК «ДО И ПОСЛЕ»: ДЫМОВОЙ ТЕСТ ЗА 5 СЕКУНД + ЧТО ЗАДЕРЖИВАЕТ ФИЛЬТР ЗА 1 ЗИМУ В БИШКЕКЕ + ПЛАШКА ЭКОНОМИЧНОСТИ -->
     <section id="before-after" class="w-full py-7 sm:py-14 lg:py-20 bg-white border-b border-slate-200/70">
-      <div class="max-w-[1360px] mx-auto px-3.5 sm:px-6 lg:px-12">
+      <div class="max-w-[1360px] mx-auto px-3.5 sm:px-6 lg:px-12 flex flex-col gap-5 sm:gap-8">
+        <!-- Плашка экономичности 35 Вт -->
+        <div
+          id="before-after-economy-badge"
+          class="p-3 sm:p-4 rounded-2xl bg-gradient-to-r from-[#0F172A] via-slate-900 to-[#0F172A] text-white border border-[#0D9488]/40 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5"
+        >
+          <div class="flex items-center gap-2.5 sm:gap-3">
+            <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#0D9488] text-white flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[18px] sm:text-[20px]">bolt</span>
+            </span>
+            <p class="text-[12px] sm:text-[14px] font-bold leading-snug text-white">
+              Потребление всего 35 Вт — около 25 сом в месяц за электричество при ежедневной работе
+            </p>
+          </div>
+          <span class="px-2.5 py-1 rounded-full bg-[#0D9488]/20 text-[#86f2e4] text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider whitespace-nowrap shrink-0">
+            Тариф КР • Эко-инвертор 35 Вт
+          </span>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 lg:gap-10 items-stretch">
-          <!-- Левая часть (7 колонок): Интерактивный слайдер сравнения фильтра «Новый vs После 60 дней смога в Бишкеке» -->
-          <div class="lg:col-span-7 p-4 sm:p-7 rounded-2xl sm:rounded-3xl bg-[#F8FAFC] border border-slate-200/80 shadow-md flex flex-col justify-between gap-4">
-            <div class="flex flex-col gap-1">
-              <div class="inline-flex items-center gap-1.5 text-[#0D9488] text-[10px] sm:text-[12px] font-bold uppercase tracking-widest">
-                <span class="material-symbols-outlined text-[16px]">compare</span>
-                <span>Наглядный тест в зимнем Бишкеке</span>
+          <!-- Левая часть (7 колонок): Интерактивный ползунок сравнения «Дымовой тест за 5 секунд» + Блок «Что задерживает фильтр AERA за 1 зиму в Бишкеке» -->
+          <div class="lg:col-span-7 flex flex-col justify-between gap-5">
+            <!-- Карточка А: Интерактивный ползунок сравнения «Дымовой тест за 5 секунд» -->
+            <div class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#F8FAFC] border border-slate-200/80 shadow-md flex flex-col justify-between gap-4">
+              <div class="flex flex-col gap-1">
+                <div class="inline-flex items-center gap-1.5 text-[#0D9488] text-[10px] sm:text-[12px] font-bold uppercase tracking-widest">
+                  <span class="material-symbols-outlined text-[16px]">compare</span>
+                  <span>Интерактивное сравнение До / После</span>
+                </div>
+                <h2 class="text-[20px] sm:text-[28px] font-extrabold text-[#0F172A] leading-tight">
+                  Дымовой тест за 5 секунд
+                </h2>
+                <p class="text-[12px] sm:text-[14px] text-slate-600">
+                  Передвигайте ползунок: <strong class="text-red-700">До: густой смог PM2.5 500 мкг/м³</strong> → <strong class="text-[#0D9488]">После: чистый воздух PM2.5 005 мкг/м³</strong>. Турбина AERA захватывает дым и угольную взвесь за считанные секунды.
+                </p>
               </div>
-              <h2 class="text-[20px] sm:text-[30px] font-extrabold text-[#0F172A] leading-tight">
-                Что оседает на фильтре AERA за 60 дней вместо легких вашей семьи
-              </h2>
-              <p class="text-[12px] sm:text-[14px] text-slate-600">
-                Передвигайте ползунок, чтобы сравнить новый белоснежный картридж <strong>HEPA H13</strong> и реальный фильтр после 2 месяцев работы в бишкекском смоге.
-              </p>
+
+              <!-- Визуальная область сравнения До / После (Дымовой тест за 5 секунд) -->
+              <div class="relative w-full h-52 sm:h-60 rounded-2xl overflow-hidden border border-slate-300 shadow-inner select-none bg-slate-900">
+                <!-- Слой «ПОСЛЕ: ЧИСТЫЙ ВОЗДУХ PM2.5 005 мкг/м³» (фон справа) -->
+                <div class="absolute inset-0 bg-gradient-to-br from-[#eff4ff] via-teal-50/90 to-[#e5eeff] flex items-center justify-end pr-3 sm:pr-8">
+                  <div class="w-full h-full flex items-center justify-around px-3 sm:px-6">
+                    <div class="w-32 sm:w-44 h-36 sm:h-44 rounded-xl bg-white border-2 border-[#0D9488]/40 p-2.5 flex flex-col justify-between shadow-md ml-auto sm:ml-0">
+                      <div class="text-[9px] font-extrabold uppercase tracking-wider text-[#0D9488] text-center bg-teal-50 rounded py-0.5">
+                        После • Через 5 секунд
+                      </div>
+                      <div class="flex-1 my-1.5 rounded-lg bg-gradient-to-b from-teal-500/10 to-cyan-500/20 border border-[#0D9488]/30 flex flex-col items-center justify-center px-2">
+                        <span class="text-[20px] sm:text-[24px] font-extrabold text-[#0D9488] leading-none">005</span>
+                        <span class="text-[9px] font-extrabold text-[#0F172A] uppercase mt-0.5">PM2.5 мкг/м³</span>
+                      </div>
+                      <div class="text-[9px] text-[#0D9488] text-center font-bold">Прозрачный горный воздух</div>
+                    </div>
+                    <div class="hidden sm:flex flex-col gap-1.5 max-w-[215px] text-right">
+                      <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#0D9488] text-white text-[10px] font-bold uppercase w-fit ml-auto">
+                        После: PM2.5 005 мкг/м³
+                      </span>
+                      <p class="text-[13px] font-bold text-[#0F172A] leading-snug">
+                        После: чистый воздух PM2.5 005 мкг/м³ без дыма и запаха гари
+                      </p>
+                      <p class="text-[11px] text-slate-600">
+                        Дымовая камера полностью прозрачна за 5 секунд работы турбины.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Слой «ДО: ГУСТОЙ СМОГ PM2.5 500 мкг/м³» (обрезается по ширине ползунка) -->
+                <div
+                  id="before-after-overlay"
+                  style="width: 50%;"
+                  class="absolute inset-y-0 left-0 overflow-hidden bg-gradient-to-br from-stone-900 via-neutral-900 to-slate-950 border-r-2 border-[#0D9488]"
+                >
+                  <div class="w-full h-full min-w-[300px] sm:min-w-[540px] flex items-center justify-between px-3 sm:px-6">
+                    <div class="w-32 sm:w-44 h-36 sm:h-44 rounded-xl bg-stone-900/95 border-2 border-red-500/50 p-2.5 flex flex-col justify-between shadow-2xl">
+                      <div class="text-[9px] font-extrabold uppercase tracking-wider text-red-300 text-center bg-red-950/80 rounded py-0.5">
+                        До • Дымовая камера
+                      </div>
+                      <div class="flex-1 my-1.5 rounded-lg bg-[radial-gradient(circle_at_center,#57534e_0%,#1c1917_75%)] border border-stone-700 flex flex-col items-center justify-center px-2">
+                        <span class="text-[20px] sm:text-[24px] font-extrabold text-red-400 leading-none">500</span>
+                        <span class="text-[9px] font-extrabold text-stone-200 uppercase mt-0.5">PM2.5 мкг/м³</span>
+                      </div>
+                      <div class="text-[9px] text-amber-300 text-center font-semibold">Густой едкий смог и дым</div>
+                    </div>
+                    <div class="hidden sm:flex flex-col gap-1.5 max-w-[205px] text-left">
+                      <span class="inline-block px-2.5 py-0.5 rounded-full bg-red-500/25 text-red-300 text-[10px] font-bold uppercase w-fit">
+                        До: PM2.5 500 мкг/м³
+                      </span>
+                      <p class="text-[13px] font-bold text-white leading-snug">
+                        До: густой смог PM2.5 500 мкг/м³ и угольный дым в камере
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Разделитель ползунка До / После -->
+                <div
+                  id="before-after-divider"
+                  style="left: 50%;"
+                  aria-hidden="true"
+                  class="absolute inset-y-0 -translate-x-1/2 pointer-events-none flex items-center justify-center z-10"
+                >
+                  <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#0D9488] text-white shadow-lg border-2 border-white flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[16px]">swap_horiz</span>
+                  </div>
+                </div>
+
+                <!-- Бейджи по краям -->
+                <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full bg-black/85 text-red-300 text-[10px] font-extrabold shadow">
+                  До: густой смог PM2.5 500 мкг/м³
+                </span>
+                <span class="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-white/95 text-[#0D9488] text-[10px] font-extrabold shadow">
+                  После: чистый воздух PM2.5 005 мкг/м³
+                </span>
+              </div>
+
+              <!-- Ползунок и быстрые пресеты -->
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between text-[11px] sm:text-[12px] font-bold text-slate-600">
+                  <span>Дымовой тест: <strong id="before-after-percent-label" class="text-[#0D9488]">50% / 50% (PM2.5 500 → 005 мкг/м³)</strong></span>
+                  <div class="flex items-center gap-1">
+                    <button type="button" data-compare-preset="85" class="px-2 py-0.5 rounded bg-white border border-slate-200 hover:border-[#0D9488] text-[10px] font-bold">До: 500 мкг/м³</button>
+                    <button type="button" data-compare-preset="50" class="px-2 py-0.5 rounded bg-[#0F172A] text-white text-[10px] font-bold">50 / 50</button>
+                    <button type="button" data-compare-preset="15" class="px-2 py-0.5 rounded bg-white border border-slate-200 hover:border-[#0D9488] text-[10px] font-bold">После: 005 мкг/м³</button>
+                  </div>
+                </div>
+                <input
+                  id="before-after-slider"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="50"
+                  aria-label="Ползунок сравнения: Дымовой тест за 5 секунд (До PM2.5 500 мкг/м³ и После PM2.5 005 мкг/м³)"
+                  class="w-full accent-[#0D9488] cursor-pointer h-2 bg-slate-200 rounded-lg"
+                />
+              </div>
             </div>
 
-            <!-- Визуальная область сравнения До / После -->
-            <div class="relative w-full h-52 sm:h-64 rounded-2xl overflow-hidden border border-slate-300 shadow-inner select-none bg-slate-900">
-              <!-- Слой «ПОСЛЕ 60 ДНЕЙ СМОГА» (фон справа) -->
-              <div class="absolute inset-0 bg-gradient-to-br from-stone-800 via-neutral-900 to-slate-950 flex items-center justify-end pr-3 sm:pr-8">
-                <div class="w-full h-full flex items-center justify-around px-3 sm:px-6">
-                  <!-- Визуализация почерневших сот HEPA после 60 дней сажи -->
-                  <div class="w-28 sm:w-40 h-36 sm:h-48 rounded-xl bg-stone-900 border-2 border-stone-600 p-2 flex flex-col justify-between shadow-2xl">
-                    <div class="text-[9px] font-extrabold uppercase tracking-wider text-amber-400 text-center bg-black/50 rounded py-0.5">
-                      60 дней в смоге
-                    </div>
-                    <div class="flex-1 my-1.5 rounded-lg bg-[repeating-linear-gradient(0deg,#292524,#292524_6px,#44403c_6px,#44403c_10px)] border border-stone-700 flex items-center justify-center">
-                      <span class="px-2 py-1 rounded bg-black/80 text-[10px] font-bold text-stone-200 text-center">
-                        Угольная сажа PM2.5 + копоть
-                      </span>
-                    </div>
-                    <div class="text-[9px] text-stone-400 text-center font-semibold">Удержано ~42 г черной пыли</div>
+            <!-- Карточка Б: Визуальный блок «Что задерживает фильтр AERA за 1 зиму в Бишкеке» -->
+            <div
+              id="winter-filter-comparison"
+              class="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#F8FAFC] border border-slate-200/80 shadow-md flex flex-col gap-3.5"
+            >
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#0D9488]">
+                    Реальный картридж после отопительного сезона
+                  </span>
+                  <h3 class="text-[17px] sm:text-[22px] font-extrabold text-[#0F172A] leading-tight">
+                    Что задерживает фильтр AERA за 1 зиму в Бишкеке
+                  </h3>
+                </div>
+                <span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 text-[10px] font-extrabold uppercase w-fit shrink-0">
+                  До 42 г угольной сажи
+                </span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3.5">
+                <!-- Новый белый HEPA H13 картридж -->
+                <div class="p-3 rounded-2xl bg-white border border-[#0D9488]/30 flex items-center gap-3 shadow-xs">
+                  <div class="w-14 h-16 sm:w-16 sm:h-20 rounded-xl bg-[repeating-linear-gradient(0deg,#f8fafc,#f8fafc_5px,#e2e8f0_5px,#e2e8f0_9px)] border-2 border-[#0D9488]/40 shrink-0 flex items-center justify-center">
+                    <span class="px-1.5 py-0.5 rounded bg-[#0D9488] text-white text-[8px] font-extrabold uppercase">Новый</span>
                   </div>
-                  <div class="hidden sm:flex flex-col gap-1.5 max-w-[210px] text-right">
-                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 text-[10px] font-bold uppercase w-fit ml-auto">
-                      После 60 дней в Бишкеке
-                    </span>
-                    <p class="text-[13px] font-bold text-white leading-snug">
-                      Черный налет угольной сажи ТЭЦ, печного дыма и взвеси PM2.5
+                  <div class="min-w-0">
+                    <span class="text-[10px] font-extrabold uppercase text-[#0D9488] block">День 1 • Чистый</span>
+                    <p class="text-[12px] sm:text-[13px] font-bold text-[#0F172A] leading-snug">
+                      Новый белый HEPA H13 картридж
                     </p>
-                    <p class="text-[11px] text-stone-300">
-                      99.97% микрочастиц навсегда заперты внутри волокон HEPA H13.
+                    <p class="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                      Медицинское микроволокно H13 + сотовый активированный уголь.
                     </p>
                   </div>
                 </div>
-              </div>
 
-              <!-- Слой «ДО (НОВЫЙ ФИЛЬТР ДЕНЬ 1)» (обрезается по ширине ползунка) -->
-              <div
-                id="before-after-overlay"
-                style="width: 50%;"
-                class="absolute inset-y-0 left-0 overflow-hidden bg-gradient-to-br from-[#eff4ff] via-white to-[#e5eeff] border-r-2 border-[#0D9488]"
-              >
-                <div class="w-full h-full min-w-[300px] sm:min-w-[540px] flex items-center justify-between px-3 sm:px-6">
-                  <div class="w-28 sm:w-40 h-36 sm:h-48 rounded-xl bg-white border-2 border-[#0D9488]/40 p-2 flex flex-col justify-between shadow-md">
-                    <div class="text-[9px] font-extrabold uppercase tracking-wider text-[#0D9488] text-center bg-teal-50 rounded py-0.5">
-                      День 1 • Новый H13
-                    </div>
-                    <div class="flex-1 my-1.5 rounded-lg bg-[repeating-linear-gradient(0deg,#f8fafc,#f8fafc_6px,#e2e8f0_6px,#e2e8f0_10px)] border border-slate-200 flex items-center justify-center">
-                      <span class="px-2 py-1 rounded bg-[#0F172A] text-[10px] font-bold text-[#86f2e4] text-center">
-                        Чистое волокно HEPA H13
-                      </span>
-                    </div>
-                    <div class="text-[9px] text-slate-500 text-center font-semibold">Ресурс: 4–6 мес. защиты</div>
+                <!-- Черный от угольной сажи фильтр после сезона смога -->
+                <div class="p-3 rounded-2xl bg-stone-900 text-white border border-stone-700 flex items-center gap-3 shadow-xs">
+                  <div class="w-14 h-16 sm:w-16 sm:h-20 rounded-xl bg-[repeating-linear-gradient(0deg,#1c1917,#1c1917_5px,#44403c_5px,#44403c_9px)] border-2 border-amber-500/50 shrink-0 flex items-center justify-center">
+                    <span class="px-1.5 py-0.5 rounded bg-red-600 text-white text-[8px] font-extrabold uppercase">1 зима</span>
                   </div>
-                  <div class="hidden sm:flex flex-col gap-1.5 max-w-[200px] text-left">
-                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#0D9488]/15 text-[#0D9488] text-[10px] font-bold uppercase w-fit">
-                      Новый картридж
-                    </span>
-                    <p class="text-[13px] font-bold text-[#0F172A] leading-snug">
-                      Белоснежное медицинское микроволокно HEPA H13 + сотовый уголь
+                  <div class="min-w-0">
+                    <span class="text-[10px] font-extrabold uppercase text-amber-300 block">После сезона смога</span>
+                    <p class="text-[12px] sm:text-[13px] font-bold text-white leading-snug">
+                      Черный от угольной сажи фильтр после сезона смога
+                    </p>
+                    <p class="text-[11px] text-stone-300 mt-0.5 leading-tight">
+                      Вся копоть печного отопления осталась на фильтре, а не в легких.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <!-- Разделитель ползунка До / После -->
-              <div
-                id="before-after-divider"
-                style="left: 50%;"
-                aria-hidden="true"
-                class="absolute inset-y-0 -translate-x-1/2 pointer-events-none flex items-center justify-center z-10"
-              >
-                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#0D9488] text-white shadow-lg border-2 border-white flex items-center justify-center">
-                  <span class="material-symbols-outlined text-[16px]">swap_horiz</span>
-                </div>
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-1">
+                <p class="text-[11px] sm:text-[12px] text-slate-600">
+                  Закажите запасной картридж сразу на 2-й сезон со <strong>скидкой 50% (450 сом вместо 950 сом)</strong>:
+                </p>
+                <button
+                  type="button"
+                  id="before-after-add-filter-btn"
+                  data-add-filter-addon
+                  class="py-2.5 px-4 rounded-xl bg-[#0F172A] hover:bg-[#0D9488] text-white font-bold text-[12px] sm:text-[13px] shadow-sm transition-all flex items-center justify-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer"
+                >
+                  <span class="material-symbols-outlined text-[16px] text-[#86f2e4]">add_shopping_cart</span>
+                  <span>Добавить запасной фильтр за +450 сом</span>
+                </button>
               </div>
-
-              <!-- Бейджи по краям -->
-              <span class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full bg-white/95 text-[#0F172A] text-[10px] font-extrabold shadow">
-                ДО: Новый фильтр (День 1)
-              </span>
-              <span class="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-black/80 text-amber-300 text-[10px] font-extrabold shadow">
-                ПОСЛЕ: 60 дней смога
-              </span>
-            </div>
-
-            <!-- Ползунок и быстрые пресеты -->
-            <div class="flex flex-col gap-2">
-              <div class="flex items-center justify-between text-[11px] sm:text-[12px] font-bold text-slate-600">
-                <span>Сравнение фильтра: <strong id="before-after-percent-label" class="text-[#0D9488]">50% / 50%</strong></span>
-                <div class="flex items-center gap-1">
-                  <button type="button" data-compare-preset="85" class="px-2 py-0.5 rounded bg-white border border-slate-200 hover:border-[#0D9488] text-[10px] font-bold">День 1</button>
-                  <button type="button" data-compare-preset="50" class="px-2 py-0.5 rounded bg-[#0F172A] text-white text-[10px] font-bold">50 / 50</button>
-                  <button type="button" data-compare-preset="15" class="px-2 py-0.5 rounded bg-white border border-slate-200 hover:border-[#0D9488] text-[10px] font-bold">После 60 дней</button>
-                </div>
-              </div>
-              <input
-                id="before-after-slider"
-                type="range"
-                min="0"
-                max="100"
-                value="50"
-                aria-label="Ползунок сравнения нового фильтра и фильтра после 60 дней смога"
-                class="w-full accent-[#0D9488] cursor-pointer h-2 bg-slate-200 rounded-lg"
-              />
             </div>
           </div>
 
@@ -1315,7 +1369,7 @@
               <div class="grid grid-cols-2 gap-2">
                 <div class="p-2.5 sm:p-3 rounded-xl bg-white border border-slate-200/80">
                   <span class="block text-[10px] text-slate-500 font-semibold">Электроэнергия в месяц:</span>
-                  <span id="econ-monthly-kwh-cost" class="text-[18px] sm:text-[22px] font-extrabold text-[#0F172A]">~ 24 сом/мес</span>
+                  <span id="econ-monthly-kwh-cost" class="text-[18px] sm:text-[22px] font-extrabold text-[#0F172A]">~ 25 сом/мес</span>
                   <span id="econ-daily-kwh-cost" class="block text-[10px] text-[#0D9488] font-bold">Всего 0,8 сом в сутки</span>
                 </div>
                 <div class="p-2.5 sm:p-3 rounded-xl bg-white border border-slate-200/80">
@@ -1468,6 +1522,7 @@
   <!-- ПЛАВАЮЩАЯ КНОПКА «КОНСУЛЬТАЦИЯ В WHATSAPP» (Приоритет 1.1: не перекрывает плавающий бар корзины на мобильных) -->
   <a
     id="floating-whatsapp-btn"
+    data-contact-whatsapp
     href="https://wa.me/996555909090?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9F%D0%BE%D0%BC%D0%BE%D0%B3%D0%B8%D1%82%D0%B5%2C%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20%D0%BF%D0%BE%D0%B4%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D0%BE%D1%87%D0%B8%D1%81%D1%82%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%20AERA%20%D0%B4%D0%BB%D1%8F%20%D0%BA%D0%B2%D0%B0%D1%80%D1%82%D0%B8%D1%80%D1%8B"
     target="_blank"
     rel="noopener noreferrer"
@@ -1528,7 +1583,10 @@
       <div class="flex items-center gap-2 min-w-0">
         <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#0D9488] animate-pulse shrink-0"></span>
         <span id="modal-model-sku" class="text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-slate-600 truncate">
-          ЗАВОДСКОЙ ИНДЕКС: AR-920
+          ЗАВОДСКОЙ ИНДЕКС: AR-6662
+        </span>
+        <span id="modal-model-stock" class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-extrabold whitespace-nowrap shrink-0">
+          Осталось 12 шт
         </span>
       </div>
       <button
@@ -1761,8 +1819,8 @@
           </div>
           <div class="p-3 rounded-2xl bg-white border border-slate-200/70">
             <span class="text-[11px] text-slate-500 font-semibold block">Высота и габариты</span>
-            <span id="modal-spec-height" class="text-[16px] sm:text-[18px] font-extrabold text-[#0F172A]">51 см</span>
-            <span id="modal-spec-dimensions" class="text-[11px] text-slate-600 font-medium block">300×155×510 мм</span>
+            <span id="modal-spec-height" class="text-[16px] sm:text-[18px] font-extrabold text-[#0F172A]">57 см</span>
+            <span id="modal-spec-dimensions" class="text-[11px] text-slate-600 font-medium block">320×165×570 мм • Вес 2.85 кг</span>
           </div>
           <div class="p-3 rounded-2xl bg-white border border-slate-200/70">
             <span class="text-[11px] text-slate-500 font-semibold block">Ночной режим</span>
@@ -2068,14 +2126,32 @@
           </span>
         </div>
         <p class="text-[13px] text-slate-500 max-w-md">
-          Официальный магазин очистителей воздуха AERA в Бишкеке: AERA Compact (AR-6614), AERA Sense (AR-920), AERA Pro X (AR-921) и сменные фильтры HEPA H13 + Active Carbon.
+          Официальный магазин очистителей воздуха AERA в Бишкеке: AERA Compact (AR-6614), AERA Sense (AR-6662), AERA Pro X (AR-669) и сменные фильтры HEPA H13 + Active Carbon.
         </p>
       </div>
 
       <div class="flex flex-col sm:items-end gap-1 text-[13px] text-slate-600">
-        <a href="tel:+996555909090" class="text-[16px] font-extrabold text-[#0F172A] hover:text-[#0D9488]">
-          +996 (555) 90-90-90
-        </a>
+        <div class="flex flex-wrap items-center sm:justify-end gap-3">
+          <a
+            id="footer-phone-link"
+            data-contact-phone
+            href="tel:+996555909090"
+            class="text-[16px] font-extrabold text-[#0F172A] hover:text-[#0D9488] transition-colors"
+          >
+            +996 (555) 90-90-90
+          </a>
+          <a
+            id="footer-whatsapp-link"
+            data-contact-whatsapp
+            href="https://wa.me/996555909090?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9F%D0%BE%D0%BC%D0%BE%D0%B3%D0%B8%D1%82%D0%B5%2C%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20%D0%BF%D0%BE%D0%B4%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D0%BE%D1%87%D0%B8%D1%81%D1%82%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%20AERA%20%D0%B4%D0%BB%D1%8F%20%D0%BA%D0%B2%D0%B0%D1%80%D1%82%D0%B8%D1%80%D1%8B"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#0D9488]/15 text-[#0D9488] hover:bg-[#0D9488] hover:text-white text-[12px] font-bold transition-colors"
+          >
+            <span class="material-symbols-outlined text-[15px]">chat</span>
+            <span>WhatsApp</span>
+          </a>
+        </div>
         <span>Бесплатная экспресс-доставка по Бишкеку в день заказа</span>
         <span class="text-[12px] text-slate-400">© 2026 AERA Bishkek. Оплата при получении после проверки.</span>
       </div>
