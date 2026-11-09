@@ -3,6 +3,17 @@
  * Реальные данные моделей, комплектаций, цен и интеграций (Telegram + WhatsApp + Meta Pixel).
  */
 
+const CONTACTS = {
+  phoneDisplay: '+996 (555) 90-90-90',
+  phoneRaw: '+996555909090',
+  phoneHref: 'tel:+996555909090',
+  whatsappNumber: '996555909090',
+  whatsappDisplay: '+996 (555) 90-90-90',
+  whatsappHref:
+    'https://wa.me/996555909090?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9F%D0%BE%D0%BC%D0%BE%D0%B3%D0%B8%D1%82%D0%B5%2C%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20%D0%BF%D0%BE%D0%B4%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D0%BE%D1%87%D0%B8%D1%81%D1%82%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%20AERA%20%D0%B4%D0%BB%D1%8F%20%D0%BA%D0%B2%D0%B0%D1%80%D1%82%D0%B8%D1%80%D1%8B',
+  workHours: 'Ежедневно 09:00 — 21:00'
+};
+
 const siteConfig = {
   brand: 'AERA',
   storeName: 'AERA Bishkek',
@@ -10,30 +21,20 @@ const siteConfig = {
   currency: 'KGS',
   currencySymbol: 'сом',
 
-  // Контакты и интеграции (Шаг 4): единый блок контактов для шапки, футера и виджетов
+  // Контакты и интеграции (Шаг 4): единая переменная контактов для шапки, футера и виджетов
   // Заказы уходят на серверную функцию /api/order (Vercel), токен бота хранится в переменных окружения
   // TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID на сервере. Не вписывайте реальный токен сюда — он будет виден в браузере.
   ORDER_ENDPOINT: '/api/order',
   TELEGRAM_BOT_TOKEN: '',
   TELEGRAM_CHAT_ID: '',
-  WHATSAPP_NUMBER: '996555909090',
-  PHONE_DISPLAY: '+996 (555) 90-90-90',
-  PHONE_HREF: 'tel:+996555909090',
-  WHATSAPP_HREF:
-    'https://wa.me/996555909090?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9F%D0%BE%D0%BC%D0%BE%D0%B3%D0%B8%D1%82%D0%B5%2C%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20%D0%BF%D0%BE%D0%B4%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D0%BE%D1%87%D0%B8%D1%81%D1%82%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%20AERA%20%D0%B4%D0%BB%D1%8F%20%D0%BA%D0%B2%D0%B0%D1%80%D1%82%D0%B8%D1%80%D1%8B',
-  WORK_HOURS: 'Ежедневно 09:00 — 21:00',
+  WHATSAPP_NUMBER: CONTACTS.whatsappNumber,
+  PHONE_DISPLAY: CONTACTS.phoneDisplay,
+  PHONE_HREF: CONTACTS.phoneHref,
+  WHATSAPP_HREF: CONTACTS.whatsappHref,
+  WORK_HOURS: CONTACTS.workHours,
   META_PIXEL_ID: 'AERA_BISHKEK_PIXEL',
 
-  contacts: {
-    phoneDisplay: '+996 (555) 90-90-90',
-    phoneRaw: '+996555909090',
-    phoneHref: 'tel:+996555909090',
-    whatsappNumber: '996555909090',
-    whatsappDisplay: '+996 (555) 90-90-90',
-    whatsappHref:
-      'https://wa.me/996555909090?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9F%D0%BE%D0%BC%D0%BE%D0%B3%D0%B8%D1%82%D0%B5%2C%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20%D0%BF%D0%BE%D0%B4%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D0%BE%D1%87%D0%B8%D1%81%D1%82%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%20AERA%20%D0%B4%D0%BB%D1%8F%20%D0%BA%D0%B2%D0%B0%D1%80%D1%82%D0%B8%D1%80%D1%8B',
-    workHours: 'Ежедневно 09:00 — 21:00'
-  },
+  contacts: CONTACTS,
 
   // Индикатор смога в шапке и Hero-блок (Шаг 1)
   smogIndicator: {
@@ -370,7 +371,7 @@ const siteConfig = {
   configurator: {
     areas: [
       { id: 'compact', label: 'До 25 м²', modelId: 'compact', defaultSqm: 18, minSqm: 10, maxSqm: 25 },
-      { id: 'sense', label: 'До 30 м²', modelId: 'sense', defaultSqm: 26, minSqm: 21, maxSqm: 30 },
+      { id: 'sense', label: 'До 30 м²', modelId: 'sense', defaultSqm: 26, minSqm: 26, maxSqm: 30 },
       { id: 'prox', label: '30–50 м²', modelId: 'prox', defaultSqm: 45, minSqm: 31, maxSqm: 50 }
     ],
     priorities: [
@@ -607,6 +608,24 @@ const siteConfig = {
     nightPowerW: 18,
     filterBundlePrice: 450,
     filterSeasonDays: 180
+  },
+
+  // Секция #before-after (До / После: Дымовой тест за 5 секунд, фильтр за 1 зиму и плашка экономичности 35 Вт)
+  beforeAfter: {
+    title: 'Дымовой тест за 5 секунд',
+    smokeTestTitle: 'Дымовой тест за 5 секунд',
+    beforeLabel: 'До: густой смог PM2.5 500 мкг/м³',
+    afterLabel: 'После: чистый воздух PM2.5 005 мкг/м³',
+    beforePm25: 500,
+    afterPm25: '005',
+    winterFilterTitle: 'Что задерживает фильтр AERA за 1 зиму в Бишкеке',
+    newFilterLabel: 'Новый белый HEPA H13 картридж',
+    usedFilterLabel: 'Черный от угольной сажи фильтр после сезона смога',
+    addFilterBtnText: 'Добавить запасной фильтр за +450 сом',
+    addFilterPrice: 450,
+    winterFilterPrice: 450,
+    economyBadgeText:
+      'Потребление всего 35 Вт — около 25 сом в месяц за электричество при ежедневной работе'
   },
 
   // Реальные отзывы жителей районов Бишкека (Приоритет 1.5)

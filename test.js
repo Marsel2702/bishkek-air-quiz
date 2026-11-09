@@ -82,14 +82,21 @@ test('Шаг 2: siteConfig.js содержит точные реальные д�
   assert.equal(prox.packages.base.price, 7290);
   assert.equal(prox.packages.plus.price, 7740);
 
-  // 4. Сменный картридж AERA HEPA H13 + Active Carbon и единый объект контактов siteConfig.contacts
+  // 4. Сменный картридж AERA HEPA H13 + Active Carbon, единый объект контактов siteConfig.contacts и секция beforeAfter
   assert.equal(siteConfig.filterCartridge.standalonePrice, 950);
   assert.equal(siteConfig.filterCartridge.bundlePrice, 450);
   assert.equal(siteConfig.filterCartridge.savings, 500);
   assert.ok(siteConfig.contacts, 'В siteConfig должен быть единый объект contacts');
   assert.equal(siteConfig.contacts.phoneHref, 'tel:+996555909090');
   assert.equal(siteConfig.contacts.phoneDisplay, '+996 (555) 90-90-90');
+  assert.equal(siteConfig.PHONE_HREF, siteConfig.contacts.phoneHref);
+  assert.equal(siteConfig.PHONE_DISPLAY, siteConfig.contacts.phoneDisplay);
+  assert.equal(siteConfig.WHATSAPP_HREF, siteConfig.contacts.whatsappHref);
   assert.ok(siteConfig.contacts.whatsappHref.startsWith('https://wa.me/996555909090?text='));
+  assert.ok(siteConfig.beforeAfter, 'В siteConfig должен быть объект beforeAfter');
+  assert.match(siteConfig.beforeAfter.title, /Дымовой тест за 5 секунд/);
+  assert.match(siteConfig.beforeAfter.economyBadgeText, /Потребление всего 35 Вт — около 25 сом в месяц/);
+  assert.equal(siteConfig.beforeAfter.winterFilterPrice, 450);
 
   // 5. 4 ступени очистки воздуха
   assert.equal(siteConfig.filtrationStages.length, 4);
@@ -139,7 +146,7 @@ test('Шаг 3: В коде приложения удалены запрещен
 });
 
 test('Шаг 1: Умный конфигуратор динамически меняет рекомендуемую модель по площади, ползунку и приоритету', () => {
-  // Выбор по кнопкам площади: До 20 м², 20–30 м², 40–60 м²
+  // Выбор по кнопкам площади: До 25 м², До 30 м², 30–50 м²
   assert.equal(
     app.getRecommendedModel({ areaId: 'compact', lastChanged: 'area' }).name,
     'AERA Compact'
@@ -167,12 +174,15 @@ test('Шаг 1: Умный конфигуратор динамически ме�
     'AERA Pro X'
   );
 
-  // Выбор по ползунку площади (граничные значения)
+  // Выбор по ползунку площади (граничные значения: до 25 м² -> compact, 26..30 м² -> sense, 31..60 м² -> prox)
   assert.equal(app.getRecommendedModel({ sqm: 10, lastChanged: 'slider' }).id, 'compact');
   assert.equal(app.getRecommendedModel({ sqm: 20, lastChanged: 'slider' }).id, 'compact');
-  assert.equal(app.getRecommendedModel({ sqm: 21, lastChanged: 'slider' }).id, 'sense');
+  assert.equal(app.getRecommendedModel({ sqm: 25, lastChanged: 'slider' }).id, 'compact');
+  assert.equal(app.getRecommendedModel({ sqm: 26, lastChanged: 'slider' }).id, 'sense');
   assert.equal(app.getRecommendedModel({ sqm: 30, lastChanged: 'slider' }).id, 'sense');
+  assert.equal(app.getRecommendedModel({ sqm: 31, lastChanged: 'slider' }).id, 'prox');
   assert.equal(app.getRecommendedModel({ sqm: 40, lastChanged: 'slider' }).id, 'prox');
+  assert.equal(app.getRecommendedModel({ sqm: 50, lastChanged: 'slider' }).id, 'prox');
   assert.equal(app.getRecommendedModel({ sqm: 60, lastChanged: 'slider' }).id, 'prox');
 
   // Расчет времени очистки (включая некорректные и граничные входы)
@@ -608,10 +618,22 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         const winterFilterText = document.getElementById('winter-filter-comparison')?.textContent || '';
         const beforeAfterAddFilterBtnText = document.getElementById('before-after-add-filter-btn')?.textContent.trim() || '';
 
+        // На 50/50 дефолтном разделении карточка «005 PM2.5» (После) должна быть справа и не перекрываться шторкой «До»
+        const overlayRect50 = document.getElementById('before-after-overlay')?.getBoundingClientRect();
+        const beforeCardRect50 = document.querySelector('[data-before-card]')?.getBoundingClientRect();
+        const afterCardRect50 = document.querySelector('[data-after-card]')?.getBoundingClientRect();
+        const desktopBeforeCardVisibleAt50 = Boolean(
+          overlayRect50 && beforeCardRect50 && beforeCardRect50.right <= overlayRect50.right + 2
+        );
+        const desktopAfterCardVisibleAt50 = Boolean(
+          overlayRect50 && afterCardRect50 && afterCardRect50.left >= overlayRect50.right - 2
+        );
+
         document.querySelector('[data-compare-preset="15"]').click();
         const overlayWidthAfterPreset = document.getElementById('before-after-overlay').style.width;
         const dividerLeftAfterPreset = document.getElementById('before-after-divider')?.style.left || '';
         const compareLabelAfterPreset = document.getElementById('before-after-percent-label').textContent.trim();
+        const beforeAfterSliderAriaText = document.getElementById('before-after-slider')?.getAttribute('aria-valuetext') || '';
 
         document.querySelector('[data-liters-model="prox"]').click();
         const litersCounterProX = document.getElementById('daily-liters-counter').textContent.trim();
@@ -638,6 +660,7 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         const titleAfterCompact = document.getElementById('calc-result-title').textContent.trim();
         const priceAfterCompact = document.getElementById('calc-result-price').textContent.trim();
         const sqmAfterCompact = document.getElementById('config-sqm-display').textContent.trim();
+        const configSliderAriaText = document.getElementById('config-area-slider')?.getAttribute('aria-valuetext') || '';
 
         // Клик приоритета "Максимальная мощность 360° для зала" -> AERA Pro X (7 290 сом), но площадь пользователя 18 м² сохраняется!
         document.querySelector('[data-config-priority="max_360"]').click();
@@ -740,9 +763,13 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
           economyBadgeText,
           winterFilterText,
           beforeAfterAddFilterBtnText,
+          desktopBeforeCardVisibleAt50,
+          desktopAfterCardVisibleAt50,
           overlayWidthAfterPreset,
           dividerLeftAfterPreset,
           compareLabelAfterPreset,
+          beforeAfterSliderAriaText,
+          configSliderAriaText,
           litersCounterProX,
           econMonthly8h,
           firstComparisonTdClass,
@@ -835,9 +862,13 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
     );
     assert.match(data.winterFilterText, /Что задерживает фильтр AERA за 1 зиму в Бишкеке/);
     assert.match(data.beforeAfterAddFilterBtnText, /Добавить запасной фильтр за \+450 сом/);
+    assert.equal(data.desktopBeforeCardVisibleAt50, true, 'На 50/50 разделении карточка До (500 PM2.5) должна быть видна слева');
+    assert.equal(data.desktopAfterCardVisibleAt50, true, 'На 50/50 разделении карточка После (005 PM2.5) должна быть видна справа и не перекрываться шторкой До');
     assert.equal(data.overlayWidthAfterPreset, '15%');
     assert.equal(data.dividerLeftAfterPreset, '15%');
     assert.match(data.compareLabelAfterPreset, /15% До \(PM2\.5 500 мкг\/м³\) \/ 85% После \(PM2\.5 005 мкг\/м³\)/);
+    assert.match(data.beforeAfterSliderAriaText, /15% До/);
+    assert.match(data.configSliderAriaText, /18 м²/);
     assert.equal(data.litersCounterProX, '7 680 000 л');
     assert.equal(data.econMonthly8h, '~ 9 сом / мес');
 
@@ -907,7 +938,7 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
     assert.equal(data.openedUrls.length, 3);
     assert.ok(data.openedUrls[0].startsWith('https://wa.me/996555909090?text='));
 
-    // 5. Проверка мобильной верстки (360x640): отсутствие горизонтального скролла, липкая первая колонка #comparison, плавающая кнопка WhatsApp не перекрывает бар корзины, полное размещение корзины
+    // 5. Проверка мобильной верстки (360x640): отсутствие горизонтального скролла, липкая первая колонка #comparison при реальной горизонтальной прокрутке, отсутствие наложения бейджей #before-after, плавающая кнопка WhatsApp не перекрывает бар корзины, полное размещение корзины
     await sendCdp('Emulation.setDeviceMetricsOverride', {
       width: 360,
       height: 640,
@@ -933,7 +964,31 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         const docClientW = document.documentElement.clientWidth;
         const docScrollW = document.documentElement.scrollWidth;
         const firstTd = document.querySelector('#comparison-table-body tr:first-child td:first-child');
+        const col2Td = document.querySelector('#comparison-table-body tr:first-child td:nth-child(2)');
         const firstTdPosition = firstTd ? window.getComputedStyle(firstTd).position : '';
+
+        // Проверяем реальную горизонтальную прокрутку .table-wrapper на мобильном 360px
+        const wrapper = document.querySelector('#comparison .table-wrapper');
+        wrapper.scrollLeft = 0;
+        const stickyLeftBefore = firstTd.getBoundingClientRect().left;
+        const col2LeftBefore = col2Td.getBoundingClientRect().left;
+        wrapper.scrollLeft = 200;
+        const stickyLeftAfter = firstTd.getBoundingClientRect().left;
+        const col2LeftAfter = col2Td.getBoundingClientRect().left;
+        wrapper.scrollLeft = 0;
+        const stickyLeftDelta = Math.abs(stickyLeftAfter - stickyLeftBefore);
+        const col2LeftDelta = col2LeftAfter - col2LeftBefore;
+
+        // Проверяем отсутствие наложения двух бейджей До / После на 360px
+        const b1 = document.getElementById('before-after-badge-before').getBoundingClientRect();
+        const b2 = document.getElementById('before-after-badge-after').getBoundingClientRect();
+        const badgesOverlap = !(
+          b1.right <= b2.left ||
+          b1.left >= b2.right ||
+          b1.bottom <= b2.top ||
+          b1.top >= b2.bottom
+        );
+
         const headerCartRect = document.querySelector('[data-open-cart]').getBoundingClientRect();
         const floatingRect = document.getElementById('floating-cart-bar').getBoundingClientRect();
         const waBtnRect = document.getElementById('floating-whatsapp-btn').getBoundingClientRect();
@@ -956,11 +1011,15 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
         await new Promise(r => setTimeout(r, 150));
         const modalClientW = modal.clientWidth;
         const modalScrollW = modal.scrollWidth;
+        modal.close();
 
         return {
           docClientW,
           docScrollW,
           firstTdPosition,
+          stickyLeftDelta,
+          col2LeftDelta,
+          badgesOverlap,
           headerCartLeft: Math.round(headerCartRect.left),
           headerCartRight: Math.round(headerCartRect.right),
           floatingLeft: Math.round(floatingRect.left),
@@ -986,6 +1045,9 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
     const m = mobileEval.result.value;
     assert.equal(m.docScrollW, m.docClientW, `На мобильном 360px не должно быть горизонтального скролла страницы: ${JSON.stringify(m)}`);
     assert.equal(m.firstTdPosition, 'sticky', 'На мобильном 360px первая колонка таблицы #comparison должна иметь position: sticky');
+    assert.ok(m.stickyLeftDelta <= 1, `Первая колонка #comparison должна оставаться на месте при горизонтальном скролле: ${JSON.stringify(m)}`);
+    assert.ok(m.col2LeftDelta < -100, `Вторая колонка #comparison должна прокручиваться влево при горизонтальном скролле: ${JSON.stringify(m)}`);
+    assert.equal(m.badgesOverlap, false, `Бейджи До и После в #before-after не должны перекрываться на экране 360px: ${JSON.stringify(m)}`);
     assert.ok(m.headerCartLeft >= 0 && m.headerCartRight <= 360, `Кнопка корзины в шапке должна полностью помещаться в 360px: ${JSON.stringify(m)}`);
     assert.ok(m.floatingLeft >= 0 && m.floatingRight <= 360, `Плавающая панель корзины должна помещаться в 360px: ${JSON.stringify(m)}`);
     assert.ok(m.waBtnLeft >= 0 && m.waBtnRight <= 360, `Плавающая кнопка WhatsApp должна помещаться в 360px: ${JSON.stringify(m)}`);
@@ -995,6 +1057,52 @@ test('E2E в реальном браузере Chrome: DOM-рендер, кон�
     assert.equal(m.cartScrollW, m.cartClientW, `Внутри корзины не должно быть горизонтального переполнения: ${JSON.stringify(m)}`);
     assert.ok(m.submitBtnBottom <= 640, `Кнопка оформления заказа в корзине с 1 товаром должна помещаться в первый экран 360x640: ${JSON.stringify(m)}`);
     assert.equal(m.modalScrollW, m.modalClientW, `Внутри модалки товара не должно быть горизонтального переполнения: ${JSON.stringify(m)}`);
+
+    // 6. Стресс-тест узкого экрана 320x568 + 200% масштабирования (zoom): липкая колонка и бейджи До/После
+    await sendCdp('Emulation.setDeviceMetricsOverride', {
+      width: 320,
+      height: 568,
+      deviceScaleFactor: 2,
+      mobile: true
+    });
+    await new Promise((r) => setTimeout(r, 150));
+
+    const zoomEval = await sendCdp('Runtime.evaluate', {
+      returnByValue: true,
+      expression: `(() => {
+        const b1 = document.getElementById('before-after-badge-before').getBoundingClientRect();
+        const b2 = document.getElementById('before-after-badge-after').getBoundingClientRect();
+        const badgesOverlap320 = !(
+          b1.right <= b2.left ||
+          b1.left >= b2.right ||
+          b1.bottom <= b2.top ||
+          b1.top >= b2.bottom
+        );
+
+        document.documentElement.style.zoom = '2';
+        const wrapper = document.querySelector('#comparison .table-wrapper');
+        const firstTd = document.querySelector('#comparison-table-body tr:first-child td:first-child');
+        const col2Td = document.querySelector('#comparison-table-body tr:first-child td:nth-child(2)');
+        wrapper.scrollLeft = 0;
+        const stickyBefore = firstTd.getBoundingClientRect().left;
+        const col2Before = col2Td.getBoundingClientRect().left;
+        wrapper.scrollLeft = 120;
+        const stickyAfter = firstTd.getBoundingClientRect().left;
+        const col2After = col2Td.getBoundingClientRect().left;
+        document.documentElement.style.zoom = '';
+
+        return {
+          badgesOverlap320,
+          stickyZoomDelta: Math.abs(stickyAfter - stickyBefore),
+          col2ZoomDelta: col2After - col2Before
+        };
+      })()`
+    });
+
+    const z = zoomEval.result.value;
+    assert.equal(z.badgesOverlap320, false, `Бейджи До и После не должны перекрываться на узком экране 320px: ${JSON.stringify(z)}`);
+    assert.ok(z.stickyZoomDelta <= 1, `Первая колонка #comparison должна оставаться липкой при 320px + 200% zoom: ${JSON.stringify(z)}`);
+    assert.ok(z.col2ZoomDelta < -40, `Остальные колонки #comparison должны скроллиться при 320px + 200% zoom: ${JSON.stringify(z)}`);
 
     ws.close();
   } finally {

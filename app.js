@@ -153,8 +153,8 @@
     }
 
     if (lastChanged === 'slider' && typeof sqm === 'number') {
-      if (sqm <= 20) return getModelById('compact');
-      if (sqm <= 34) return getModelById('sense');
+      if (sqm <= 25) return getModelById('compact');
+      if (sqm <= 30) return getModelById('sense');
       return getModelById('prox');
     }
 
@@ -711,15 +711,22 @@
       const whatsappHref =
         contacts.whatsappHref || siteConfig.WHATSAPP_HREF || buildQuickWhatsAppChatUrl();
 
-      doc.querySelectorAll('[data-contact-phone]').forEach((el) => {
+      doc.querySelectorAll('[data-contact-phone], a[href^="tel:"]').forEach((el) => {
         el.setAttribute('href', phoneHref);
-        if (el.textContent && el.textContent.includes('996')) {
+        if (el.textContent && el.textContent.includes('996') && el.children.length === 0) {
           el.textContent = phoneDisplay;
         }
       });
 
-      doc.querySelectorAll('[data-contact-whatsapp]').forEach((el) => {
+      doc.querySelectorAll('[data-contact-whatsapp], a[href*="wa.me"]').forEach((el) => {
         el.setAttribute('href', whatsappHref);
+      });
+
+      doc.querySelectorAll('a[href*="about:invalid"], a[href=""]').forEach((el) => {
+        el.setAttribute(
+          'href',
+          el.hasAttribute('data-contact-phone') ? phoneHref : whatsappHref
+        );
       });
     }
 
@@ -746,7 +753,26 @@
     const savedCartState = loadStorageJson(STORAGE_KEYS.CART);
     const initialCartItems =
       savedCartState && Array.isArray(savedCartState.items)
-        ? savedCartState.items
+        ? savedCartState.items.map((item) => {
+            if (item && item.type === 'purifier' && item.modelId) {
+              const latestModel = getModelById(item.modelId);
+              if (latestModel) {
+                const pkg =
+                  latestModel.packages?.[item.packageId] ||
+                  latestModel.packages?.base ||
+                  {};
+                return {
+                  ...item,
+                  sku: latestModel.sku,
+                  name: latestModel.name,
+                  unitPrice: pkg.price || latestModel.price || item.unitPrice,
+                  oldUnitPrice: pkg.oldPrice || latestModel.oldPrice || item.oldUnitPrice,
+                  badge: latestModel.shortBadge || item.badge
+                };
+              }
+            }
+            return item;
+          })
         : defaultCartItems;
 
     const cartStore = createCartStore(initialCartItems);
@@ -1035,8 +1061,14 @@
       const slider = doc.getElementById('config-area-slider');
       const sqmLabel = doc.getElementById('config-sqm-display');
       const cleanTimeLabel = doc.getElementById('config-clean-time');
-      if (slider && Number(slider.value) !== configuratorState.sqm) {
-        slider.value = String(configuratorState.sqm);
+      if (slider) {
+        if (Number(slider.value) !== configuratorState.sqm) {
+          slider.value = String(configuratorState.sqm);
+        }
+        slider.setAttribute(
+          'aria-valuetext',
+          `${configuratorState.sqm} м², очистка за ~${cleanMins} мин`
+        );
       }
       if (sqmLabel) sqmLabel.textContent = `${configuratorState.sqm} м²`;
       if (cleanTimeLabel) cleanTimeLabel.textContent = `~ ${cleanMins} мин`;
@@ -1250,7 +1282,7 @@
 
           return `
             <tr data-comparison-row="${escapeHtml(model.id)}" class="${rowHighlight}">
-              <td data-label="Модель и индекс" class="sticky left-0 z-20 bg-white/95 backdrop-blur font-headline-sm font-bold text-[#0F172A]">
+              <td data-label="Модель и индекс" class="sticky left-0 z-20 bg-white/95 backdrop-blur border-r border-slate-200/80 shadow-[2px_0_8px_rgba(15,23,42,0.04)] font-headline-sm font-bold text-[#0F172A]">
                 <div class="flex flex-col gap-0.5">
                   <div class="flex items-center gap-1.5 flex-wrap">
                     <span class="text-[14px] sm:text-[15px] font-bold text-[#0F172A] whitespace-nowrap">${escapeHtml(model.name)}</span>
@@ -1320,12 +1352,16 @@
       const divider = doc.getElementById('before-after-divider');
       const slider = doc.getElementById('before-after-slider');
       const pctLabel = doc.getElementById('before-after-percent-label');
+      const formattedLabel = `${pct}% До (PM2.5 500 мкг/м³) / ${100 - pct}% После (PM2.5 005 мкг/м³)`;
 
       if (overlay) overlay.style.width = `${pct}%`;
       if (divider) divider.style.left = `${pct}%`;
-      if (slider && Number(slider.value) !== pct) slider.value = String(pct);
+      if (slider) {
+        if (Number(slider.value) !== pct) slider.value = String(pct);
+        slider.setAttribute('aria-valuetext', formattedLabel);
+      }
       if (pctLabel) {
-        pctLabel.textContent = `${pct}% До (PM2.5 500 мкг/м³) / ${100 - pct}% После (PM2.5 005 мкг/м³)`;
+        pctLabel.textContent = formattedLabel;
       }
 
       doc.querySelectorAll('[data-compare-preset]').forEach((btn) => {
@@ -1657,8 +1693,14 @@
 
       // Ползунок площади внутри модалки
       const modalSlider = doc.getElementById('modal-area-slider');
-      if (modalSlider && Number(modalSlider.value) !== modalState.sqm) {
-        modalSlider.value = String(modalState.sqm);
+      if (modalSlider) {
+        if (Number(modalSlider.value) !== modalState.sqm) {
+          modalSlider.value = String(modalState.sqm);
+        }
+        modalSlider.setAttribute(
+          'aria-valuetext',
+          `${modalState.sqm} м², очистка за ~${cleanMins} мин`
+        );
       }
       setElText('modal-room-area-val', `${modalState.sqm} м²`);
       setElText('modal-calc-time-result', `~ ${cleanMins} мин`);
@@ -1940,8 +1982,8 @@
         configSlider.addEventListener('input', (e) => {
           const sqm = Number(e.target.value) || 25;
           configuratorState.sqm = sqm;
-          if (sqm <= 20) configuratorState.areaId = 'compact';
-          else if (sqm <= 34) configuratorState.areaId = 'sense';
+          if (sqm <= 25) configuratorState.areaId = 'compact';
+          else if (sqm <= 30) configuratorState.areaId = 'sense';
           else configuratorState.areaId = 'prox';
 
           const rec = getRecommendedModel({
@@ -2117,8 +2159,12 @@
       doc.querySelectorAll('[data-add-filter-addon]').forEach((btn) => {
         btn.addEventListener('click', () => {
           hideOrderConfirmationBanner('cart-order-success');
-          cartStore.addFilterAddon(1);
-          showToast('Запасной фильтр за +450 сом добавлен в корзину');
+          const nextState = cartStore.addFilterAddon(1);
+          showToast(
+            nextState.hasPurifier
+              ? 'Запасной фильтр за +450 сом добавлен в корзину'
+              : 'Запасной фильтр добавлен в корзину (450 сом с прибором, отдельно 950 сом)'
+          );
         });
       });
 
