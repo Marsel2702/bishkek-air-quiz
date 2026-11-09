@@ -483,7 +483,7 @@
   </header>
 
   <main class="w-full pt-16 sm:pt-20 pb-24 sm:pb-28 overflow-x-hidden">
-    <!-- 2. HERO-БЛОК (Основа из aero_pure_2 + мобильная адаптация из aero_pure_1) -->
+    <!-- 2. HERO-БЛОК -->
     <section class="relative w-full overflow-hidden pt-3 pb-7 sm:pt-6 sm:pb-14 lg:py-20">
       <!-- Фоновое атмосферное свечение Aether Pure -->
       <div class="absolute top-0 right-1/4 w-[320px] sm:w-[520px] h-[320px] sm:h-[520px] rounded-full bg-[#0D9488]/10 blur-[100px] pointer-events-none -z-10"></div>
@@ -698,8 +698,7 @@
       </div>
     </section>
 
-    <!-- 3. ИНТЕРАКТИВНЫЙ БЛОК «УМНЫЙ КОНФИГУРАТОР / ПОДБЕРИТЕ ИДЕАЛЬНЫЙ AERA ЗА 3 КЛИКА»
-         (Основа из aero_pure_2/code.html + ползунок площади из aera_pro_x_2/code.html) -->
+    <!-- 3. ИНТЕРАКТИВНЫЙ БЛОК «УМНЫЙ КОНФИГУРАТОР / ПОДБЕРИТЕ ИДЕАЛЬНЫЙ AERA ЗА 3 КЛИКА» -->
     <section id="calculator" class="w-full py-6 sm:py-12 lg:py-20 bg-surface-container-low/60 border-y border-slate-200/70">
       <div class="max-w-[1360px] mx-auto px-3.5 sm:px-6 lg:px-12">
         <div class="p-3.5 sm:p-8 lg:p-12 rounded-2xl sm:rounded-3xl bg-white shadow-lg border border-slate-200/80">
@@ -719,7 +718,7 @@
                 </p>
               </div>
 
-              <!-- Шаг 1: Выбор площади помещения (Кнопки + Ползунок из aera_pro_x_2) -->
+              <!-- Шаг 1: Выбор площади помещения (Кнопки + Ползунок) -->
               <div class="flex flex-col gap-2 sm:gap-3 p-3 sm:p-5 rounded-2xl bg-[#F8FAFC] border border-slate-200/80">
                 <div class="flex items-center justify-between gap-2">
                   <span class="text-[12px] sm:text-[14px] font-bold text-[#0F172A]">1. Площадь помещения:</span>
@@ -751,7 +750,7 @@
                   </button>
                 </div>
 
-                <!-- Ползунок площади из aera_pro_x_2/code.html -->
+                <!-- Ползунок площади -->
                 <div class="pt-1 flex flex-col gap-1">
                   <div class="flex items-center justify-between gap-2 text-[12px] sm:text-[13px]">
                     <div class="flex items-baseline gap-1.5">
@@ -1559,7 +1558,7 @@
     </span>
   </a>
 
-  <!-- ПЛАВАЮЩИЙ БАР КОРЗИНЫ ВНИЗУ ЭКРАНА (из aero_pure_1/code.html) -->
+  <!-- ПЛАВАЮЩИЙ БАР КОРЗИНЫ ВНИЗУ ЭКРАНА -->
   <div
     id="floating-cart-bar"
     class="fixed bottom-3 sm:bottom-4 left-0 right-0 px-3 sm:px-4 z-30 pointer-events-none"
@@ -1591,7 +1590,7 @@
     </div>
   </div>
 
-  <!-- МОДАЛЬНОЕ ОКНО / DRAWER ДЕТАЛЬНОЙ КАРТОЧКИ ТОВАРА (Основа из aera_pro_x_2/code.html и aera_pro_x_1/code.html) -->
+  <!-- МОДАЛЬНОЕ ОКНО / DRAWER ДЕТАЛЬНОЙ КАРТОЧКИ ТОВАРА -->
   <dialog
     id="product-modal"
     closedby="any"
@@ -1674,7 +1673,7 @@
           </span>
         </div>
 
-        <!-- Выбор комплектации (Строго по Шагу 1, п. 2 и aera_pro_x_2/code.html) -->
+        <!-- Выбор комплектации -->
         <div class="flex flex-col gap-2" role="radiogroup" aria-label="Выберите комплектацию">
           <span class="text-[12px] font-bold uppercase tracking-wider text-slate-500">Выберите комплектацию:</span>
 
@@ -1863,7 +1862,7 @@
           <ul id="modal-highlights-list" class="flex flex-col gap-1 text-[12px] text-slate-700"></ul>
         </div>
 
-        <!-- Калькулятор времени очистки в карточке товара (из aera_pro_x_2) -->
+        <!-- Калькулятор времени очистки в карточке товара -->
         <div class="p-3.5 rounded-2xl bg-white border border-slate-200/70 flex flex-col gap-1.5">
           <div class="flex items-center justify-between text-[12px] sm:text-[13px]">
             <span class="font-bold text-[#0F172A]">Расчет времени очистки комнаты:</span>
@@ -1886,7 +1885,7 @@
       </div>
     </div>
 
-    <!-- Фиксированная нижняя панель быстрого действия в модалке (из aera_pro_x_2/code.html) -->
+    <!-- Фиксированная нижняя панель быстрого действия в модалке -->
     <div class="sticky bottom-0 z-30 bg-white/95 backdrop-blur-xl px-4 sm:px-5 py-2.5 sm:py-3 border-t border-slate-200/80 flex items-center justify-between gap-2.5">
       <div class="flex flex-col min-w-0">
         <span id="modal-bottom-price" class="text-[18px] sm:text-[20px] font-extrabold text-[#0F172A] leading-tight whitespace-nowrap">4 990 сом</span>
@@ -1915,7 +1914,7 @@
     </div>
   </dialog>
 
-  <!-- 3. КОРЗИНА И ОФОРМЛЕНИЕ ЗАКАЗА (Drawer, основа из aero_pure_3/code.html) -->
+  <!-- 3. КОРЗИНА И ОФОРМЛЕНИЕ ЗАКАЗА (Drawer) -->
   <dialog
     id="cart-drawer"
     closedby="any"
@@ -1956,7 +1955,7 @@
       <!-- Список выбранных приборов -->
       <div id="cart-items-list" class="flex flex-col gap-1.5 sm:gap-2"></div>
 
-      <!-- Блок «Рекомендуемые дополнения (Спеццена к заказу)» из aero_pure_3 -->
+      <!-- Блок «Рекомендуемые дополнения (Спеццена к заказу)» -->
       <div id="cart-upsell-card" class="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-white border border-[#0D9488]/30 shadow-xs flex items-center gap-2 sm:gap-2.5">
         <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl bg-surface-container-low overflow-hidden shrink-0 relative border border-slate-200/60">
           <img
@@ -1993,7 +1992,7 @@
         </button>
       </div>
 
-      <!-- Выбор способа оплаты при получении в Бишкеке (как в макете aero_pure_3) -->
+      <!-- Выбор способа оплаты при получении в Бишкеке -->
       <div class="flex flex-col gap-1">
         <span class="text-[11px] sm:text-[12px] font-bold text-[#0F172A]">Оплата курьеру после проверки:</span>
         <div class="grid grid-cols-2 gap-1.5 sm:gap-2" id="cart-payment-methods">
